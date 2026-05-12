@@ -1,0 +1,26 @@
+/* homepage.css — page-specific overrides only */
+/* All base styles live in style.css */
+
+/* Hero uses Unsplash castle image */
+.hero {
+  background-image: url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&q=80');
+  background-attachment: fixed;
+}
+
+/* Featured article wrapper animation */
+#featured-article { animation: fadeInUp 0.8s ease both; }
+
+/* Category badge in featured */
+.category-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  background: var(--gold-bright);
+  color: #000;
+  font-family: var(--font-head);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  margin-bottom: 14px;
+}

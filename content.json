@@ -1,0 +1,143 @@
+{
+  "_meta": {
+    "version": 1,
+    "updated": "2026-05-12",
+    "note": "Single source of truth for editable site content. Edit via admin.html, publish by replacing this file on the host."
+  },
+  "siteInfo": {
+    "studioName": "Ashforge Studio",
+    "tagline": "D&D 5e Supplements & Content Writing",
+    "heroTitle1": "Your World,",
+    "heroTitle2": "Professionally Written.",
+    "heroSub": "Ashforge Studio is a solo TTRPG content studio. I write adventures, lore, stat blocks, and supplements for publishers, creators, and Dungeon Masters who demand more from their worlds.",
+    "stat1Num": "5e",
+    "stat1Label": "Compatible",
+    "stat2Num": "OGL",
+    "stat2Label": "Licensed",
+    "stat3Num": "∞",
+    "stat3Label": "Adventures Await",
+    "email": "matthias.moore.pro@gmail.com",
+    "patreonUrl": "https://www.patreon.com/c/DungeonMasterDen",
+    "discordUrl": "https://discord.gg/EEZyzmUpaw",
+    "driveThruUrl": "https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc",
+    "footerTagline": "Professional D&D 5e writing and supplements by Matthias Moore.",
+    "oglNote": "This work includes material taken from the System Reference Document 5.1 (\"SRD 5.1\") by Wizards of the Coast LLC and available at https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License."
+  },
+  "about": {
+    "authorName": "Matthias Moore",
+    "bio": "I'm a solo TTRPG writer and the founder of Ashforge Studio LLC. I write adventures, lore, stat blocks, and supplements for 5th Edition Dungeons & Dragons — for publishers, creators, and Dungeon Masters who want more from their worlds.",
+    "pillar1Label": "Lore First",
+    "pillar1Text": "Every setting detail earns its place through play.",
+    "pillar2Label": "Drop-In Ready",
+    "pillar2Text": "Run cold. The setting reveals itself at the table.",
+    "pillar3Label": "OGL Licensed",
+    "pillar3Text": "Compatible with the 5th Edition System Reference Document.",
+    "pillar4Label": "Tested at Table",
+    "pillar4Text": "Every adventure is playtested before release."
+  },
+  "services": [
+    {
+      "id": "adventure",
+      "name": "Adventure Module Writing",
+      "body": "Full adventure modules from 1-shot encounters to multi-session campaigns. We handle premise, structure, room descriptions, stat block selection, and boxed text."
+    },
+    {
+      "id": "lore",
+      "name": "World Lore & Setting Writing",
+      "body": "Pantheons, history, political factions, cultures, and regional lore. We build worlds that feel lived-in and give GMs the context they need to improvise with confidence."
+    },
+    {
+      "id": "crunch",
+      "name": "Mechanical Design & Stat Blocks",
+      "body": "Monster stat blocks, custom items, feats, spells, and subclasses. Tuned for 5e balance, playtested internally, and delivered in both prose and formatted layout."
+    },
+    {
+      "id": "articles",
+      "name": "Article & Blog Writing",
+      "body": "Long-form articles, blog posts, and editorial features on TTRPG craft, design theory, and play. SEO-aware, voice-matched to your publication, and delivered ready-to-publish."
+    },
+    {
+      "id": "review",
+      "name": "TTRPG Mechanic Review",
+      "body": "An independent pass on your homebrew subclasses, spells, items, or monsters. I check balance against 5e baselines, flag exploit cases, and suggest tuning notes before you publish or playtest."
+    },
+    {
+      "id": "editing",
+      "name": "TTRPG Editing & Proofreading",
+      "body": "Rules-aware editing from writers who know 5e inside and out. We check for mechanical inconsistencies, tone, clarity, pacing, and formatting - not just grammar."
+    }
+  ],
+  "supplements": [
+    {
+      "id": "s1",
+      "title": "The Crooked Mile",
+      "series": "Edenfall Collection Vol. 1",
+      "description": "A dark fantasy adventure for the 5th Edition - deep woods, hidden horrors, and a road that doesn't end where it should. Designed for drop-in play or as the opening chapter of a longer arc.",
+      "price": "",
+      "driveThruUrl": "https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc",
+      "patreonUrl": "https://www.patreon.com/c/DungeonMasterDen",
+      "imagePath": "uploads/Crooked Mile sample art.png",
+      "featured": true,
+      "status": "live"
+    }
+  ],
+  "posts": [
+    {
+      "id": "post-1",
+      "slug": "the-crooked-mile",
+      "title": "The Crooked Mile Is Here: What It Is and Why I Made It",
+      "tag": "Announcement",
+      "date": "April 28, 2026",
+      "readTime": "3 min read",
+      "excerpt": "The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.",
+      "body": "Every supplement I've ever run at my home table started as a single image in my head. For The Crooked Mile, it was a road through the woods that didn't end where it should. The party walks in. They walk for hours. The trees don't change. The light doesn't shift. And eventually they start to realize the road is taking them somewhere they didn't choose.\n\nWhy Edenfall?\n\nI wanted to build a setting that rewarded drop-in play. Most campaign worlds ask Dungeon Masters to do a lot of reading before they can run confidently. Edenfall is designed the other way: you run the adventure, and the setting reveals itself through play. The Crooked Mile is the first entry point.\n\nWhat's Next\n\nThe Edenfall Collection will grow one adventure at a time. Each volume is self-contained but leaves threads for a longer arc if the table wants to follow them. Volume 2 is already in development. Patreon supporters will see it first.",
+      "status": "published"
+    },
+    {
+      "id": "post-2",
+      "slug": "building-edenfall",
+      "title": "Building Edenfall: A World Designed for Drop-In Play",
+      "tag": "Lore",
+      "date": "April 15, 2026",
+      "readTime": "5 min read",
+      "excerpt": "Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around - you run it first, then the world reveals itself.",
+      "body": "The hardest thing about running a published setting isn't the rules - it's the homework. Before you can run Faerun or Eberron with confidence, you feel like you need to read the sourcebooks, understand the political factions, know the gods. Most DMs never get past that feeling.\n\nThe Drop-In Principle\n\nEdenfall is built on a simple premise: a DM should be able to read a single adventure, run it cold, and have everything they need in front of them. The setting details aren't a prerequisite — they're a reward. Every adventure plants seeds. The bigger world is something the table discovers, not studies.\n\nWhat Edenfall Actually Is\n\nAt its core, Edenfall is a region in decline. Old institutions are crumbling. New powers are filling the gaps. The roads are less safe than they used to be, and the wilderness has grown strange. It's a world where the party matters — not because they're chosen heroes, but because everyone else is too busy surviving to act.",
+      "status": "published"
+    }
+  ],
+  "pages": [
+    { "id": "page-index", "name": "Home", "url": "index.html", "type": "core", "status": "live", "editable": false },
+    { "id": "page-blog", "name": "The Dispatch (Blog)", "url": "blog.html", "type": "core", "status": "live", "editable": false },
+    { "id": "page-portfolio", "name": "Writing Portfolio", "url": "portfolio.html", "type": "core", "status": "live", "editable": false }
+  ],
+  "portfolio": [
+    {
+      "id": "pf-crooked-mile",
+      "title": "The Crooked Mile",
+      "client": "Ashforge Studio",
+      "category": "adventure",
+      "year": "2026",
+      "summary": "A one-shot wilderness adventure where a forest road refuses to end. First entry in the Edenfall Collection — drop-in friendly, 4–6 hours of play.",
+      "excerpt": "\"The party walks in. They walk for hours. The trees don't change. The light doesn't shift. And eventually they start to realize the road is taking them somewhere they didn't choose.\"",
+      "cover": "uploads/Crooked Mile sample art.png",
+      "sampleUrl": "https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc",
+      "sampleLabel": "Read on DriveThruRPG",
+      "featured": true,
+      "status": "live"
+    },
+    {
+      "id": "pf-edenfall-bible",
+      "title": "Edenfall Setting Bible",
+      "client": "Ashforge Studio",
+      "category": "lore",
+      "year": "2026",
+      "summary": "The internal world-bible for the Edenfall region — pantheon, factions, regional history, and the design rules that keep each adventure self-contained yet interconnected.",
+      "excerpt": "",
+      "cover": "",
+      "sampleUrl": "",
+      "sampleLabel": "Sample on request",
+      "featured": false,
+      "status": "live"
+    }
+  ]
+}

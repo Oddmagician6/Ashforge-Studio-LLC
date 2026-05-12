@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tavern Rumor Generator | The Beholder's Gazette</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="homepage.css">
+    <style>
+        /* Rumors Page Specific Styles */
+        .rumors-hero {
+            position: relative;
+            background: linear-gradient(135deg, #1a1a1d 0%, #2d2d35 100%);
+            background: radial-gradient(ellipse at 25% 65%, rgba(160,80,20,0.65) 0%, transparent 45%), radial-gradient(ellipse at 75% 35%, rgba(200,120,30,0.4) 0%, transparent 40%), radial-gradient(ellipse at 50% 90%, rgba(80,30,5,0.9) 0%, transparent 55%), linear-gradient(165deg, #1a0d04 0%, #2e1a07 30%, #1c0e04 65%, #0e0703 100%);
+            background-size: cover;
+            background-position: center;
+            padding: 80px 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .rumors-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(26, 26, 29, 0.85) 0%, rgba(26, 26, 29, 0.95) 100%);
+        }
+
+        .rumors-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .rumors-hero-logo {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 3rem;
+            color: var(--accent-gold);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            margin-bottom: 15px;
+        }
+
+        .rumors-hero-tagline {
+            font-style: italic;
+            color: #ccc;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .rumors-hero-description {
+            color: #aaa;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .rumors-body {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .tool-container {
+            background: linear-gradient(145deg, #252529 0%, #1f1f23 100%);
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-selector {
+            margin-bottom: 40px;
+        }
+
+        .category-selector h2 {
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .category-btn {
+            background: linear-gradient(145deg, #2a2a2e, #252529);
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 15px 20px;
+            color: var(--text-color);
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .category-btn:hover {
+            background: linear-gradient(145deg, #333, #2a2a2e);
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(145deg, var(--accent-gold), #a88645);
+            color: #000;
+            border-color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        .generator-box {
+            background: linear-gradient(145deg, #1a1a1d, #252529);
+            border: 2px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generator-box::before {
+            content: '🍺';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            opacity: 0.1;
+        }
+
+        .generate-btn {
+            background: linear-gradient(145deg, var(--accent-red), #a33);
+            color: #fff;
+            border: none;
+            padding: 18px 50px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(138, 44, 44, 0.4);
+        }
+
+        .generate-btn:hover {
+            background: linear-gradient(145deg, #a33, var(--accent-red));
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(138, 44, 44, 0.6);
+        }
+
+        .generate-btn:active {
+            transform: scale(0.98);
+        }
+
+        .rumor-display {
+            background: var(--parchment);
+            color: var(--parchment-text);
+            border: 2px solid var(--accent-gold);
+            border-radius: 6px;
+            padding: 35px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .rumor-display::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            font-size: 4rem;
+            color: var(--accent-gold);
+            opacity: 0.3;
+            font-family: 'MedievalSharp', cursive;
+        }
+
+        .rumor-text {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.4rem;
+            line-height: 1.6;
+            color: #2b2b2b;
+        }
+
+        .rumor-placeholder {
+            color: #888;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        .rumor-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .category-tag {
+            background: var(--accent-gold);
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .truth-meter {
+            background: linear-gradient(145deg, #2a2a2e, #252529);
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .truth-label {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .truth-value {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .truth-bar {
+            background: #333;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .truth-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f44336, #ffeb3b, #4caf50);
+            width: 50%;
+            transition: width 0.5s ease;
+        }
+
+        .recent-rumors,
+        .add-rumor-section {
+            background: linear-gradient(145deg, #222, #1a1a1d);
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .recent-rumors h3,
+        .add-rumor-section h3 {
+            font-size: 1.3rem;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 12px;
+        }
+
+        #recent-list {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .recent-item {
+            background: linear-gradient(145deg, #252529, #1f1f23);
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--accent-gold);
+            transition: all 0.3s ease;
+        }
+
+        .recent-item:hover {
+            transform: translateX(5px);
+            border-left-color: var(--accent-red);
+        }
+
+        .recent-item p {
+            font-size: 0.95rem;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .recent-item .meta {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .add-rumor-section input,
+        .add-rumor-section select {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 12px;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 6px;
+            color: #fff;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .add-rumor-section input:focus,
+        .add-rumor-section select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .add-rumor-section select option {
+            background: #333;
+            color: #fff;
+        }
+
+        .tavern-tip {
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--accent-gold);
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .tavern-tip p {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .dice-decoration {
+            text-align: center;
+            font-size: 2rem;
+            margin: 20px 0;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .rumors-hero { padding: 60px 20px; }
+            .rumors-hero-logo { font-size: 2.2rem; }
+            .rumors-hero-tagline { font-size: 1.1rem; }
+            .category-grid { grid-template-columns: repeat(2, 1fr); }
+            .tool-container { padding: 25px; }
+            .generate-btn { padding: 15px 35px; font-size: 1rem; }
+            .rumor-text { font-size: 1.1rem; }
+        }
+
+        @media (max-width: 500px) {
+            .category-grid { grid-template-columns: 1fr; }
+            .rumors-hero-logo { font-size: 1.8rem; }
+            .generate-btn { width: 100%; }
+        }
+    </style>
+
+  <style id="hero-atmosphere">
+    /* Tavern: warm firelight flicker + smoke texture */
+    .page-hero::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+    .page-hero-content { position: relative; z-index: 2; }
+    .page-hero-logo { animation: flickerGlow 4s ease-in-out infinite; }
+    @keyframes flickerGlow {
+      0%,100% { text-shadow: 0 0 30px rgba(200,120,30,0.5), 0 0 60px rgba(180,80,10,0.3); }
+      33%      { text-shadow: 0 0 20px rgba(200,120,30,0.3), 0 0 40px rgba(180,80,10,0.2); }
+      66%      { text-shadow: 0 0 40px rgba(220,140,40,0.6), 0 0 80px rgba(180,80,10,0.4); }
+    }
+  </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="page-hero" style="background: radial-gradient(ellipse at 30% 60%, rgba(139,69,19,0.6) 0%, transparent 50%), radial-gradient(ellipse at 70% 40%, rgba(180,100,20,0.4) 0%, transparent 45%), linear-gradient(160deg, #1a0e06 0%, #2d1a08 25%, #1c0f05 50%, #0e0805 100%); background-size: cover;">
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <div class="page-hero-logo">🍺 The Rusty Flagon</div>
+            <p class="page-hero-tagline">"Where Truth Goes to Die"</p>
+            <p class="page-hero-description">Pull up a stool, adventurer. The ale is watered down, the bard is tone-deaf, and the gossip is hotter than a dragon's breath. What've you heard?</p>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+      <!-- Navigation -->
+  <nav class="main-nav">
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">☰</button>
+
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="economy.html">💰 Economy</a></li>
+      <li><a href="rumors.html" class="active">🍺 Tavern</a></li>
+      <li><a href="npc-generator.html">🎭 Town Square</a></li>
+      <li><a href="loot-generator.html">💎 Loot</a></li>
+      <li><a href="encounter.html">⚔️ Encounters</a></li>
+      <li><a href="spellbook.html">📖 Spellbook</a></li>
+      <li><a href="this-week.html">🔮 The Realm</a></li>
+      <li><a href="about.html">📜 About</a></li>
+    </ul>
+  </nav>
+
+    <!-- Breaking News Ticker -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            🍺 RUMOR MILL: "The Baron's wig is enchanted" &nbsp;&bull;&nbsp; 
+            👹 "Goblins unionizing for better death benefits" &nbsp;&bull;&nbsp; 
+            🐉 "Dragon accepts cryptocurrency" &nbsp;&bull;&nbsp; 
+            🎵 "Local bard actually talented (probably a changeling)"
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="rumors-body">
+        <div class="tool-container">
+            <!-- Category Selection -->
+            <div class="category-selector">
+                <h2>📜 Choose Your Poison</h2>
+                <p style="text-align: center; color: #888; margin-bottom: 25px; font-size: 0.95rem;">
+                    Select a category or let fate decide. Remember: the DM always knows the truth.
+                </p>
+                <div class="category-grid">
+                    <button class="category-btn active" data-category="all">🎲 All Rumors</button>
+                    <button class="category-btn" data-category="local">🏘️ Local Gossip</button>
+                    <button class="category-btn" data-category="politics">👑 Politics</button>
+                    <button class="category-btn" data-category="economics">💰 Economics</button>
+                    <button class="category-btn" data-category="adventures">⚔️ Adventures</button>
+                    <button class="category-btn" data-category="monsters">🐉 Monsters</button>
+                    <button class="category-btn" data-category="magic">✨ Magic & Weird</button>
+                </div>
+            </div>
+
+            <!-- Generator Box -->
+            <div class="generator-box">
+                <button class="generate-btn" onclick="generateRumor()">
+                    🎲 Generate Rumor
+                </button>
+                
+                <div class="rumor-display" id="rumor-display">
+                    <div class="rumor-placeholder">
+                        <p>🍺 Click the button to hear the latest tavern gossip...</p>
+                        <p style="font-size: 0.9rem; color: #888; margin-top: 10px;">
+                            (Or press Spacebar, if you're lazy)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="truth-meter" id="truth-meter">
+                    <div class="truth-label">🔮 Veracity Check:</div>
+                    <div class="truth-value" id="truth-value">??? (Roll Investigation)</div>
+                    <div class="truth-bar">
+                        <div class="truth-fill" id="truth-fill"></div>
+                    </div>
+                </div>
+
+                <div class="dice-decoration">
+                    🎲 🍺 🎲
+                </div>
+            </div>
+
+            <!-- Recent Rumors -->
+            <div class="recent-rumors">
+                <h3>📋 Recently Overheard</h3>
+                <div id="recent-list">
+                    <p style="color: #888; font-style: italic; text-align: center; padding: 30px;">
+                        No rumors generated yet... the tavern is suspiciously quiet.
+                    </p>
+                </div>
+                <button class="btn" onclick="clearRecent()" style="width: 100%; margin-top: 15px; font-size: 0.85rem;">
+                    🗑️ Clear Memory (Bard Amnesia)
+                </button>
+            </div>
+
+            <!-- Add Your Own -->
+            <div class="add-rumor-section">
+                <h3>✍️ Contribute to the Mill</h3>
+                <p style="font-size: 0.9rem; color: #888; margin-bottom: 20px;">
+                    Heard something at your table? Whisper it to the bard and it might spread across the realm...
+                </p>
+                <input type="text" id="new-rumor-text" placeholder="🎤 Enter your rumor (max 200 characters)..." maxlength="200">
+                <select id="new-rumor-category">
+                    <option value="local">🏘️ Local Gossip</option>
+                    <option value="politics">👑 Politics</option>
+                    <option value="economics">💰 Economics</option>
+                    <option value="adventures">⚔️ Adventures</option>
+                    <option value="monsters">🐉 Monsters</option>
+                    <option value="magic">✨ Magic & Weird</option>
+                </select>
+                <button class="btn" onclick="addRumor()" style="width: 100%;">
+                    📜 Submit to the Rumor Mill
+                </button>
+                <p style="font-size: 0.75rem; color: #666; margin-top: 15px; text-align: center;">
+                    ⚠️ Rumors are session-only. The bard has a short memory.
+                </p>
+            </div>
+
+            <!-- Tavern Tip -->
+            <div class="tavern-tip">
+                <p>💡 <strong>Bard's Tip:</strong> Tip your bard well, and they might share rumors they heard from <em>other</em> adventurers... if you catch our meaning.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">🍺 The Rusty Flagon</div>
+            <p>A Division of The Beholder's Gazette</p>
+            <p style="margin: 15px 0; color: #888;">Remember: A good rumor is 10% truth, 90% entertainment, and 100% deniable.</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="rumors.html" class="active">Tavern</a>
+                <a href="about.html">About</a>
+                <a href="https://patreon.com/DungeonMasterDen" target="_blank">Support</a>
+            </div>
+            <p style="margin-top: 20px; color: #444; font-size: 0.75rem;">Powered by Static Magic &copy; <span id="year"></span></p>
+        </div>
+    </footer>
+
+    <script src="rumors.js"></script>
+  <script>
+  // ── Mobile nav toggle ─────────────────────────────────
+  (function() {
+    const btn = document.getElementById('nav-hamburger');
+    const ul  = document.querySelector('.main-nav ul');
+    if (!btn || !ul) return;
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const open = ul.classList.toggle('nav-open');
+      btn.textContent = open ? '✕' : '☰';
+      btn.setAttribute('aria-expanded', open);
+    });
+    // Close when a link is tapped
+    ul.addEventListener('click', function(e) {
+      if (e.target.tagName === 'A') {
+        ul.classList.remove('nav-open');
+        btn.textContent = '☰';
+      }
+    });
+    // Close when tapping outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.main-nav')) {
+        ul.classList.remove('nav-open');
+        btn.textContent = '☰';
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
+

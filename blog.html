@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Dispatch - Ashforge Studio</title>
+  <meta name="description" content="Design notes, lore, worldbuilding, and supplement announcements from Matthias Moore at Ashforge Studio." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0b0f;
+      --bg2: #110e14;
+      --bg3: #16121b;
+      --surface: #1e1824;
+      --surface2: #251f2e;
+      --border: #2e2638;
+      --border-bright: #3d3450;
+      --ember: oklch(68% 0.19 42);
+      --ember-dim: oklch(50% 0.14 42);
+      --ember-glow: oklch(72% 0.22 38);
+      --crimson: oklch(50% 0.20 15);
+      --gold: oklch(76% 0.14 78);
+      --text: oklch(90% 0.01 80);
+      --text-dim: oklch(65% 0.02 80);
+      --text-faint: oklch(45% 0.02 80);
+      --font-head: 'Cinzel', Georgia, serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      background: rgba(13,11,15,0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--ember);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--ember); }
+
+    .nav-patreon {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim) !important;
+      background: transparent;
+      border: 1px solid var(--border-bright);
+      padding: 8px 16px;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-patreon:hover { color: var(--text) !important; border-color: var(--text-dim); }
+
+    .nav-cta {
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #0d0b0f !important;
+      background: var(--ember);
+      padding: 9px 20px;
+      border-radius: 2px;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--ember-glow); }
+
+    /* Mobile nav */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--text-dim);
+      border-radius: 2px;
+      transition: transform 0.25s, opacity 0.2s;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--ember); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--ember); }
+
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: rgba(13,11,15,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+      flex-direction: column;
+      padding: 24px 32px 32px;
+      gap: 4px;
+      transform: translateY(-12px);
+      opacity: 0;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .nav-mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .nav-mobile-menu a {
+      font-family: var(--font-head);
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .nav-mobile-menu a:last-child { border-bottom: none; }
+    .nav-mobile-menu a:hover { color: var(--ember); }
+    .nav-mobile-menu .mobile-cta {
+      margin-top: 16px;
+      text-align: center;
+      background: var(--ember);
+      color: #0d0b0f !important;
+      border-radius: 2px;
+      padding: 14px !important;
+      border-bottom: none !important;
+    }
+
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-menu { display: flex; }
+      nav { padding: 0 24px; }
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 140px 0 80px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header-bg {
+      position: absolute;
+      inset: 0;
+      background: url('uploads/5ac570b2-4cda-4b81-9e58-8520d29a3b4e.png') center 30% / cover no-repeat;
+      opacity: 0.08;
+    }
+
+    .page-header-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 48px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 12px;
+    }
+
+    .page-header h1 {
+      font-family: var(--font-head);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .page-header p {
+      font-size: 18px;
+      color: var(--text-dim);
+      max-width: 480px;
+      line-height: 1.65;
+    }
+
+    /* ── BLOG LAYOUT ── */
+    .blog-page {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 80px 48px 120px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .blog-page { grid-template-columns: 1fr; gap: 48px; }
+      .blog-sidebar { display: none; }
+      .page-header-inner { padding: 0 24px; }
+      .blog-page { padding: 60px 24px 80px; }
+    }
+
+    /* ── POSTS LIST ── */
+    .posts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .post-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 36px 36px 28px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .post-card:hover {
+      border-color: var(--ember-dim);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .post-tag {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #0d0b0f;
+      background: var(--ember);
+      padding: 3px 10px;
+      border-radius: 1px;
+    }
+
+    .post-tag.lore { background: oklch(50% 0.16 260); }
+
+    .post-date {
+      font-size: 12px;
+      color: var(--text-faint);
+      letter-spacing: 0.05em;
+    }
+
+    .post-read-time {
+      font-size: 12px;
+      color: var(--text-faint);
+      letter-spacing: 0.05em;
+    }
+    .post-read-time::before { content: '·'; margin-right: 14px; color: var(--border-bright); }
+
+    .post-title {
+      font-family: var(--font-head);
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 14px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .post-title:hover { color: var(--ember); }
+
+    .post-excerpt {
+      font-size: 16px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    /* Expanded post body */
+    .post-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+    }
+    .post-card.expanded .post-body { max-height: 2000px; }
+
+    .post-body-inner {
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .post-body-inner p {
+      font-size: 17px;
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .post-body-inner p:last-child { margin-bottom: 0; }
+
+    .post-body-inner h4 {
+      font-family: var(--font-head);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      margin: 28px 0 12px;
+    }
+
+    .post-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .post-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-faint);
+    }
+
+    .post-author-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--ember);
+      flex-shrink: 0;
+    }
+
+    .post-expand-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ember);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: gap 0.2s;
+      padding: 0;
+    }
+    .post-expand-btn:hover { gap: 10px; }
+    .post-expand-btn svg { transition: transform 0.25s; }
+    .post-card.expanded .post-expand-btn svg { transform: rotate(180deg); }
+
+    /* ── SIDEBAR ── */
+    .blog-sidebar {
+      position: sticky;
+      top: 88px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .sidebar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 24px;
+    }
+
+    .sidebar-card h4 {
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sidebar-tag {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      border: 1px solid var(--border-bright);
+      padding: 5px 12px;
+      border-radius: 1px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .sidebar-tag:hover, .sidebar-tag.active { color: var(--ember); border-color: var(--ember-dim); }
+
+    .sidebar-about {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sidebar-about p {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .sidebar-about a {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ember);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .sidebar-about a:hover { color: var(--ember-glow); }
+
+    .inline-link {
+      color: var(--ember);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ember-dim);
+      transition: color 0.2s;
+    }
+    .inline-link:hover { color: var(--ember-glow); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg);
+      padding: 48px 0 32px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ember);
+      letter-spacing: 0.1em;
+    }
+    .footer-copy {
+      font-size: 12px;
+      color: var(--text-faint);
+    }
+    .footer-back {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-back:hover { color: var(--ember); }
+  </style>
+  <script src="content-loader.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <img src="uploads/logo.png" alt="Ashforge Studio" style="height:44px; width:auto; object-fit:contain;" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#supplements">Supplements</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#process">Process</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="https://www.patreon.com/c/DungeonMasterDen" target="_blank" rel="noopener" class="nav-patreon">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="14.5" cy="9.5" r="6.5"/><rect x="3" y="3" width="4" height="18" rx="1"/></svg>
+        Patreon
+      </a></li>
+    <li><a href="https://discord.gg/EEZyzmUpaw" target="_blank" rel="noopener" class="nav-patreon">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        Discord
+      </a></li>
+    <li><a href="index.html#contact" class="nav-cta">Commission Work</a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<nav class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="index.html#supplements">Supplements</a>
+  <a href="index.html#services">Services</a>
+  <a href="index.html#process">Process</a>
+  <a href="blog.html">Blog</a>
+  <a href="index.html#about">About</a>
+  <a href="https://www.patreon.com/c/DungeonMasterDen" target="_blank" rel="noopener">Patreon</a>
+  <a href="https://discord.gg/EEZyzmUpaw" target="_blank" rel="noopener">Discord</a>
+  <a href="index.html#contact" class="mobile-cta">Commission Work</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <div class="page-header-inner">
+    <div class="section-eyebrow">The Dispatch</div>
+    <h1>From the Forge</h1>
+    <p>Design notes, lore, worldbuilding, and supplement announcements from Matthias Moore.</p>
+  </div>
+</div>
+
+<!-- BLOG CONTENT -->
+<div class="blog-page">
+
+  <!-- POSTS -->
+  <main class="posts-list" id="posts-list">
+
+    <article class="post-card" id="post-1">
+      <div class="post-meta">
+        <span class="post-tag">Announcement</span>
+        <span class="post-date">April 28, 2026</span>
+        <span class="post-read-time">3 min read</span>
+      </div>
+      <h2 class="post-title" onclick="togglePost('post-1')"><a href="blog/the-crooked-mile.html" style="color:inherit;text-decoration:none;">The Crooked Mile Is Here: What It Is and Why I Made It</a></h2>
+      <p class="post-excerpt">The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.</p>
+      <div class="post-body">
+        <div class="post-body-inner">
+          <p>Every supplement I've ever run at my home table started as a single image in my head. For The Crooked Mile, it was a road through the woods that didn't end where it should. The party walks in. They walk for hours. The trees don't change. The light doesn't shift. And eventually they start to realize the road is taking them somewhere they didn't choose.</p>
+          <h4>Why Edenfall?</h4>
+          <p>I wanted to build a setting that rewarded drop-in play. Most campaign worlds ask Dungeon Masters to do a lot of reading before they can run confidently. Edenfall is designed the other way: you run the adventure, and the setting reveals itself through play. The Crooked Mile is the first entry point.</p>
+          <h4>What's Next</h4>
+          <p>The Edenfall Collection will grow one adventure at a time. Each volume is self-contained but leaves threads for a longer arc if the table wants to follow them. Volume 2 is already in development. Patreon supporters will see it first.</p>
+        </div>
+      </div>
+      <div class="post-footer">
+        <div class="post-author">
+          <div class="post-author-dot"></div>
+          Matthias Moore
+        </div>
+        <a href="blog/the-crooked-mile.html" class="post-expand-btn">
+          Read full post
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <article class="post-card" id="post-2">
+      <div class="post-meta">
+        <span class="post-tag lore">Lore</span>
+        <span class="post-date">April 15, 2026</span>
+        <span class="post-read-time">5 min read</span>
+      </div>
+      <h2 class="post-title" onclick="togglePost('post-2')"><a href="blog/building-edenfall.html" style="color:inherit;text-decoration:none;">Building Edenfall: A World Designed for Drop-In Play</a></h2>
+      <p class="post-excerpt">Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around - you run it first, then the world reveals itself.</p>
+      <div class="post-body">
+        <div class="post-body-inner">
+          <p>The hardest thing about running a published setting isn't the rules - it's the homework. Before you can run Faerun or Eberron with confidence, you feel like you need to read the sourcebooks, understand the political factions, know the gods. Most DMs never get past that feeling.</p>
+          <h4>The Drop-In Principle</h4>
+          <p>Edenfall is built on a simple premise: a DM should be able to read a single adventure, run it cold, and have everything they need in front of them. The setting details aren't a prerequisite - they're a reward. Every adventure plants seeds. The bigger world is something the table discovers, not studies.</p>
+          <h4>What Edenfall Actually Is</h4>
+          <p>At its core, Edenfall is a region in decline. Old institutions are crumbling. New powers are filling the gaps. The roads are less safe than they used to be, and the wilderness has grown strange. It's a world where the party matters - not because they're chosen heroes, but because everyone else is too busy surviving to act.</p>
+          <h4>Design Philosophy</h4>
+          <p>Every location, faction, and NPC in Edenfall is written with two questions in mind: what do they want, and what are they afraid of? That's it. Everything else - the politics, the history, the magic - flows from those two questions. It keeps the world grounded and makes it easy to improvise when players go off-script.</p>
+        </div>
+      </div>
+      <div class="post-footer">
+        <div class="post-author">
+          <div class="post-author-dot"></div>
+          Matthias Moore
+        </div>
+        <a href="blog/building-edenfall.html" class="post-expand-btn">
+          Read full post
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="blog-sidebar">
+    <div class="sidebar-card">
+      <h4>Filter by Topic</h4>
+      <div class="sidebar-tags">
+        <span class="sidebar-tag active" onclick="filterTag(this, 'all')">All</span>
+        <span class="sidebar-tag" onclick="filterTag(this, 'announcement')">Announcements</span>
+        <span class="sidebar-tag" onclick="filterTag(this, 'lore')">Lore</span>
+        <span class="sidebar-tag" onclick="filterTag(this, 'design')">Design</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h4>About the Author</h4>
+      <div class="sidebar-about">
+        <p>Matthias Moore is a solo TTRPG writer and the founder of Ashforge Studio LLC. He writes adventures, lore, and supplements for 5th Edition.</p>
+        <a href="index.html#about">About the Studio &rarr;</a>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h4>Supplements</h4>
+      <div class="sidebar-about">
+        <p>The Crooked Mile and other titles are available on DriveThruRPG and Patreon.</p>
+        <a href="index.html#supplements">Browse the Vault &rarr;</a>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Ashforge Studio</div>
+    <span class="footer-copy">© 2026 Ashforge Studio LLC - Matthias Moore.</span>
+    <a href="index.html" class="footer-back">&larr; Back to Studio</a>
+  </div>
+</footer>
+
+<script>
+function togglePost(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('expanded');
+  const btn = card.querySelector('.post-expand-btn');
+  btn.childNodes[0].textContent = card.classList.contains('expanded') ? 'Collapse ' : 'Read full post ';
+}
+
+function filterTag(el, tag) {
+  document.querySelectorAll('.sidebar-tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  // future: filter posts by tag
+}
+
+// Mobile nav
+(function() {
+  const btn = document.getElementById("nav-hamburger");
+  const menu = document.getElementById("nav-mobile-menu");
+  if (!btn || !menu) return;
+  function closeMenu() { btn.classList.remove("open"); menu.classList.remove("open"); }
+  btn.addEventListener("click", () => { btn.classList.toggle("open"); menu.classList.toggle("open"); });
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+  document.addEventListener("click", (e) => { if (!btn.contains(e.target) && !menu.contains(e.target)) closeMenu(); });
+
+  // Close on scroll
+  window.addEventListener("scroll", () => {
+    if (menu.classList.contains("open")) closeMenu();
+  }, { passive: true });
+})();
+</script>
+
+
+<script>
+(function(){
+  window.addEventListener('ashforge:content', function(e){
+    var data = e.detail || {};
+    var posts = (data.posts || []).filter(function(p){ return p.status === 'published'; });
+    var mount = document.getElementById('posts-mount');
+    if (!mount || !posts.length) return;
+    mount.innerHTML = posts.map(function(p){
+      var href = 'blog/' + (p.slug || p.id) + '.html';
+      return '<article class="blog-card fade-up">'
+        + '<div class="blog-card-meta">'
+          + '<span class="blog-tag">' + (p.tag || '') + '</span>'
+          + '<span class="blog-read-time">' + (p.readTime || '') + '</span>'
+        + '</div>'
+        + '<h3 class="blog-card-title"><a href="' + href + '">' + (p.title || '') + '</a></h3>'
+        + '<p class="blog-card-excerpt">' + (p.excerpt || '') + '</p>'
+        + '<div class="blog-card-footer">'
+          + '<span class="blog-date">' + (p.date || '') + '</span>'
+          + '<a href="' + href + '" class="blog-read-link">Read more &rarr;</a>'
+        + '</div>'
+      + '</article>';
+    }).join('');
+  });
+})();
+</script>
+</body>
+</html>

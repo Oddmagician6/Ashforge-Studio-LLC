@@ -1,0 +1,36 @@
+# Netlify deploy config for Ashforge Studio
+# Publishes the project root, but EXCLUDES admin.html so the
+# browser-local admin panel is never served from the public site.
+
+[build]
+  publish = "."
+
+# Keep admin.html out of the public deploy.
+# Any request to /admin or /admin.html on the live site returns 404.
+[[redirects]]
+  from = "/admin"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/admin.html"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# Long-cache static assets; let HTML + content.json revalidate.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/content.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/uploads/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

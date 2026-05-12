@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Page Not Found | Ashforge Studio</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0b0f;
+      --bg2: #110e14;
+      --surface: #1e1824;
+      --border: #2e2638;
+      --border-bright: #3d3450;
+      --ember: oklch(68% 0.19 42);
+      --ember-dim: oklch(50% 0.14 42);
+      --ember-glow: oklch(72% 0.22 38);
+      --gold: oklch(76% 0.14 78);
+      --text: oklch(90% 0.01 80);
+      --text-dim: oklch(65% 0.02 80);
+      --text-faint: oklch(45% 0.02 80);
+      --font-head: 'Cinzel', Georgia, serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      background: rgba(13,11,15,0.97);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo img { height: 44px; width: auto; object-fit: contain; }
+
+    .nav-back {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--ember); }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bg-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 60%, oklch(40% 0.14 42 / 0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 70%);
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 560px;
+    }
+
+    .rune-num {
+      font-family: var(--font-head);
+      font-size: clamp(100px, 15vw, 160px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, var(--ember) 0%, var(--gold) 60%, var(--ember-glow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      user-select: none;
+    }
+
+    .divider-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0 auto 32px;
+      max-width: 280px;
+    }
+    .divider-row::before, .divider-row::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-bright));
+    }
+    .divider-row::after { background: linear-gradient(to left, transparent, var(--border-bright)); }
+    .divider-diamond {
+      width: 7px; height: 7px;
+      background: var(--ember);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      animation: pulse 2.5s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+    .eyebrow {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 14px;
+    }
+
+    .headline {
+      font-family: var(--font-head);
+      font-size: clamp(22px, 3.5vw, 34px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 18px;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text {
+      font-size: 17px;
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 40px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ember);
+      color: #0d0b0f;
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 2px;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+      box-shadow: 0 0 28px oklch(68% 0.19 42 / 0.3);
+    }
+    .btn-primary:hover {
+      background: var(--ember-glow);
+      box-shadow: 0 0 44px oklch(68% 0.19 42 / 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--text-dim);
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 13px 28px;
+      border-radius: 2px;
+      border: 1px solid var(--border-bright);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text-dim); }
+
+    /* ── SUGGESTIONS ── */
+    .suggestions {
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .suggestions-label {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 20px;
+    }
+
+    .suggestion-links {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .suggestion-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      text-decoration: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 9px 16px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .suggestion-link:hover { color: var(--ember); border-color: var(--ember-dim); }
+
+    /* ── SPARK ── */
+    .spark {
+      position: absolute;
+      width: 2px; height: 2px;
+      border-radius: 50%;
+      background: var(--ember);
+      animation: spark-float linear infinite;
+      opacity: 0;
+      pointer-events: none;
+    }
+    @keyframes spark-float {
+      0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+      10%  { opacity: 1; }
+      80%  { opacity: 0.6; }
+      100% { transform: translateY(-280px) translateX(var(--dx)) scale(0.2); opacity: 0; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 24px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--text-faint);
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 560px) {
+      nav, footer { padding: 0 24px; }
+      main { padding: 60px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="uploads/logo.png" alt="Ashforge Studio" />
+  </a>
+  <a href="index.html" class="nav-back">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8 2L4 6l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Studio
+  </a>
+</nav>
+
+<main>
+  <div class="bg-glow"></div>
+  <div class="bg-grid"></div>
+  <div id="sparks"></div>
+
+  <div class="content">
+    <div class="rune-num">404</div>
+
+    <div class="divider-row">
+      <div class="divider-diamond"></div>
+    </div>
+
+    <div class="eyebrow">Lost in the Wilds</div>
+    <h1 class="headline">This Road Doesn't Go<br/>Where You Expected</h1>
+    <p class="body-text">The page you're looking for has wandered off the map — or never existed. Perhaps the link is broken, or the path has changed. The forge is still lit, though.</p>
+
+    <div class="actions">
+      <a href="index.html" class="btn-primary">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Return to the Studio
+      </a>
+      <a href="blog.html" class="btn-ghost">Browse the Dispatch</a>
+    </div>
+
+    <div class="suggestions">
+      <div class="suggestions-label">You might be looking for</div>
+      <div class="suggestion-links">
+        <a href="index.html#supplements" class="suggestion-link">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5 7h4M7 5v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Supplements
+        </a>
+        <a href="index.html#services" class="suggestion-link">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 2h7l3 3v7H2V2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          Services
+        </a>
+        <a href="blog.html" class="suggestion-link">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M4 5h6M4 7.5h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Blog
+        </a>
+        <a href="index.html#contact" class="suggestion-link">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 3h10v8H2V3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M2 3l5 5 5-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Contact
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span class="footer-copy">© 2026 Ashforge Studio LLC — Matthias Moore</span>
+</footer>
+
+<script>
+(function() {
+  const container = document.getElementById('sparks');
+  Object.assign(container.style, { position: 'fixed', inset: '0', pointerEvents: 'none', zIndex: '1', overflow: 'hidden' });
+  function makeSpark() {
+    const s = document.createElement('div');
+    s.className = 'spark';
+    s.style.left = (35 + Math.random() * 30) + '%';
+    s.style.bottom = '0';
+    s.style.setProperty('--dx', (Math.random() * 60 - 30) + 'px');
+    const dur = 2.5 + Math.random() * 2.5;
+    s.style.animationDuration = dur + 's';
+    s.style.animationDelay = Math.random() * 3 + 's';
+    s.style.width = s.style.height = (1 + Math.random() * 1.5) + 'px';
+    container.appendChild(s);
+    setTimeout(() => s.remove(), (dur + 3) * 1000);
+  }
+  setInterval(makeSpark, 800);
+})();
+</script>
+
+</body>
+</html>

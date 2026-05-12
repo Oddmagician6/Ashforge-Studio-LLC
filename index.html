@@ -1,0 +1,2312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ashforge Studio - D&D 5e Supplements & Content Writing</title>
+  <meta name="description" content="Ashforge Studio is a solo TTRPG content studio by Matthias Moore. Professional D&D 5e adventure writing, lore, stat blocks, and supplement design for publishers and creators." />
+  <meta name="author" content="Matthias Moore" />
+  <meta property="og:title" content="Ashforge Studio - D&D 5e Supplements & Content Writing" />
+  <meta property="og:description" content="Professional TTRPG content writing services and D&D 5e supplements by Matthias Moore. Adventures, lore, stat blocks, and more." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="uploads/Crooked Mile sample art.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ashforge Studio - D&D 5e Supplements & Content Writing" />
+  <meta name="twitter:description" content="Professional TTRPG content writing services and D&D 5e supplements by Matthias Moore." />
+  <meta name="twitter:image" content="uploads/Crooked Mile sample art.png" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0b0f;
+      --bg2: #110e14;
+      --bg3: #16121b;
+      --surface: #1e1824;
+      --surface2: #251f2e;
+      --border: #2e2638;
+      --border-bright: #3d3450;
+
+      --ember: oklch(68% 0.19 42);
+      --ember-dim: oklch(50% 0.14 42);
+      --ember-glow: oklch(72% 0.22 38);
+      --crimson: oklch(50% 0.20 15);
+      --gold: oklch(76% 0.14 78);
+      --gold-dim: oklch(58% 0.10 78);
+
+      --text: oklch(90% 0.01 80);
+      --text-dim: oklch(65% 0.02 80);
+      --text-faint: oklch(45% 0.02 80);
+
+      --font-head: 'Cinzel', Georgia, serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      background: linear-gradient(to bottom, rgba(13,11,15,0.97) 60%, rgba(13,11,15,0));
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(46,38,56,0.5);
+      transition: border-color 0.3s;
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--ember);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo-icon {
+      width: 28px; height: 28px;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ember); }
+
+    .nav-cta {
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bg) !important;
+      background: var(--ember);
+      padding: 9px 20px;
+      border-radius: 2px;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--ember-glow); color: var(--bg) !important; }
+
+    .nav-patreon {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim) !important;
+      background: transparent;
+      border: 1px solid var(--border-bright);
+      padding: 8px 16px;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .nav-patreon:hover {
+      color: var(--text) !important;
+      border-color: var(--text-dim);
+      background: rgba(255,255,255,0.03);
+    }
+    .nav-patreon svg { flex-shrink: 0; opacity: 0.7; transition: opacity 0.2s; }
+    .nav-patreon:hover svg { opacity: 1; }
+
+    /* ── SECTIONS ── */
+    section { position: relative; }
+
+    .section-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* ── DECORATIVE DIVIDER ── */
+    .rune-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0 auto 56px;
+      max-width: 320px;
+    }
+    .rune-divider::before, .rune-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-bright));
+    }
+    .rune-divider::after {
+      background: linear-gradient(to left, transparent, var(--border-bright));
+    }
+    .rune-diamond {
+      width: 8px; height: 8px;
+      background: var(--ember);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      font-size: 18px;
+      color: var(--text-dim);
+      line-height: 1.75;
+      max-width: 580px;
+    }
+
+    /* ══════════════════════════════════
+       HERO
+    ══════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .hero-grid-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 64px;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+      padding-top: 100px;
+      padding-bottom: 80px;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid-layout {
+        grid-template-columns: 1fr;
+      }
+      .hero-grid-layout .hero-visual-col { display: none; }
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: url('uploads/5ac570b2-4cda-4b81-9e58-8520d29a3b4e.png') center center / cover no-repeat;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, rgba(13,11,15,0.92) 45%, rgba(13,11,15,0.4) 75%, rgba(13,11,15,0.15) 100%),
+        linear-gradient(to bottom, rgba(13,11,15,0.3) 0%, rgba(13,11,15,0.0) 40%, rgba(13,11,15,0.7) 100%);
+    }
+
+    /* Forge glow - now subtle over banner */
+    .forge-glow {
+      position: absolute;
+      bottom: -10%;
+      left: 30%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse at center bottom, oklch(45% 0.18 140 / 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Particle-like sparks (CSS only) */
+    .spark {
+      position: absolute;
+      width: 2px; height: 2px;
+      border-radius: 50%;
+      background: var(--ember);
+      animation: spark-float linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes spark-float {
+      0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+      10%  { opacity: 1; }
+      80%  { opacity: 0.6; }
+      100% { transform: translateY(-320px) translateX(var(--dx)) scale(0.2); opacity: 0; }
+    }
+
+    /* Grid texture */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at 20% 60%, black 20%, transparent 70%);
+      z-index: 1;
+    }
+
+
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 6px 14px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 32px;
+    }
+    .hero-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ember); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(32px, 3.4vw, 56px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+    }
+
+    .hero-title-line1 { display: block; color: var(--text); }
+    .hero-title-line2 {
+      display: block;
+      background: linear-gradient(120deg, var(--ember) 0%, var(--gold) 50%, var(--ember-glow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 20px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      max-width: 520px;
+      margin-bottom: 48px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ember);
+      color: #0d0b0f;
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 16px 32px;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+      box-shadow: 0 0 30px oklch(68% 0.19 42 / 0.35);
+    }
+    .btn-primary:hover {
+      background: var(--ember-glow);
+      box-shadow: 0 0 50px oklch(68% 0.19 42 / 0.55);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--text-dim);
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 15px 32px;
+      border-radius: 2px;
+      border: 1px solid var(--border-bright);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text-dim); }
+
+    .hero-patreon {
+      margin-bottom: 32px;
+    }
+
+    .hero-patreon-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-bright);
+      border-radius: 2px;
+      padding: 11px 18px;
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .hero-patreon-link svg:first-child { color: var(--ember); flex-shrink: 0; }
+    .hero-patreon-link svg:last-child { color: var(--text-faint); flex-shrink: 0; transition: transform 0.2s, color 0.2s; }
+    .hero-patreon-link:hover {
+      border-color: var(--ember-dim);
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+    }
+    .hero-patreon-link:hover svg:last-child {
+      transform: translateX(3px);
+      color: var(--ember);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 72px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+    .hero-stat-num {
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ember);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero-stat-label {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    /* ── HERO RIGHT: Book cover ── */
+    .hero-visual-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-book-cover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 2px;
+      box-shadow:
+        0 32px 80px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(255,255,255,0.05),
+        0 0 60px oklch(40% 0.15 120 / 0.15);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .hero-book-cover:hover {
+      transform: scale(1.02) translateY(-4px);
+      box-shadow:
+        0 48px 100px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(255,255,255,0.07),
+        0 0 80px oklch(40% 0.15 120 / 0.2);
+    }
+
+    /* ══════════════════════════════════
+       PRODUCTS
+    ══════════════════════════════════ */
+    #products {
+      padding: 120px 0;
+      background: var(--bg2);
+    }
+
+    #products::before {
+      content: '';
+      display: block;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin-bottom: 0;
+    }
+
+    .products-header {
+      margin-bottom: 64px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 860px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-visual-col { display: none; }
+      .hero-stats { flex-wrap: wrap; gap: 28px; }
+    }
+    @media (max-width: 560px) {
+      .products-grid { grid-template-columns: 1fr; }
+      .section-inner { padding: 0 24px; }
+      nav { padding: 0 24px; }
+    }
+
+    .product-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+      position: relative;
+    }
+    .product-card:hover {
+      border-color: var(--ember-dim);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 24px oklch(68% 0.19 42 / 0.08);
+    }
+
+    .product-card-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255,255,255,0.015) 0px,
+          rgba(255,255,255,0.015) 1px,
+          transparent 1px,
+          transparent 10px
+        );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: monospace;
+      font-size: 10px;
+      color: var(--text-faint);
+      gap: 8px;
+      position: relative;
+    }
+
+    .product-card-img-label {
+      font-family: monospace;
+      font-size: 10px;
+      color: var(--text-faint);
+      text-align: center;
+      padding: 0 16px;
+    }
+
+    .product-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--ember);
+      color: #0d0b0f;
+      font-family: var(--font-head);
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 1px;
+    }
+
+    .product-card-body {
+      padding: 20px 22px 24px;
+    }
+
+    .product-card-title {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .product-card-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    .product-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .product-price {
+      font-family: var(--font-head);
+      font-size: 18px;
+      color: var(--gold);
+    }
+
+    .product-price-label {
+      font-size: 11px;
+      color: var(--text-faint);
+      margin-top: 1px;
+    }
+
+    .product-btn {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ember);
+      background: transparent;
+      border: 1px solid var(--ember-dim);
+      padding: 8px 16px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .product-btn:hover { background: var(--ember); color: #0d0b0f; }
+
+    /* ══════════════════════════════════
+       SERVICES
+    ══════════════════════════════════ */
+    #services {
+      padding: 120px 0;
+      background: var(--bg);
+      position: relative;
+    }
+
+    .services-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    @media (max-width: 780px) {
+      .services-layout { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    .services-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 40px;
+    }
+
+    .service-item {
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .service-item:hover { border-color: var(--border-bright); }
+    .service-item.open { border-color: var(--ember-dim); }
+
+    .service-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      background: var(--surface);
+      transition: background 0.2s;
+    }
+    .service-item.open .service-header { background: var(--surface2); }
+
+    .service-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .service-rune {
+      width: 32px; height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .service-name {
+      font-family: var(--font-head);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+
+    .service-chevron {
+      color: var(--text-faint);
+      transition: transform 0.25s, color 0.2s;
+      font-size: 12px;
+    }
+    .service-item.open .service-chevron { transform: rotate(180deg); color: var(--ember); }
+
+    .service-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .service-item.open .service-body { max-height: 300px; }
+
+    .service-body-inner {
+      padding: 0 22px 20px 68px;
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+
+    .services-contact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 40px;
+      position: sticky;
+      top: 88px;
+    }
+
+    .services-contact-card h3 {
+      font-family: var(--font-head);
+      font-size: 20px;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .services-contact-card p {
+      font-size: 15px;
+      color: var(--text-dim);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .form-input, .form-textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 12px 14px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text);
+      transition: border-color 0.2s;
+      outline: none;
+      width: 100%;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text-faint); }
+    .form-input:focus, .form-textarea:focus { border-color: var(--ember-dim); }
+    .form-textarea { resize: vertical; min-height: 90px; }
+
+    .form-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--ember);
+      color: #0d0b0f;
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .form-submit:hover { background: var(--ember-glow); box-shadow: 0 0 24px oklch(68% 0.19 42 / 0.4); }
+
+    /* ══════════════════════════════════
+       PROCESS
+    ══════════════════════════════════ */
+    #process {
+      padding: 120px 0;
+      background: var(--bg3);
+      border-top: 1px solid var(--border);
+    }
+
+    .process-header {
+      margin-bottom: 72px;
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      position: relative;
+      margin-bottom: 64px;
+    }
+
+    @media (max-width: 900px) {
+      .process-steps {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .process-step-connector { display: none !important; }
+    }
+
+    .process-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 16px;
+      position: relative;
+    }
+
+    @media (max-width: 900px) {
+      .process-step {
+        flex-direction: row;
+        text-align: left;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 24px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .process-step:last-child { border-bottom: none; }
+      .process-step-num { flex-shrink: 0; margin-bottom: 0; }
+      .process-step-icon { display: none; }
+    }
+
+    .process-step-num {
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--ember);
+      margin-bottom: 16px;
+    }
+
+    .process-step-connector {
+      position: absolute;
+      top: 40px;
+      left: calc(50% + 28px);
+      right: calc(-50% + 28px);
+      height: 1px;
+      background: linear-gradient(to right, var(--border-bright), var(--border));
+    }
+    .process-step-connector.hide { display: none; }
+
+    .process-step-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ember);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .process-step-title {
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .process-step-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .process-cta {
+      text-align: center;
+    }
+
+    /* ══════════════════════════════════
+       ABOUT
+    ══════════════════════════════════ */
+    #about {
+      padding: 120px 0;
+      background: var(--bg3);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    @media (max-width: 780px) {
+      .about-layout { grid-template-columns: 1fr; }
+    }
+
+    .about-visual {
+      width: 100%;
+      aspect-ratio: 1;
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255,255,255,0.015) 0px,
+          rgba(255,255,255,0.015) 1px,
+          transparent 1px,
+          transparent 10px
+        );
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--text-faint);
+      text-align: center;
+      padding: 32px;
+    }
+
+    .about-text .section-body { max-width: 100%; }
+
+    .about-pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .about-pillar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 18px 20px;
+    }
+
+    .about-pillar-label {
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 6px;
+    }
+
+    .about-pillar-text {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* ══════════════════════════════════
+       FOOTER
+    ══════════════════════════════════ */
+    footer {
+      background: var(--bg);
+      padding: 64px 0 36px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 48px;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      max-width: 300px;
+    }
+
+    .footer-logo {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ember);
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .footer-tagline {
+      font-size: 14px;
+      color: var(--text-faint);
+      line-height: 1.6;
+    }
+
+    .footer-links-col h4 {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+    }
+
+    .footer-links-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links-col a {
+      font-size: 14px;
+      color: var(--text-faint);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links-col a:hover { color: var(--text-dim); }
+
+    .footer-bottom {
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--text-faint);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-ogl {
+      font-size: 11px;
+      color: var(--text-faint);
+      opacity: 0.6;
+      max-width: 460px;
+      text-align: right;
+      line-height: 1.5;
+    }
+
+    .featured-supplement {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 56px;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 40px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 760px) {
+      .featured-supplement {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .featured-supplement-img { max-width: 220px; margin: 0 auto; }
+    }
+
+    .featured-supplement-img {
+      width: 100%;
+      border-radius: 2px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+      display: block;
+    }
+
+    .featured-supplement-title {
+      font-family: var(--font-head);
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      letter-spacing: 0.03em;
+      line-height: 1.15;
+    }
+
+    .featured-supplement-desc {
+      font-size: 16px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 28px;
+      max-width: 480px;
+    }
+
+    .featured-supplement-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ══════════════════════════════════
+       SUPPLEMENTS STORES
+    ══════════════════════════════════ */
+    #supplements {
+      padding: 120px 0;
+      background: var(--bg2);
+    }
+    #supplements::before {
+      content: '';
+      display: block;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    .supplements-stores {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+
+    @media (max-width: 640px) {
+      .supplements-stores { grid-template-columns: 1fr; }
+    }
+
+    .store-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 28px 28px;
+      text-decoration: none;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+    }
+    .store-card:hover {
+      border-color: var(--ember-dim);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px oklch(68% 0.19 42 / 0.07);
+    }
+
+    .store-card-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--bg);
+      border: 1px solid var(--border-bright);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ember);
+      flex-shrink: 0;
+    }
+
+    .store-card-body {
+      flex: 1;
+    }
+
+    .store-card-name {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .store-card-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    .store-card-arrow {
+      color: var(--text-faint);
+      transition: transform 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+    .store-card:hover .store-card-arrow {
+      transform: translateX(4px);
+      color: var(--ember);
+    }
+
+    .supplements-note {
+      text-align: center;
+      font-size: 15px;
+      color: var(--text-faint);
+      line-height: 1.7;
+    }
+
+    .inline-link {
+      color: var(--ember);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ember-dim);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .inline-link:hover { color: var(--ember-glow); border-color: var(--ember-glow); }
+
+    /* ══════════════════════════════════
+       BLOG TEASER
+    ══════════════════════════════════ */
+    #blog {
+      padding: 120px 0;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .blog-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 680px) {
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+
+    .blog-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 28px 30px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .blog-card:hover {
+      border-color: var(--ember-dim);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+
+    .blog-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .blog-tag {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #0d0b0f;
+      background: var(--ember);
+      padding: 3px 10px;
+      border-radius: 1px;
+    }
+
+    .blog-read-time {
+      font-size: 12px;
+      color: var(--text-faint);
+      letter-spacing: 0.05em;
+    }
+
+    .blog-card-title {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: 0.02em;
+    }
+    .blog-card-title a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .blog-card-title a:hover { color: var(--ember); }
+
+    .blog-card-excerpt {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .blog-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .blog-date {
+      font-size: 12px;
+      color: var(--text-faint);
+      letter-spacing: 0.05em;
+    }
+
+    .blog-read-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ember);
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+    .blog-read-link:hover { gap: 10px; }
+
+    /* ══════════════════════════════════
+       PATREON BANNER
+    ══════════════════════════════════ */
+    #patreon-banner {
+      padding: 72px 0;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .patreon-banner-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .patreon-banner-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .patreon-banner-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ember);
+      flex-shrink: 0;
+    }
+
+    .patreon-banner-title {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+    }
+
+    .patreon-banner-sub {
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      max-width: 520px;
+    }
+
+    .patreon-banner-btn {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* ══════════════════════════════════
+       MOBILE NAV
+    ══════════════════════════════════ */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 101;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--text-dim);
+      border-radius: 2px;
+      transition: transform 0.25s, opacity 0.2s, background 0.2s;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--ember); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--ember); }
+
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px;
+      left: 0; right: 0;
+      background: rgba(13,11,15,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+      flex-direction: column;
+      padding: 24px 32px 32px;
+      gap: 4px;
+      transform: translateY(-12px);
+      opacity: 0;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .nav-mobile-menu.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+    .nav-mobile-menu a {
+      font-family: var(--font-head);
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .nav-mobile-menu a:last-child { border-bottom: none; }
+    .nav-mobile-menu a:hover { color: var(--ember); }
+    .nav-mobile-menu .mobile-cta {
+      margin-top: 16px;
+      text-align: center;
+      background: var(--ember);
+      color: #0d0b0f !important;
+      border-radius: 2px;
+      padding: 14px !important;
+      border-bottom: none !important;
+    }
+    .nav-mobile-menu .mobile-cta:hover { background: var(--ember-glow); }
+
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile-menu { display: flex; }
+    }
+
+      100% { transform: translate3d(-100%,0,0); }
+    }
+
+    /* ══════════════════════════════════
+       MISC / UTILITIES
+    ══════════════════════════════════ */
+    .ember-text { color: var(--ember); }
+    .gold-text { color: var(--gold); }
+
+    /* Scroll fade-in */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface2);
+      border: 1px solid var(--ember-dim);
+      border-radius: 3px;
+      padding: 14px 20px;
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--ember);
+      z-index: 999;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+  </style>
+  <script src="content-loader.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo">
+    <img src="uploads/logo.png" alt="Ashforge Studio" style="height:44px; width:auto; object-fit:contain;" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="#supplements">Supplements</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="#about">About</a></li>
+    <li>
+      <a href="https://www.patreon.com/c/DungeonMasterDen" data-content-href="siteInfo.patreonUrl" target="_blank" rel="noopener" class="nav-patreon">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14.5" cy="9.5" r="6.5"/>
+          <rect x="3" y="3" width="4" height="18" rx="1"/>
+        </svg>
+        Patreon
+      </a>
+    </li>
+    <li>
+      <a href="https://discord.gg/EEZyzmUpaw" data-content-href="siteInfo.discordUrl" target="_blank" rel="noopener" class="nav-patreon">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        Discord
+      </a>
+    </li>
+    <li><a href="#contact" class="nav-cta">Commission Work</a></li>
+  </ul>
+
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<nav class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="#supplements" class="mobile-link">Supplements</a>
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#process" class="mobile-link">Process</a>
+  <a href="portfolio.html" class="mobile-link">Portfolio</a>
+  <a href="blog.html" class="mobile-link">Blog</a>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="https://www.patreon.com/c/DungeonMasterDen" data-content-href="siteInfo.patreonUrl" target="_blank" rel="noopener" class="mobile-link">Patreon</a>
+  <a href="https://discord.gg/EEZyzmUpaw" data-content-href="siteInfo.discordUrl" target="_blank" rel="noopener" class="mobile-link">Discord</a>
+  <a href="#contact" class="mobile-cta">Commission Work</a>
+</nav>
+
+<!-- Sparks (injected via JS) -->
+<div id="sparks-container" aria-hidden="true"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Message sent to the forge ✦</div>
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="forge-glow"></div>
+  </div>
+
+  <div class="section-inner" style="width:100%;">
+    <div class="hero-grid-layout">
+    <div class="hero-content-col">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        D&amp;D 5e Supplements &amp; Content Writing
+      </div>
+
+      <h1 class="hero-title">
+        <span class="hero-title-line1" data-content="siteInfo.heroTitle1">Your World,</span>
+        <span class="hero-title-line2" data-content="siteInfo.heroTitle2">Professionally Written.</span>
+      </h1>
+
+      <p class="hero-sub" data-content="siteInfo.heroSub">
+        Ashforge Studio is a solo TTRPG content studio. I write adventures, lore, stat blocks, and supplements for publishers, creators, and Dungeon Masters who demand more from their worlds.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#services" class="btn-primary">
+          Commission Work
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#supplements" class="btn-ghost">
+          Browse Supplements
+        </a>
+      </div>
+
+      <div class="hero-patreon fade-up">
+        <a href="https://www.patreon.com/c/DungeonMasterDen" data-content-href="siteInfo.patreonUrl" target="_blank" rel="noopener" class="hero-patreon-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14.5" cy="9.5" r="6.5"/>
+            <rect x="3" y="3" width="4" height="18" rx="1"/>
+          </svg>
+          Support us on Patreon - exclusive early access &amp; behind-the-scenes content
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num" data-content="siteInfo.stat1Num">5e</div>
+          <div class="hero-stat-label" data-content="siteInfo.stat1Label">Compatible</div>
+        </div>
+        <div>
+          <div class="hero-stat-num" data-content="siteInfo.stat2Num">OGL</div>
+          <div class="hero-stat-label" data-content="siteInfo.stat2Label">Licensed</div>
+        </div>
+        <div>
+          <div class="hero-stat-num" data-content="siteInfo.stat3Num">∞</div>
+          <div class="hero-stat-label" data-content="siteInfo.stat3Label">Adventures Await</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual-col">
+      <img
+        src="uploads/Crooked Mile sample art.png"
+        alt="The Crooked Mile - Edenfall Collection Volume 1 by Ashforge Studio"
+        class="hero-book-cover"
+        style="width:100%; display:block;"
+      />
+    </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SUPPLEMENTS
+══════════════════════════════════ -->
+<section id="supplements">
+  <div class="section-inner">
+    <div class="products-header fade-up">
+      <div class="section-eyebrow">The Vault</div>
+      <h2 class="section-title">Our Supplements</h2>
+      <p class="section-body">
+        My 5e supplements are available exclusively through DriveThruRPG and Patreon. Every title is table-tested, lore-first, and designed to drop into any campaign.
+      </p>
+    </div>
+
+    <div class="featured-supplement fade-up">
+      <img src="uploads/Crooked Mile sample art.png" data-content-src="supplements.0.imagePath" alt="Featured supplement cover" class="featured-supplement-img" />
+      <div class="featured-supplement-body">
+        <div class="section-eyebrow" style="margin-bottom:8px;" data-content="supplements.0.series">Edenfall Collection Vol. 1</div>
+        <h3 class="featured-supplement-title" data-content="supplements.0.title">The Crooked Mile</h3>
+        <p class="featured-supplement-desc" data-content="supplements.0.description">
+          A dark fantasy adventure for the 5th Edition - deep woods, hidden horrors, and a road that doesn't end where it should. Designed for drop-in play or as the opening chapter of a longer arc.
+        </p>
+        <div class="featured-supplement-actions">
+          <a href="https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc" target="_blank" rel="noopener" class="btn-primary" style="font-size:11px; padding:12px 24px;">
+            Get on DriveThruRPG
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="https://www.patreon.com/c/DungeonMasterDen" data-content-href="siteInfo.patreonUrl" target="_blank" rel="noopener" class="btn-ghost" style="font-size:11px; padding:11px 24px; display:inline-flex; align-items:center; gap:8px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="14.5" cy="9.5" r="6.5"/><rect x="3" y="3" width="4" height="18" rx="1"/></svg>
+            Early Access on Patreon
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="supplements-stores fade-up">
+      <a href="https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc" target="_blank" rel="noopener" class="store-card">
+        <div class="store-card-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="3" y="6" width="22" height="16" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M3 11h22" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M8 16h5M8 19h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="store-card-body">
+          <div class="store-card-name">DriveThruRPG</div>
+          <div class="store-card-desc">PDF downloads - pay once, own forever. Full catalog available.</div>
+        </div>
+        <div class="store-card-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
+
+      <a href="https://www.patreon.com/c/DungeonMasterDen" data-content-href="siteInfo.patreonUrl" target="_blank" rel="noopener" class="store-card">
+        <div class="store-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="14.5" cy="9.5" r="6.5"/>
+            <rect x="3" y="3" width="4" height="18" rx="1"/>
+          </svg>
+        </div>
+        <div class="store-card-body">
+          <div class="store-card-name">Patreon</div>
+          <div class="store-card-desc">Early access, patron-exclusive drops, and behind-the-scenes content every month.</div>
+        </div>
+        <div class="store-card-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
+    </div>
+
+    <div class="supplements-note fade-up">
+      <div class="rune-diamond" style="margin: 0 auto 16px;"></div>
+      <p>Looking for a custom supplement built for your campaign or publication? <a href="#services" class="inline-link">Commission me directly.</a></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SERVICES
+══════════════════════════════════ -->
+<section id="services">
+  <div class="section-inner">
+    <div class="services-layout">
+      <div>
+        <div class="section-eyebrow fade-up">The Commission</div>
+        <h2 class="section-title fade-up">Content Writing<br/>Services</h2>
+        <p class="section-body fade-up" style="max-width:480px; margin-bottom:0;">
+          Whether you're a solo creator or a publishing house, I bring professional TTRPG writing craft to your project - one commission at a time.
+        </p>
+
+        <div class="services-list fade-up" id="services-list"></div>
+      </div>
+
+      <div class="services-contact-card fade-up" id="contact">
+        <h3>Start a Commission</h3>
+        <p>Tell me about your project and I'll get back to you within 2 business days. You can also reach me directly at <a href="mailto:matthias.moore.pro@gmail.com" class="inline-link">matthias.moore.pro@gmail.com</a>.</p>
+        <form id="commission-form" action="https://formspree.io/f/matthias.moore.pro@gmail.com" method="POST">
+        <div class="form-group">
+          <label class="form-label" for="f-name">Your Name</label>
+          <input class="form-input" type="text" placeholder="Aldric the Scribe" id="f-name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-email">Email</label>
+          <input class="form-input" type="email" placeholder="you@example.com" id="f-email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-brief">Project Brief</label>
+          <textarea class="form-textarea" placeholder="Describe your project, scope, and deadline…" id="f-brief" name="brief"></textarea>
+        </div>
+        <button class="form-submit" id="form-submit" type="submit">Send to the Forge</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PROCESS
+══════════════════════════════════ -->
+<section id="process">
+  <div class="section-inner">
+    <div class="process-header fade-up">
+      <div class="section-eyebrow">How It Works</div>
+      <h2 class="section-title">The Commission Process</h2>
+      <p class="section-body">
+        From first inquiry to final delivery - here's what working with Ashforge Studio looks like.
+      </p>
+    </div>
+
+    <div class="process-steps">
+
+      <div class="process-step fade-up">
+        <div class="process-step-num">01</div>
+        <div class="process-step-connector"></div>
+        <div class="process-step-body">
+          <div class="process-step-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M4 17l2-2 9-9 2 2-9 9H4v-2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+              <path d="M13 6l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="process-step-title">Inquiry</h3>
+          <p class="process-step-desc">Fill out the commission form with your project brief. I'll respond within 2 business days to confirm scope, timeline, and fit.</p>
+        </div>
+      </div>
+
+      <div class="process-step fade-up" style="transition-delay:0.08s">
+        <div class="process-step-num">02</div>
+        <div class="process-step-connector"></div>
+        <div class="process-step-body">
+          <div class="process-step-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <rect x="3" y="4" width="16" height="14" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M7 8h8M7 11h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="process-step-title">Brief &amp; Agreement</h3>
+          <p class="process-step-desc">We align on deliverables, word count, revision rounds, and deadline. A simple agreement is signed and a deposit secures your spot.</p>
+        </div>
+      </div>
+
+      <div class="process-step fade-up" style="transition-delay:0.16s">
+        <div class="process-step-num">03</div>
+        <div class="process-step-connector"></div>
+        <div class="process-step-body">
+          <div class="process-step-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M11 7v4l3 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="process-step-title">Draft</h3>
+          <p class="process-step-desc">I write. You'll receive a full first draft by the agreed date - structured, playtested where applicable, and ready for your feedback.</p>
+        </div>
+      </div>
+
+      <div class="process-step fade-up" style="transition-delay:0.24s">
+        <div class="process-step-num">04</div>
+        <div class="process-step-connector"></div>
+        <div class="process-step-body">
+          <div class="process-step-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M6 11l4 4 6-6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.3"/>
+            </svg>
+          </div>
+          <h3 class="process-step-title">Revisions</h3>
+          <p class="process-step-desc">Up to two rounds of revisions are included. I work with your notes to sharpen tone, balance mechanics, and nail the details.</p>
+        </div>
+      </div>
+
+      <div class="process-step fade-up" style="transition-delay:0.32s">
+        <div class="process-step-num">05</div>
+        <div class="process-step-connector hide"></div>
+        <div class="process-step-body">
+          <div class="process-step-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M5 11l4 4 8-8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="process-step-title">Delivery</h3>
+          <p class="process-step-desc">Final files delivered in your preferred format (Google Doc, Word, Markdown, or InDesign-ready). Balance of payment due on delivery.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="process-cta fade-up">
+      <a href="#contact" class="btn-primary">Start Your Commission</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     ABOUT
+══════════════════════════════════ -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-layout">
+      <div class="about-visual fade-up">
+        <img src="uploads/492558063_23964477739802640_1374261843831644693_n.jpg" alt="Matthias Moore" style="width:100%; height:100%; object-fit:cover; border-radius:2px;" />
+      </div>
+
+      <div class="about-text">
+        <div class="section-eyebrow fade-up">The Smith</div>
+        <h2 class="section-title fade-up" data-content="about.authorName">Matthias Moore</h2>
+        <p class="about-studio-label fade-up" style="font-family:var(--font-head); font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-faint); margin-bottom:20px;">Founder, Ashforge Studio LLC</p>
+        <p class="section-body fade-up" data-content="about.bio">I'm Matthias Moore - a lifelong player and professional writer who believes the best supplements don't just add mechanics, they add meaning.</p>
+
+        <div class="about-pillars fade-up">
+          <div class="about-pillar">
+            <div class="about-pillar-label">Table-Tested</div>
+            <p class="about-pillar-text">Every supplement playtested before release</p>
+          </div>
+          <div class="about-pillar">
+            <div class="about-pillar-label">Lore-First</div>
+            <p class="about-pillar-text">Mechanics emerge from narrative, not the other way around</p>
+          </div>
+          <div class="about-pillar">
+            <div class="about-pillar-label">OGL Licensed</div>
+            <p class="about-pillar-text">Fully compatible with 5th Edition rules</p>
+          </div>
+          <div class="about-pillar">
+            <div class="about-pillar-label">Solo Studio</div>
+            <p class="about-pillar-text">One writer, fully invested in every project</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     BLOG TEASER
+══════════════════════════════════ -->
+<section id="blog">
+  <div class="section-inner">
+    <div class="blog-header fade-up">
+      <div>
+        <div class="section-eyebrow">The Dispatch</div>
+        <h2 class="section-title">From the Forge</h2>
+      </div>
+      <a href="blog.html" class="btn-ghost" style="font-size:11px; padding:10px 22px; white-space:nowrap;">All Posts</a>
+    </div>
+
+    <div class="blog-grid">
+
+      <article class="blog-card fade-up">
+        <div class="blog-card-meta">
+          <span class="blog-tag">Announcement</span>
+          <span class="blog-read-time">3 min read</span>
+        </div>
+        <h3 class="blog-card-title"><a href="blog/the-crooked-mile.html">The Crooked Mile Is Here: What It Is and Why I Made It</a></h3>
+        <p class="blog-card-excerpt">The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.</p>
+        <div class="blog-card-footer">
+          <span class="blog-date">April 28, 2026</span>
+          <a href="blog/the-crooked-mile.html" class="blog-read-link">Read more
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="blog-card fade-up" style="transition-delay:0.1s">
+        <div class="blog-card-meta">
+          <span class="blog-tag">Lore</span>
+          <span class="blog-read-time">5 min read</span>
+        </div>
+        <h3 class="blog-card-title"><a href="blog/building-edenfall.html">Building Edenfall: A World Designed for Drop-In Play</a></h3>
+        <p class="blog-card-excerpt">Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around - you run it first, then the world reveals itself.</p>
+        <div class="blog-card-footer">
+          <span class="blog-date">April 15, 2026</span>
+          <a href="blog/building-edenfall.html" class="blog-read-link">Read more
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- PATREON BANNER -->
+<section id="patreon-banner">
+  <div class="section-inner">
+    <div class="patreon-banner-inner">
+      <div class="patreon-banner-left">
+        <div class="patreon-banner-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14.5" cy="9.5" r="6.5"/>
+            <rect x="3" y="3" width="4" height="18" rx="1"/>
+          </svg>
+        </div>
+        <div>
+          <div class="patreon-banner-title">Join the Ashforge Patreon</div>
+          <div class="patreon-banner-sub">Early access to supplements, behind-the-scenes design notes, patron-only polls, and exclusive content drops - every month.</div>
+        </div>
+      </div>
+      <a href="https://www.patreon.com/c/DungeonMasterDen" data-content-href="siteInfo.patreonUrl" target="_blank" rel="noopener" class="btn-primary patreon-banner-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14.5" cy="9.5" r="6.5"/>
+          <rect x="3" y="3" width="4" height="18" rx="1"/>
+        </svg>
+        Become a Patron
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">Ashforge Studio</div>
+        <p class="footer-tagline" data-content="siteInfo.footerTagline">Solo TTRPG studio crafting D&amp;D 5e supplements and bespoke content writing services.</p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Supplements</h4>
+        <ul>
+          <li><a href="https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc" target="_blank" rel="noopener">DriveThruRPG</a></li>
+          <li><a href="https://www.patreon.com/c/DungeonMasterDen" data-content-href="siteInfo.patreonUrl" target="_blank" rel="noopener">Patreon</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Adventure Writing</a></li>
+          <li><a href="#">Lore &amp; Setting</a></li>
+          <li><a href="#">Stat Blocks</a></li>
+          <li><a href="#">Editing &amp; QA</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="https://discord.gg/EEZyzmUpaw" data-content-href="siteInfo.discordUrl" target="_blank" rel="noopener">Discord</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Ashforge Studio LLC - Matthias Moore. All rights reserved.</span>
+      <span class="footer-ogl">This product uses the System Reference Document (SRD) and is compatible with the fifth edition of the world's greatest roleplaying game.</span>
+    </div>
+  </div>
+</footer>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ── SERVICES DATA ─────────────────────────────────────
+// Visual runes keyed by service id. Service text comes from content.json.
+const SERVICE_RUNES = {
+  adventure: (<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 19L11 3l8 16H3z" stroke="var(--ember)" strokeWidth="1.2" strokeLinejoin="round"/><path d="M7 14h8" stroke="var(--ember)" strokeWidth="1.2" strokeLinecap="round"/></svg>),
+  lore: (<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="var(--ember)" strokeWidth="1.2"/><path d="M11 3C11 3 8 7 8 11s3 8 3 8M11 3c0 0 3 4 3 8s-3 8-3 8M3 11h16" stroke="var(--ember)" strokeWidth="1.2" strokeLinecap="round"/></svg>),
+  crunch: (<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="1.5" stroke="var(--ember)" strokeWidth="1.2"/><path d="M7 11h8M11 7v8" stroke="var(--ember)" strokeWidth="1.2" strokeLinecap="round"/></svg>),
+  articles: (<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="4" y="3" width="14" height="16" rx="1" stroke="var(--ember)" strokeWidth="1.2"/><path d="M7 7h8M7 11h8M7 15h5" stroke="var(--ember)" strokeWidth="1.2" strokeLinecap="round"/></svg>),
+  review: (<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="9" cy="9" r="5" stroke="var(--ember)" strokeWidth="1.2"/><path d="M13 13l5 5" stroke="var(--ember)" strokeWidth="1.2" strokeLinecap="round"/><path d="M6.5 9h5M9 6.5v5" stroke="var(--ember)" strokeWidth="1.2" strokeLinecap="round"/></svg>),
+  editing: (<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 17l2-2 9-9 2 2-9 9-4 0 0-2z" stroke="var(--ember)" strokeWidth="1.2" strokeLinejoin="round"/><path d="M13 6l3 3" stroke="var(--ember)" strokeWidth="1.2" strokeLinecap="round"/></svg>),
+};
+
+const SERVICES_FALLBACK = [
+  { id: "adventure", name: "Adventure Module Writing", body: "Full adventure modules from 1-shot encounters to multi-session campaigns." },
+  { id: "lore", name: "World Lore & Setting Writing", body: "Pantheons, history, factions, cultures, and regional lore." },
+  { id: "crunch", name: "Mechanical Design & Stat Blocks", body: "Monster stat blocks, items, feats, spells, and subclasses tuned for 5e balance." },
+  { id: "articles", name: "Article & Blog Writing", body: "Long-form articles and editorial features on TTRPG craft and design." },
+  { id: "review", name: "TTRPG Mechanic Review", body: "Independent balance pass on homebrew content before publishing or playtesting." },
+  { id: "editing", name: "TTRPG Editing & Proofreading", body: "Rules-aware editing for mechanics, tone, clarity, pacing, and formatting." },
+];
+
+function useServices() {
+  const [services, setServices] = useState(
+    (window.ASHFORGE_CONTENT && window.ASHFORGE_CONTENT.services) || SERVICES_FALLBACK
+  );
+  useEffect(() => {
+    const handler = e => {
+      if (e.detail && Array.isArray(e.detail.services) && e.detail.services.length) {
+        setServices(e.detail.services);
+      }
+    };
+    window.addEventListener("ashforge:content", handler);
+    return () => window.removeEventListener("ashforge:content", handler);
+  }, []);
+  return services;
+}
+
+// ── SERVICES ACCORDION ─────────────────────────────────
+function ServicesAccordion() {
+  const services = useServices();
+  const [openId, setOpenId] = useState("adventure");
+
+  return (
+    <div className="services-list" style={{ marginTop: 40 }}>
+      {services.map(s => (
+        <div
+          key={s.id}
+          className={`service-item ${openId === s.id ? "open" : ""}`}
+          onClick={() => setOpenId(openId === s.id ? null : s.id)}
+        >
+          <div className="service-header">
+            <div className="service-header-left">
+              <div className="service-rune">{SERVICE_RUNES[s.id]}</div>
+              <span className="service-name">{s.name}</span>
+            </div>
+            <span className="service-chevron">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+          </div>
+          <div className="service-body">
+            <div className="service-body-inner">{s.body}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── FORM ────────────────────────────────────────────────
+function showToast() {
+  const t = document.getElementById("toast");
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 3500);
+}
+
+const form = document.getElementById("commission-form");
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = document.getElementById("f-name").value.trim();
+    const email = document.getElementById("f-email").value.trim();
+    const brief = document.getElementById("f-brief").value.trim();
+    if (!name || !email) {
+      document.getElementById("f-name").style.borderColor = !name ? "var(--crimson)" : "";
+      document.getElementById("f-email").style.borderColor = !email ? "var(--crimson)" : "";
+      return;
+    }
+    document.getElementById("f-name").style.borderColor = "";
+    document.getElementById("f-email").style.borderColor = "";
+
+    const btn = document.getElementById("form-submit");
+    btn.textContent = "Sending…";
+    btn.disabled = true;
+
+    try {
+      const body = new FormData();
+      body.append("entry.510684980", name);
+      body.append("entry.1623533162", email);
+      body.append("entry.1331834901", brief);
+
+      await fetch(
+        "https://docs.google.com/forms/u/0/d/1sDKbJzGvHX9v-ZBhAQxHGopMKmdpdUWZnQev1PQMbTc/formResponse",
+        { method: "POST", body, mode: "no-cors" }
+      );
+      // no-cors always succeeds silently — treat as success
+      form.reset();
+      showToast();
+    } catch {
+      window.location.href = `mailto:matthias.moore.pro@gmail.com?subject=Commission Inquiry&body=Name: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0A%0A${encodeURIComponent(brief)}`;
+    } finally {
+      btn.textContent = "Send to the Forge";
+      btn.disabled = false;
+    }
+  });
+}
+
+// ── TWEAKS ──────────────────────────────────────────────
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentColor": "ember",
+  "showHeroStats": true,
+  "productCount": 3,
+  "heroTagline": "Forged in Lore. Built for Tables."
+}/*EDITMODE-END*/;
+
+function TweaksApp() {
+  if (typeof useTweaks === "undefined") return null;
+  const { tweaks, setTweak } = useTweaks(TWEAK_DEFAULTS);
+  if (!tweaks) return null;
+
+  // Apply accent color
+  useEffect(() => {
+    const root = document.documentElement;
+    if (tweaks.accentColor === "ember") {
+      root.style.setProperty("--ember", "oklch(68% 0.19 42)");
+      root.style.setProperty("--ember-glow", "oklch(72% 0.22 38)");
+      root.style.setProperty("--ember-dim", "oklch(50% 0.14 42)");
+    } else if (tweaks.accentColor === "gold") {
+      root.style.setProperty("--ember", "oklch(76% 0.14 78)");
+      root.style.setProperty("--ember-glow", "oklch(80% 0.16 78)");
+      root.style.setProperty("--ember-dim", "oklch(58% 0.10 78)");
+    } else if (tweaks.accentColor === "crimson") {
+      root.style.setProperty("--ember", "oklch(55% 0.20 15)");
+      root.style.setProperty("--ember-glow", "oklch(60% 0.22 15)");
+      root.style.setProperty("--ember-dim", "oklch(42% 0.16 15)");
+    } else if (tweaks.accentColor === "arcane") {
+      root.style.setProperty("--ember", "oklch(65% 0.22 295)");
+      root.style.setProperty("--ember-glow", "oklch(70% 0.24 295)");
+      root.style.setProperty("--ember-dim", "oklch(50% 0.18 295)");
+    }
+  }, [tweaks.accentColor]);
+
+  // Apply hero stats visibility
+  useEffect(() => {
+    const el = document.querySelector(".hero-stats");
+    if (el) el.style.display = tweaks.showHeroStats ? "flex" : "none";
+  }, [tweaks.showHeroStats]);
+
+  return (
+    <TweaksPanel>
+      <TweakSection label="Accent Color">
+        <TweakRadio
+          value={tweaks.accentColor}
+          options={[
+            { value: "ember", label: "Ember" },
+            { value: "gold", label: "Gold" },
+            { value: "crimson", label: "Crimson" },
+            { value: "arcane", label: "Arcane" },
+          ]}
+          onChange={v => setTweak("accentColor", v)}
+        />
+      </TweakSection>
+      <TweakSection label="Hero Stats Bar">
+        <TweakToggle
+          label="Show Stats"
+          value={tweaks.showHeroStats}
+          onChange={v => setTweak("showHeroStats", v)}
+        />
+      </TweakSection>
+      <TweakSection label="Hero Tagline">
+        <TweakText
+          value={tweaks.heroTagline}
+          onChange={v => {
+            setTweak("heroTagline", v);
+            const lines = v.split(".");
+            const l1 = document.querySelector(".hero-title-line1");
+            const l2 = document.querySelector(".hero-title-line2");
+            if (l1 && lines[0]) l1.textContent = lines[0].trim() + ".";
+            if (l2 && lines[1]) l2.textContent = lines[1].trim() + ".";
+          }}
+        />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+// ── RENDER ──────────────────────────────────────────────
+const tweaksRoot = document.createElement("div");
+document.body.appendChild(tweaksRoot);
+ReactDOM.createRoot(tweaksRoot).render(<TweaksApp />);
+
+// Render services accordion into placeholder
+const servicesSlot = document.getElementById("services-list");
+if (servicesSlot) {
+  ReactDOM.createRoot(servicesSlot).render(<ServicesAccordion />);
+}
+</script>
+
+<script>
+// ── SPARKS ──────────────────────────────────────────────
+(function() {
+  const container = document.getElementById("sparks-container");
+  Object.assign(container.style, {
+    position: "fixed", inset: "0",
+    pointerEvents: "none", zIndex: "1", overflow: "hidden"
+  });
+  function makeSpark() {
+    const s = document.createElement("div");
+    s.className = "spark";
+    const x = 30 + Math.random() * 40;
+    s.style.left = x + "%";
+    s.style.bottom = "0";
+    s.style.setProperty("--dx", (Math.random() * 80 - 40) + "px");
+    const dur = 2.5 + Math.random() * 3;
+    s.style.animationDuration = dur + "s";
+    s.style.animationDelay = Math.random() * 4 + "s";
+    s.style.width = s.style.height = (1 + Math.random() * 2) + "px";
+    container.appendChild(s);
+    setTimeout(() => s.remove(), (dur + 4) * 1000);
+  }
+  setInterval(makeSpark, 600);
+})();
+
+// ── SCROLL FADE-IN ──────────────────────────────────────
+(function() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".fade-up").forEach(el => obs.observe(el));
+})();
+
+// ── MOBILE NAV ──────────────────────────────────────────
+(function() {
+  const btn = document.getElementById("nav-hamburger");
+  const menu = document.getElementById("nav-mobile-menu");
+  if (!btn || !menu) return;
+
+  function closeMenu() {
+    btn.classList.remove("open");
+    menu.classList.remove("open");
+  }
+
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("open");
+    menu.classList.toggle("open");
+  });
+
+  // Close on link click
+  menu.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", closeMenu);
+  });
+
+  // Close on outside click
+  document.addEventListener("click", (e) => {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) closeMenu();
+  });
+
+  // Close on scroll
+  window.addEventListener("scroll", () => {
+    if (menu.classList.contains("open")) closeMenu();
+  }, { passive: true });
+})();
+
+// ── NAV SCROLL ──────────────────────────────────────────
+(function() {
+  const nav = document.getElementById("main-nav");
+  window.addEventListener("scroll", () => {
+    nav.style.borderBottomColor = window.scrollY > 40
+      ? "rgba(46,38,56,0.9)"
+      : "rgba(46,38,56,0.5)";
+  }, { passive: true });
+})();
+
+</script>
+
+</body>
+</html>
