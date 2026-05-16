@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ashforge Admin</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0b0f;
+      --bg2: #110e14;
+      --bg3: #16121b;
+      --surface: #1e1824;
+      --surface2: #251f2e;
+      --surface3: #2d273a;
+      --border: #2e2638;
+      --border-bright: #3d3450;
+      --ember: oklch(68% 0.19 42);
+      --ember-dim: oklch(50% 0.14 42);
+      --ember-glow: oklch(72% 0.22 38);
+      --gold: oklch(76% 0.14 78);
+      --gold-dim: oklch(58% 0.10 78);
+      --green: oklch(65% 0.18 150);
+      --green-dim: oklch(45% 0.12 150);
+      --red: oklch(58% 0.20 20);
+      --red-dim: oklch(42% 0.14 20);
+      --text: oklch(90% 0.01 80);
+      --text-dim: oklch(65% 0.02 80);
+      --text-faint: oklch(45% 0.02 80);
+      --font-head: 'Cinzel', Georgia, serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+      --font-mono: 'Courier New', monospace;
+      --sidebar-w: 240px;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+
+    /* ── LOGIN SCREEN ── */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      position: relative;
+    }
+
+    .login-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 60%, oklch(40% 0.14 42 / 0.08) 0%, transparent 60%),
+        linear-gradient(to bottom, var(--bg) 0%, var(--bg2) 100%);
+      pointer-events: none;
+    }
+
+    .login-card {
+      position: relative;
+      z-index: 2;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 48px 52px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 60px oklch(40% 0.14 42 / 0.06);
+    }
+
+    .login-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .login-logo img { height: 40px; width: auto; }
+
+    .login-eyebrow {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 32px;
+    }
+
+    .login-title {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    .login-sub {
+      font-size: 14px;
+      color: var(--text-faint);
+      margin-bottom: 32px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .field label {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .field input, .field textarea, .field select {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 11px 14px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+
+    .field input::placeholder, .field textarea::placeholder { color: var(--text-faint); }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--ember-dim); }
+    .field textarea { resize: vertical; min-height: 80px; }
+    .field select { appearance: none; cursor: pointer; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+      padding: 11px 22px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--ember);
+      color: #0d0b0f;
+    }
+    .btn-primary:hover {
+      background: var(--ember-glow);
+      box-shadow: 0 0 24px oklch(68% 0.19 42 / 0.4);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid var(--border-bright);
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text-dim); }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--red);
+      border: 1px solid var(--red-dim);
+    }
+    .btn-danger:hover { background: var(--red); color: #0d0b0f; }
+
+    .btn-success {
+      background: var(--green);
+      color: #0d0b0f;
+    }
+    .btn-success:hover { background: oklch(70% 0.20 150); }
+
+    .btn-sm { padding: 7px 14px; font-size: 9px; }
+    .btn-full { width: 100%; }
+
+    .login-error {
+      background: oklch(42% 0.14 20 / 0.15);
+      border: 1px solid var(--red-dim);
+      border-radius: 2px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--red);
+      margin-bottom: 16px;
+    }
+
+    /* ── ADMIN SHELL ── */
+    .admin-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .admin-sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 50;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-logo img { height: 36px; width: auto; }
+
+    .sidebar-eyebrow {
+      font-family: var(--font-head);
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ember-dim);
+      margin-top: 6px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 0;
+    }
+
+    .sidebar-section-label {
+      font-family: var(--font-head);
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      padding: 0 20px;
+      margin: 16px 0 8px;
+    }
+
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+      border-left: 2px solid transparent;
+      user-select: none;
+    }
+    .sidebar-nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .sidebar-nav-item.active {
+      color: var(--ember);
+      background: oklch(68% 0.19 42 / 0.07);
+      border-left-color: var(--ember);
+    }
+    .sidebar-nav-item svg { flex-shrink: 0; }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .sidebar-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .sidebar-user-avatar {
+      width: 30px;
+      height: 30px;
+      background: oklch(68% 0.19 42 / 0.2);
+      border: 1px solid var(--ember-dim);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-size: 10px;
+      color: var(--ember);
+      flex-shrink: 0;
+    }
+
+    .sidebar-user-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sidebar-user-name {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-user-role {
+      font-size: 11px;
+      color: var(--text-faint);
+    }
+
+    /* ── MAIN CONTENT ── */
+    .admin-main {
+      flex: 1;
+      margin-left: var(--sidebar-w);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-topbar {
+      height: 58px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .topbar-title {
+      font-family: var(--font-head);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--text);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-preview-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .topbar-preview-link:hover { color: var(--ember); }
+
+    /* ── PANEL PAGES ── */
+    .admin-panel {
+      flex: 1;
+      padding: 40px 36px;
+      max-width: 1000px;
+    }
+
+    .panel-header {
+      margin-bottom: 36px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-eyebrow {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 8px;
+    }
+
+    .panel-title {
+      font-family: var(--font-head);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.04em;
+    }
+
+    .panel-sub {
+      font-size: 14px;
+      color: var(--text-faint);
+      margin-top: 6px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 28px 30px;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-family: var(--font-head);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── FORM GRID ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-grid .field-full { grid-column: 1 / -1; }
+
+    /* ── BLOG LIST ── */
+    .post-list-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 18px 22px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .post-list-item:hover { border-color: var(--border-bright); }
+
+    .post-list-item.editing { border-color: var(--ember-dim); background: oklch(68% 0.19 42 / 0.04); }
+
+    .post-list-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .post-list-tag {
+      display: inline-block;
+      font-family: var(--font-head);
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 1px;
+      margin-bottom: 6px;
+    }
+
+    .tag-announcement { background: var(--ember); color: #0d0b0f; }
+    .tag-lore { background: oklch(50% 0.16 260); color: #fff; }
+    .tag-design { background: oklch(48% 0.16 200); color: #fff; }
+    .tag-news { background: var(--gold-dim); color: #0d0b0f; }
+    .tag-process { background: oklch(45% 0.14 320); color: #fff; }
+
+    .post-list-title {
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .post-list-info {
+      font-size: 12px;
+      color: var(--text-faint);
+    }
+
+    .post-list-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* ── EDIT FORM (inline) ── */
+    .inline-edit {
+      background: var(--bg3);
+      border: 1px solid var(--ember-dim);
+      border-radius: 2px;
+      padding: 24px 24px;
+      margin-bottom: 12px;
+    }
+
+    .inline-edit-title {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 18px;
+    }
+
+    /* ── PAGES ── */
+    .page-list-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 18px 22px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .page-list-item:hover { border-color: var(--border-bright); }
+
+    .page-list-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--surface3);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-faint);
+      flex-shrink: 0;
+    }
+
+    .page-list-meta { flex: 1; min-width: 0; }
+
+    .page-list-name {
+      font-family: var(--font-head);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .page-list-url {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-faint);
+    }
+
+    .page-badge {
+      font-family: var(--font-head);
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 1px;
+      flex-shrink: 0;
+    }
+
+    .badge-live { background: oklch(65% 0.18 150 / 0.15); color: var(--green); border: 1px solid var(--green-dim); }
+    .badge-draft { background: oklch(45% 0.02 80 / 0.1); color: var(--text-faint); border: 1px solid var(--border); }
+
+    /* ── STAT CARDS ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 20px 22px;
+    }
+
+    .stat-card-label {
+      font-family: var(--font-head);
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 8px;
+    }
+
+    .stat-card-value {
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ember);
+      line-height: 1;
+    }
+
+    .stat-card-sub {
+      font-size: 12px;
+      color: var(--text-faint);
+      margin-top: 4px;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface2);
+      border: 1px solid var(--ember-dim);
+      border-radius: 3px;
+      padding: 12px 20px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--ember);
+      z-index: 999;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: var(--green-dim); color: var(--green); }
+    .toast.error { border-color: var(--red-dim); color: var(--red); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+
+    /* ── RICH TEXT HINT ── */
+    .field-hint {
+      font-size: 12px;
+      color: var(--text-faint);
+      margin-top: 4px;
+    }
+
+    /* ── SUPPLEMENT CARD IN ADMIN ── */
+    .supplement-admin-card {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 20px;
+      align-items: center;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+      transition: border-color 0.2s;
+    }
+    .supplement-admin-card:hover { border-color: var(--border-bright); }
+
+    .supplement-thumb {
+      width: 80px;
+      height: 106px;
+      background: var(--surface3);
+      border: 1px solid var(--border);
+      border-radius: 1px;
+      object-fit: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--text-faint);
+      font-family: var(--font-mono);
+      overflow: hidden;
+    }
+
+    .supplement-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(13,11,15,0.85);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .confirm-box {
+      background: var(--surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 4px;
+      padding: 36px 40px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .confirm-box h3 {
+      font-family: var(--font-head);
+      font-size: 16px;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .confirm-box p {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* ── UNSAVED BADGE ── */
+    .unsaved-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ember);
+      margin-left: 6px;
+      vertical-align: middle;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+    /* scrollable rich body */
+    .rich-body-field {
+      min-height: 180px;
+    }
+
+    /* nav-page select row */
+    .new-page-type-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .page-type-btn {
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      background: var(--surface2);
+      padding: 16px 14px;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .page-type-btn:hover { border-color: var(--border-bright); background: var(--surface3); }
+    .page-type-btn.selected { border-color: var(--ember-dim); background: oklch(68% 0.19 42 / 0.07); }
+
+    .page-type-icon {
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 8px;
+      color: var(--text-faint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .page-type-btn.selected .page-type-icon { color: var(--ember); }
+
+    .page-type-label {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .page-type-btn.selected .page-type-label { color: var(--ember); }
+
+    /* About image uploader placeholder */
+    .image-uploader {
+      border: 1px dashed var(--border-bright);
+      border-radius: 2px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      background: var(--bg);
+    }
+    .image-uploader:hover { border-color: var(--ember-dim); background: oklch(68% 0.19 42 / 0.03); }
+    .image-uploader-label {
+      font-family: var(--font-head);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-top: 8px;
+    }
+
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef } = React;
+
+// ═══════════════════════════════════════
+// DATA STORE (localStorage)
+// ═══════════════════════════════════════
+
+const STORAGE_KEY = 'ashforge_admin_data';
+
+const DEFAULT_DATA = {
+  siteInfo: {
+    studioName: 'Ashforge Studio',
+    tagline: 'D&D 5e Supplements & Content Writing',
+    heroTitle1: 'Your World,',
+    heroTitle2: 'Professionally Written.',
+    heroSub: 'Ashforge Studio is a solo TTRPG content studio. I write adventures, lore, stat blocks, and supplements for publishers, creators, and Dungeon Masters who demand more from their worlds.',
+    stat1Num: '5e',
+    stat1Label: 'Compatible',
+    stat2Num: 'OGL',
+    stat2Label: 'Licensed',
+    stat3Num: '∞',
+    stat3Label: 'Adventures Await',
+    email: 'matthias.moore.pro@gmail.com',
+    patreonUrl: 'https://www.patreon.com/c/DungeonMasterDen',
+    discordUrl: 'https://discord.gg/EEZyzmUpaw',
+    upworkUrl: 'https://www.upwork.com/freelancers/~01d2aec7621971c3f4?mp_source=share',
+    driveThruUrl: 'https://www.drivethrurpg.com',
+    footerTagline: 'Professional D&D 5e writing and supplements by Matthias Moore.',
+    oglNote: 'This work includes material taken from the System Reference Document 5.1 ("SRD 5.1") by Wizards of the Coast LLC and available at https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License.',
+  },
+  about: {
+    authorName: 'Matthias Moore',
+    bio: "I'm a solo TTRPG writer and the founder of Ashforge Studio LLC. I write adventures, lore, stat blocks, and supplements for 5th Edition Dungeons & Dragons — for publishers, creators, and Dungeon Masters who want more from their worlds.",
+    pillar1Label: 'Lore First',
+    pillar1Text: 'Every setting detail earns its place through play.',
+    pillar2Label: 'Drop-In Ready',
+    pillar2Text: 'Run cold. The setting reveals itself at the table.',
+    pillar3Label: 'OGL Licensed',
+    pillar3Text: 'Compatible with the 5th Edition System Reference Document.',
+    pillar4Label: 'Tested at Table',
+    pillar4Text: 'Every adventure is playtested before release.',
+  },
+  supplements: [
+    {
+      id: 's1',
+      title: 'The Crooked Mile',
+      series: 'Edenfall Collection Vol. 1',
+      description: 'A dark fantasy adventure for the 5th Edition - deep woods, hidden horrors, and a road that doesn\'t end where it should. Designed for drop-in play or as the opening chapter of a longer arc.',
+      price: '',
+      driveThruUrl: 'https://www.drivethrurpg.com',
+      patreonUrl: 'https://www.patreon.com/c/DungeonMasterDen',
+      imagePath: 'uploads/Crooked Mile sample art.png',
+      featured: true,
+      status: 'live',
+    }
+  ],
+  posts: [
+    {
+      id: 'post-1',
+      title: 'The Crooked Mile Is Here: What It Is and Why I Made It',
+      tag: 'Announcement',
+      date: 'April 28, 2026',
+      readTime: '3 min read',
+      excerpt: 'The Edenfall Collection started as a single encounter and grew into something I couldn\'t stop writing. Here\'s the origin of The Crooked Mile and what comes next.',
+      body: `Every supplement I've ever run at my home table started as a single image in my head. For The Crooked Mile, it was a road through the woods that didn't end where it should. The party walks in. They walk for hours. The trees don't change. The light doesn't shift. And eventually they start to realize the road is taking them somewhere they didn't choose.\n\nWhy Edenfall?\n\nI wanted to build a setting that rewarded drop-in play. Most campaign worlds ask Dungeon Masters to do a lot of reading before they can run confidently. Edenfall is designed the other way: you run the adventure, and the setting reveals itself through play. The Crooked Mile is the first entry point.\n\nWhat's Next\n\nThe Edenfall Collection will grow one adventure at a time. Each volume is self-contained but leaves threads for a longer arc if the table wants to follow them. Volume 2 is already in development. Patreon supporters will see it first.`,
+      status: 'published',
+    },
+    {
+      id: 'post-2',
+      title: 'Building Edenfall: A World Designed for Drop-In Play',
+      tag: 'Lore',
+      date: 'April 15, 2026',
+      readTime: '5 min read',
+      excerpt: 'Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around - you run it first, then the world reveals itself.',
+      body: `The hardest thing about running a published setting isn't the rules - it's the homework. Before you can run Faerun or Eberron with confidence, you feel like you need to read the sourcebooks, understand the political factions, know the gods. Most DMs never get past that feeling.\n\nThe Drop-In Principle\n\nEdenfall is built on a simple premise: a DM should be able to read a single adventure, run it cold, and have everything they need in front of them. The setting details aren't a prerequisite — they're a reward. Every adventure plants seeds. The bigger world is something the table discovers, not studies.\n\nWhat Edenfall Actually Is\n\nAt its core, Edenfall is a region in decline. Old institutions are crumbling. New powers are filling the gaps. The roads are less safe than they used to be, and the wilderness has grown strange. It's a world where the party matters — not because they're chosen heroes, but because everyone else is too busy surviving to act.`,
+      status: 'published',
+    },
+  ],
+  pages: [
+    { id: 'page-index', name: 'Home', url: 'index.html', type: 'core', status: 'live', editable: false },
+    { id: 'page-blog', name: 'The Dispatch (Blog)', url: 'blog.html', type: 'core', status: 'live', editable: false },
+  ],
+};
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return { ...DEFAULT_DATA, ...JSON.parse(raw) };
+  } catch(e) {}
+  return DEFAULT_DATA;
+}
+
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// ═══════════════════════════════════════
+// ICONS
+// ═══════════════════════════════════════
+
+const Icon = {
+  home: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 6.5L8 2l6 4.5V14H10v-4H6v4H2V6.5z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/></svg>,
+  book: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H3V2z" stroke="currentColor" strokeWidth="1.3"/><path d="M8 2v13M5 6h2M5 9h2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+  post: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.3"/><path d="M5 6h6M5 9h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+  page: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" stroke="currentColor" strokeWidth="1.3"/><path d="M10 2v3h3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+  settings: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M2.93 2.93l1.41 1.41M11.66 11.66l1.41 1.41M2.93 13.07l1.41-1.41M11.66 4.34l1.41-1.41" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+  edit: <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/></svg>,
+  trash: <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4h10M5 4V2h4v2M11 4l-.8 8H3.8L3 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  plus: <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>,
+  save: <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2h8l2 2v8H2V2z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/><path d="M5 2v4h4V2M4 9h6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+  eye: <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><ellipse cx="7" cy="7" rx="5" ry="3" stroke="currentColor" strokeWidth="1.3"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>,
+  close: <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>,
+  link: <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 8.5a3.5 3.5 0 0 0 4.95 0l1.5-1.5a3.5 3.5 0 0 0-4.95-4.95l-.75.75" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/><path d="M8.5 5.5a3.5 3.5 0 0 0-4.95 0L2.05 7a3.5 3.5 0 0 0 4.95 4.95l.75-.75" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+  check: <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3.5 3.5 5.5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  info: <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.3"/><path d="M7 6v4M7 4.5v.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>,
+  logout: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 2H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3M10 11l4-3-4-3M14 8H6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+};
+
+// ═══════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════
+
+function useToast() {
+  const [toast, setToast] = useState({ msg: '', type: '', show: false });
+  const timerRef = useRef(null);
+
+  const show = useCallback((msg, type = 'default') => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setToast({ msg, type, show: true });
+    timerRef.current = setTimeout(() => setToast(t => ({ ...t, show: false })), 2800);
+  }, []);
+
+  return { toast, show };
+}
+
+function Toast({ toast }) {
+  return (
+    <div className={`toast ${toast.show ? 'show' : ''} ${toast.type}`}>
+      {toast.msg}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// CONFIRM DIALOG
+// ═══════════════════════════════════════
+
+function ConfirmDialog({ msg, onConfirm, onCancel }) {
+  return (
+    <div className="confirm-overlay">
+      <div className="confirm-box">
+        <h3>Are you sure?</h3>
+        <p>{msg}</p>
+        <div className="confirm-actions">
+          <button className="btn btn-ghost btn-sm" onClick={onCancel}>Cancel</button>
+          <button className="btn btn-danger btn-sm" onClick={onConfirm}>Delete</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════════
+
+const ADMIN_PASSWORD_KEY = 'ashforge_admin_password';
+const DEFAULT_ADMIN_PASSWORD = 'ashforge2026';
+function getAdminPassword() {
+  try { return localStorage.getItem(ADMIN_PASSWORD_KEY) || DEFAULT_ADMIN_PASSWORD; }
+  catch(e) { return DEFAULT_ADMIN_PASSWORD; }
+}
+function setAdminPassword(pw) {
+  localStorage.setItem(ADMIN_PASSWORD_KEY, pw);
+}
+
+function LoginScreen({ onLogin }) {
+  const [pw, setPw] = useState('');
+  const [error, setError] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (pw === getAdminPassword()) {
+      onLogin();
+    } else {
+      setError('Incorrect password. The forge remains sealed.');
+    }
+  }
+
+  return (
+    <div className="login-screen">
+      <div className="login-bg"></div>
+      <div className="login-card">
+        <div className="login-logo">
+          <img src="uploads/logo.png" alt="Ashforge Studio" />
+        </div>
+        <div className="login-eyebrow">Admin Panel</div>
+        <div className="login-title">Enter the Forge</div>
+        <div className="login-sub">Studio administration access only.</div>
+
+        {error && <div className="login-error">{error}</div>}
+
+        <form onSubmit={handleSubmit}>
+          <div className="field">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="••••••••••••"
+              value={pw}
+              onChange={e => setPw(e.target.value)}
+              autoFocus
+            />
+          </div>
+          <button type="submit" className="btn btn-primary btn-full">
+            {Icon.check} Unlock
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════
+
+function Dashboard({ data }) {
+  const publishedPosts = data.posts.filter(p => p.status === 'published').length;
+  const draftPosts = data.posts.filter(p => p.status === 'draft').length;
+  const liveSupplements = data.supplements.filter(s => s.status === 'live').length;
+  const pageCount = data.pages.length;
+
+  return (
+    <div className="admin-panel">
+      <div className="panel-header">
+        <div className="panel-eyebrow">Overview</div>
+        <div className="panel-title">Dashboard</div>
+        <div className="panel-sub">Welcome back, Matthias. Here's your studio at a glance.</div>
+      </div>
+
+      <div className="stat-grid">
+        <div className="stat-card">
+          <div className="stat-card-label">Posts Published</div>
+          <div className="stat-card-value">{publishedPosts}</div>
+          <div className="stat-card-sub">{draftPosts} draft{draftPosts !== 1 ? 's' : ''}</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-card-label">Supplements</div>
+          <div className="stat-card-value">{liveSupplements}</div>
+          <div className="stat-card-sub">in the vault</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-card-label">Pages</div>
+          <div className="stat-card-value">{pageCount}</div>
+          <div className="stat-card-sub">total site pages</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-card-label">Studio</div>
+          <div className="stat-card-value">✦</div>
+          <div className="stat-card-sub">Ashforge Studio LLC</div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-title">Recent Posts</div>
+        {data.posts.slice(0, 3).map(post => (
+          <div key={post.id} className="post-list-item" style={{ marginBottom: 8 }}>
+            <div className="post-list-meta">
+              <span className={`post-list-tag tag-${post.tag.toLowerCase()}`}>{post.tag}</span>
+              <div className="post-list-title">{post.title}</div>
+              <div className="post-list-info">{post.date} · {post.readTime} · <span style={{ color: post.status === 'published' ? 'var(--green)' : 'var(--text-faint)' }}>{post.status}</span></div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="card">
+        <div className="card-title">Quick Links</div>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <a href="index.html" target="_blank" rel="noopener" className="btn btn-ghost btn-sm">{Icon.eye} View Site</a>
+          <a href="blog.html" target="_blank" rel="noopener" className="btn btn-ghost btn-sm">{Icon.eye} View Blog</a>
+          <a href={data.siteInfo.patreonUrl} target="_blank" rel="noopener" className="btn btn-ghost btn-sm">{Icon.link} Patreon</a>
+          <a href={`mailto:${data.siteInfo.email}`} className="btn btn-ghost btn-sm">{Icon.link} Email</a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// SITE INFO EDITOR
+// ═══════════════════════════════════════
+
+function SiteInfoEditor({ data, onChange, showToast }) {
+  const [info, setInfo] = useState({ ...data.siteInfo });
+  const [about, setAbout] = useState({ ...data.about });
+  const [dirty, setDirty] = useState(false);
+
+  function setInfoField(key, val) { setInfo(prev => ({ ...prev, [key]: val })); setDirty(true); }
+  function setAboutField(key, val) { setAbout(prev => ({ ...prev, [key]: val })); setDirty(true); }
+
+  function handleSave() {
+    onChange({ siteInfo: info, about });
+    setDirty(false);
+    showToast('Site info saved ✦', 'success');
+  }
+
+  return (
+    <div className="admin-panel">
+      <div className="panel-header">
+        <div className="panel-eyebrow">Configuration</div>
+        <div className="panel-title">Site Info {dirty && <span className="unsaved-dot" title="Unsaved changes"></span>}</div>
+        <div className="panel-sub">Edit global site content, hero copy, and social links.</div>
+      </div>
+
+      <div className="card">
+        <div className="card-title">Hero Section</div>
+        <div className="form-grid">
+          <div className="field">
+            <label>Hero Title Line 1</label>
+            <input value={info.heroTitle1} onChange={e => setInfoField('heroTitle1', e.target.value)} />
+          </div>
+          <div className="field">
+            <label>Hero Title Line 2 (gradient)</label>
+            <input value={info.heroTitle2} onChange={e => setInfoField('heroTitle2', e.target.value)} />
+          </div>
+          <div className="field field-full">
+            <label>Hero Subtitle</label>
+            <textarea value={info.heroSub} onChange={e => setInfoField('heroSub', e.target.value)} style={{ minHeight: 80 }} />
+          </div>
+          <div className="field">
+            <label>Badge / Tagline</label>
+            <input value={info.tagline} onChange={e => setInfoField('tagline', e.target.value)} />
+          </div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-title">Stats Strip</div>
+        <div className="form-grid">
+          <div className="field"><label>Stat 1 Number</label><input value={info.stat1Num} onChange={e => setInfoField('stat1Num', e.target.value)} /></div>
+          <div className="field"><label>Stat 1 Label</label><input value={info.stat1Label} onChange={e => setInfoField('stat1Label', e.target.value)} /></div>
+          <div className="field"><label>Stat 2 Number</label><input value={info.stat2Num} onChange={e => setInfoField('stat2Num', e.target.value)} /></div>
+          <div className="field"><label>Stat 2 Label</label><input value={info.stat2Label} onChange={e => setInfoField('stat2Label', e.target.value)} /></div>
+          <div className="field"><label>Stat 3 Number</label><input value={info.stat3Num} onChange={e => setInfoField('stat3Num', e.target.value)} /></div>
+          <div className="field"><label>Stat 3 Label</label><input value={info.stat3Label} onChange={e => setInfoField('stat3Label', e.target.value)} /></div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-title">About & Author</div>
+        <div className="form-grid">
+          <div className="field">
+            <label>Author Name</label>
+            <input value={about.authorName} onChange={e => setAboutField('authorName', e.target.value)} />
+          </div>
+          <div className="field field-full">
+            <label>Bio</label>
+            <textarea value={about.bio} onChange={e => setAboutField('bio', e.target.value)} style={{ minHeight: 100 }} />
+          </div>
+          <div className="field"><label>Pillar 1 Label</label><input value={about.pillar1Label} onChange={e => setAboutField('pillar1Label', e.target.value)} /></div>
+          <div className="field"><label>Pillar 1 Text</label><input value={about.pillar1Text} onChange={e => setAboutField('pillar1Text', e.target.value)} /></div>
+          <div className="field"><label>Pillar 2 Label</label><input value={about.pillar2Label} onChange={e => setAboutField('pillar2Label', e.target.value)} /></div>
+          <div className="field"><label>Pillar 2 Text</label><input value={about.pillar2Text} onChange={e => setAboutField('pillar2Text', e.target.value)} /></div>
+          <div className="field"><label>Pillar 3 Label</label><input value={about.pillar3Label} onChange={e => setAboutField('pillar3Label', e.target.value)} /></div>
+          <div className="field"><label>Pillar 3 Text</label><input value={about.pillar3Text} onChange={e => setAboutField('pillar3Text', e.target.value)} /></div>
+          <div className="field"><label>Pillar 4 Label</label><input value={about.pillar4Label} onChange={e => setAboutField('pillar4Label', e.target.value)} /></div>
+          <div className="field"><label>Pillar 4 Text</label><input value={about.pillar4Text} onChange={e => setAboutField('pillar4Text', e.target.value)} /></div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-title">Social & Contact Links</div>
+        <div className="form-grid">
+          <div className="field field-full">
+            <label>Contact Email</label>
+            <input type="email" value={info.email} onChange={e => setInfoField('email', e.target.value)} />
+          </div>
+          <div className="field field-full">
+            <label>Patreon URL</label>
+            <input type="url" value={info.patreonUrl} onChange={e => setInfoField('patreonUrl', e.target.value)} />
+          </div>
+          <div className="field field-full">
+            <label>Discord Invite URL</label>
+            <input type="url" value={info.discordUrl} onChange={e => setInfoField('discordUrl', e.target.value)} />
+          </div>
+          <div className="field field-full">
+            <label>DriveThruRPG Store URL</label>
+            <input type="url" value={info.driveThruUrl} onChange={e => setInfoField('driveThruUrl', e.target.value)} />
+          </div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-title">Footer</div>
+        <div className="form-grid">
+          <div className="field field-full">
+            <label>Footer Tagline</label>
+            <input value={info.footerTagline} onChange={e => setInfoField('footerTagline', e.target.value)} />
+          </div>
+          <div className="field field-full">
+            <label>OGL / Legal Note</label>
+            <textarea value={info.oglNote} onChange={e => setInfoField('oglNote', e.target.value)} style={{ minHeight: 80 }} />
+          </div>
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
+        <button className="btn btn-primary" onClick={handleSave}>{Icon.save} Save Changes</button>
+        {dirty && <span style={{ fontSize: 13, color: 'var(--text-faint)', alignSelf: 'center' }}>Unsaved changes</span>}
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// BLOG MANAGER
+// ═══════════════════════════════════════
+
+const TAGS = ['Announcement', 'Lore', 'Design', 'News', 'Process'];
+
+function BlogManager({ data, onChange, showToast }) {
+  const [posts, setPosts] = useState(data.posts);
+  const [editingId, setEditingId] = useState(null);
+  const [editDraft, setEditDraft] = useState(null);
+  const [showNew, setShowNew] = useState(false);
+  const [newPost, setNewPost] = useState(null);
+  const [confirm, setConfirm] = useState(null);
+
+  function startEdit(post) {
+    setEditingId(post.id);
+    setEditDraft({ ...post });
+    setShowNew(false);
+  }
+
+  function cancelEdit() { setEditingId(null); setEditDraft(null); }
+
+  function saveEdit() {
+    const updated = posts.map(p => p.id === editingId ? { ...editDraft } : p);
+    setPosts(updated);
+    onChange({ posts: updated });
+    setEditingId(null);
+    setEditDraft(null);
+    showToast('Post updated ✦', 'success');
+  }
+
+  function confirmDelete(id) {
+    setConfirm({ id, msg: 'This will permanently delete this blog post.' });
+  }
+
+  function doDelete() {
+    const updated = posts.filter(p => p.id !== confirm.id);
+    setPosts(updated);
+    onChange({ posts: updated });
+    setConfirm(null);
+    showToast('Post deleted', 'default');
+  }
+
+  function startNew() {
+    setShowNew(true);
+    setEditingId(null);
+    setNewPost({
+      id: 'post-' + Date.now(),
+      title: '',
+      tag: 'Announcement',
+      date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+      readTime: '3 min read',
+      excerpt: '',
+      body: '',
+      status: 'draft',
+    });
+  }
+
+  function saveNew() {
+    if (!newPost.title.trim()) { showToast('Title is required', 'error'); return; }
+    const updated = [newPost, ...posts];
+    setPosts(updated);
+    onChange({ posts: updated });
+    setShowNew(false);
+    setNewPost(null);
+    showToast('Post created ✦', 'success');
+  }
+
+  function toggleStatus(id) {
+    const updated = posts.map(p => p.id === id ? { ...p, status: p.status === 'published' ? 'draft' : 'published' } : p);
+    setPosts(updated);
+    onChange({ posts: updated });
+    showToast('Status updated', 'success');
+  }
+
+  return (
+    <div className="admin-panel">
+      {confirm && <ConfirmDialog msg={confirm.msg} onConfirm={doDelete} onCancel={() => setConfirm(null)} />}
+
+      <div className="panel-header">
+        <div className="panel-eyebrow">Content</div>
+        <div className="panel-title">Blog Posts</div>
+        <div className="panel-sub">Manage posts for The Dispatch. Changes are saved to this admin; update blog.html separately to publish.</div>
+      </div>
+
+      <div style={{ marginBottom: 24 }}>
+        <button className="btn btn-primary" onClick={startNew}>{Icon.plus} New Post</button>
+      </div>
+
+      {showNew && newPost && (
+        <PostForm
+          post={newPost}
+          label="New Post"
+          onChange={setNewPost}
+          onSave={saveNew}
+          onCancel={() => setShowNew(false)}
+        />
+      )}
+
+      {posts.map(post => (
+        <React.Fragment key={post.id}>
+          {editingId === post.id && editDraft ? (
+            <PostForm
+              post={editDraft}
+              label="Edit Post"
+              onChange={setEditDraft}
+              onSave={saveEdit}
+              onCancel={cancelEdit}
+            />
+          ) : (
+            <div className={`post-list-item ${editingId === post.id ? 'editing' : ''}`}>
+              <div className="post-list-meta">
+                <span className={`post-list-tag tag-${post.tag.toLowerCase()}`}>{post.tag}</span>
+                <div className="post-list-title">{post.title || '(Untitled)'}</div>
+                <div className="post-list-info">
+                  {post.date} · {post.readTime} ·{' '}
+                  <span style={{ color: post.status === 'published' ? 'var(--green)' : 'var(--gold)' }}>
+                    {post.status}
+                  </span>
+                </div>
+              </div>
+              <div className="post-list-actions">
+                <button className="btn btn-ghost btn-sm" onClick={() => toggleStatus(post.id)} title="Toggle published/draft">
+                  {post.status === 'published' ? 'Draft' : 'Publish'}
+                </button>
+                <button className="btn btn-ghost btn-sm" onClick={() => startEdit(post)}>{Icon.edit}</button>
+                <button className="btn btn-danger btn-sm" onClick={() => confirmDelete(post.id)}>{Icon.trash}</button>
+              </div>
+            </div>
+          )}
+        </React.Fragment>
+      ))}
+
+      {posts.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--text-faint)', fontFamily: 'var(--font-head)', fontSize: 12, letterSpacing: '0.15em' }}>
+          No posts yet. Click "New Post" to get started.
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PostForm({ post, label, onChange, onSave, onCancel }) {
+  function set(key, val) { onChange(prev => ({ ...prev, [key]: val })); }
+
+  return (
+    <div className="inline-edit" style={{ marginBottom: 16 }}>
+      <div className="inline-edit-title">✦ {label}</div>
+      <div className="form-grid">
+        <div className="field field-full">
+          <label>Title</label>
+          <input value={post.title} onChange={e => set('title', e.target.value)} placeholder="Post title..." />
+        </div>
+        <div className="field">
+          <label>Tag / Category</label>
+          <select value={post.tag} onChange={e => set('tag', e.target.value)}>
+            {TAGS.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+        </div>
+        <div className="field">
+          <label>Date</label>
+          <input value={post.date} onChange={e => set('date', e.target.value)} placeholder="e.g. May 4, 2026" />
+        </div>
+        <div className="field">
+          <label>Read Time</label>
+          <input value={post.readTime} onChange={e => set('readTime', e.target.value)} placeholder="e.g. 5 min read" />
+        </div>
+        <div className="field">
+          <label>Status</label>
+          <select value={post.status} onChange={e => set('status', e.target.value)}>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+        <div className="field field-full">
+          <label>Excerpt (shown on cards)</label>
+          <textarea value={post.excerpt} onChange={e => set('excerpt', e.target.value)} style={{ minHeight: 70 }} placeholder="Short preview shown on blog cards..." />
+        </div>
+        <div className="field field-full">
+          <label>Full Body</label>
+          <textarea value={post.body} onChange={e => set('body', e.target.value)} className="rich-body-field" placeholder="Full post content. Use blank lines between paragraphs. Start a line with a word followed by a blank line to make a heading." />
+          <div className="field-hint">Paragraphs separated by blank lines. Plain text only.</div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+        <button className="btn btn-primary btn-sm" onClick={onSave}>{Icon.save} Save Post</button>
+        <button className="btn btn-ghost btn-sm" onClick={onCancel}>{Icon.close} Cancel</button>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// SUPPLEMENTS MANAGER
+// ═══════════════════════════════════════
+
+function SupplementsManager({ data, onChange, showToast }) {
+  const [supplements, setSupplements] = useState(data.supplements);
+  const [editingId, setEditingId] = useState(null);
+  const [editDraft, setEditDraft] = useState(null);
+  const [showNew, setShowNew] = useState(false);
+  const [newSupp, setNewSupp] = useState(null);
+  const [confirm, setConfirm] = useState(null);
+
+  function startEdit(s) {
+    setEditingId(s.id);
+    setEditDraft({ ...s });
+    setShowNew(false);
+  }
+
+  function cancelEdit() { setEditingId(null); setEditDraft(null); }
+
+  function saveEdit() {
+    const updated = supplements.map(s => s.id === editingId ? { ...editDraft } : s);
+    setSupplements(updated);
+    onChange({ supplements: updated });
+    setEditingId(null);
+    setEditDraft(null);
+    showToast('Supplement updated ✦', 'success');
+  }
+
+  function confirmDelete(id) {
+    setConfirm({ id, msg: 'This will remove the supplement from your admin data.' });
+  }
+
+  function doDelete() {
+    const updated = supplements.filter(s => s.id !== confirm.id);
+    setSupplements(updated);
+    onChange({ supplements: updated });
+    setConfirm(null);
+    showToast('Supplement removed', 'default');
+  }
+
+  function startNew() {
+    setShowNew(true);
+    setEditingId(null);
+    setNewSupp({
+      id: 'supp-' + Date.now(),
+      title: '',
+      series: '',
+      description: '',
+      price: '',
+      driveThruUrl: '',
+      patreonUrl: '',
+      imagePath: '',
+      featured: false,
+      status: 'draft',
+    });
+  }
+
+  function saveNew() {
+    if (!newSupp.title.trim()) { showToast('Title is required', 'error'); return; }
+    const updated = [...supplements, newSupp];
+    setSupplements(updated);
+    onChange({ supplements: updated });
+    setShowNew(false);
+    setNewSupp(null);
+    showToast('Supplement added ✦', 'success');
+  }
+
+  function toggleFeatured(id) {
+    const updated = supplements.map(s => ({ ...s, featured: s.id === id }));
+    setSupplements(updated);
+    onChange({ supplements: updated });
+    showToast('Featured supplement updated', 'success');
+  }
+
+  return (
+    <div className="admin-panel">
+      {confirm && <ConfirmDialog msg={confirm.msg} onConfirm={doDelete} onCancel={() => setConfirm(null)} />}
+
+      <div className="panel-header">
+        <div className="panel-eyebrow">The Vault</div>
+        <div className="panel-title">Supplements</div>
+        <div className="panel-sub">Manage your published and upcoming 5e supplements.</div>
+      </div>
+
+      <div style={{ marginBottom: 24 }}>
+        <button className="btn btn-primary" onClick={startNew}>{Icon.plus} New Supplement</button>
+      </div>
+
+      {showNew && newSupp && (
+        <SupplementForm
+          supp={newSupp}
+          label="New Supplement"
+          onChange={setNewSupp}
+          onSave={saveNew}
+          onCancel={() => setShowNew(false)}
+        />
+      )}
+
+      {supplements.map(s => (
+        <React.Fragment key={s.id}>
+          {editingId === s.id && editDraft ? (
+            <SupplementForm
+              supp={editDraft}
+              label="Edit Supplement"
+              onChange={setEditDraft}
+              onSave={saveEdit}
+              onCancel={cancelEdit}
+            />
+          ) : (
+            <div className="supplement-admin-card">
+              <div className="supplement-thumb">
+                {s.imagePath ? <img src={s.imagePath} alt={s.title} /> : 'No Image'}
+              </div>
+              <div>
+                {s.featured && <span style={{ display: 'inline-block', fontFamily: 'var(--font-head)', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', background: 'var(--ember)', color: '#0d0b0f', padding: '2px 8px', borderRadius: 1, marginBottom: 6 }}>Featured</span>}
+                <div style={{ fontFamily: 'var(--font-head)', fontSize: 14, fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}>{s.title}</div>
+                <div style={{ fontSize: 13, color: 'var(--text-faint)', marginBottom: 6 }}>{s.series}</div>
+                <div style={{ fontSize: 13, color: 'var(--text-dim)', lineHeight: 1.5 }}>{s.description?.slice(0, 90)}{s.description?.length > 90 ? '…' : ''}</div>
+                <div style={{ marginTop: 8 }}>
+                  <span className={`page-badge ${s.status === 'live' ? 'badge-live' : 'badge-draft'}`}>{s.status}</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end' }}>
+                {!s.featured && <button className="btn btn-ghost btn-sm" onClick={() => toggleFeatured(s.id)}>Set Featured</button>}
+                <button className="btn btn-ghost btn-sm" onClick={() => startEdit(s)}>{Icon.edit} Edit</button>
+                <button className="btn btn-danger btn-sm" onClick={() => confirmDelete(s.id)}>{Icon.trash}</button>
+              </div>
+            </div>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+function SupplementForm({ supp, label, onChange, onSave, onCancel }) {
+  function set(key, val) { onChange(prev => ({ ...prev, [key]: val })); }
+
+  return (
+    <div className="inline-edit" style={{ marginBottom: 16 }}>
+      <div className="inline-edit-title">✦ {label}</div>
+      <div className="form-grid">
+        <div className="field field-full">
+          <label>Title</label>
+          <input value={supp.title} onChange={e => set('title', e.target.value)} placeholder="e.g. The Crooked Mile" />
+        </div>
+        <div className="field">
+          <label>Series / Collection</label>
+          <input value={supp.series} onChange={e => set('series', e.target.value)} placeholder="e.g. Edenfall Collection Vol. 1" />
+        </div>
+        <div className="field">
+          <label>Status</label>
+          <select value={supp.status} onChange={e => set('status', e.target.value)}>
+            <option value="draft">Draft</option>
+            <option value="live">Live</option>
+            <option value="coming-soon">Coming Soon</option>
+          </select>
+        </div>
+        <div className="field field-full">
+          <label>Description</label>
+          <textarea value={supp.description} onChange={e => set('description', e.target.value)} style={{ minHeight: 80 }} />
+        </div>
+        <div className="field">
+          <label>Price (optional)</label>
+          <input value={supp.price} onChange={e => set('price', e.target.value)} placeholder="e.g. $7.99 or Free" />
+        </div>
+        <div className="field">
+          <label>Cover Image Path</label>
+          <input value={supp.imagePath} onChange={e => set('imagePath', e.target.value)} placeholder="e.g. uploads/cover.png" />
+          <div className="field-hint">Upload image to /uploads/ first, then enter the path here.</div>
+        </div>
+        <div className="field field-full">
+          <label>DriveThruRPG URL</label>
+          <input type="url" value={supp.driveThruUrl} onChange={e => set('driveThruUrl', e.target.value)} />
+        </div>
+        <div className="field field-full">
+          <label>Patreon Early Access URL</label>
+          <input type="url" value={supp.patreonUrl} onChange={e => set('patreonUrl', e.target.value)} />
+        </div>
+        <div className="field">
+          <label>Featured on Homepage?</label>
+          <select value={supp.featured ? 'yes' : 'no'} onChange={e => set('featured', e.target.value === 'yes')}>
+            <option value="no">No</option>
+            <option value="yes">Yes — show in hero slot</option>
+          </select>
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+        <button className="btn btn-primary btn-sm" onClick={onSave}>{Icon.save} Save</button>
+        <button className="btn btn-ghost btn-sm" onClick={onCancel}>{Icon.close} Cancel</button>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// PAGES MANAGER
+// ═══════════════════════════════════════
+
+const PAGE_TEMPLATES = [
+  {
+    type: 'blog',
+    label: 'Blog / Article',
+    icon: <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="1.3"/><path d="M7 8h8M7 11h8M7 14h5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+    desc: 'A long-form article or collection page.'
+  },
+  {
+    type: 'supplement',
+    label: 'Supplement Page',
+    icon: <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="4" y="2" width="10" height="18" rx="1.5" stroke="currentColor" strokeWidth="1.3"/><path d="M4 7h10M14 4l4 3v11a1 1 0 0 1-1 1H7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+    desc: 'A dedicated landing page for a supplement or product.'
+  },
+  {
+    type: 'landing',
+    label: 'Landing / Promo',
+    icon: <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="18" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.3"/><path d="M8 11h6M11 8v6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+    desc: 'A standalone promo or campaign page.'
+  },
+];
+
+function PagesManager({ data, onChange, showToast }) {
+  const [pages, setPages] = useState(data.pages);
+  const [showNew, setShowNew] = useState(false);
+  const [selectedType, setSelectedType] = useState('blog');
+  const [newPage, setNewPage] = useState({ name: '', url: '', notes: '' });
+  const [confirm, setConfirm] = useState(null);
+
+  function set(key, val) { setNewPage(prev => ({ ...prev, [key]: val })); }
+
+  function createPage() {
+    if (!newPage.name.trim()) { showToast('Page name required', 'error'); return; }
+    const slug = newPage.url.trim() || newPage.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.html';
+    const page = {
+      id: 'page-' + Date.now(),
+      name: newPage.name,
+      url: slug,
+      type: selectedType,
+      notes: newPage.notes,
+      status: 'draft',
+      editable: true,
+    };
+    const updated = [...pages, page];
+    setPages(updated);
+    onChange({ pages: updated });
+    setShowNew(false);
+    setNewPage({ name: '', url: '', notes: '' });
+    showToast(`Page "${page.name}" created ✦`, 'success');
+  }
+
+  function confirmDelete(id) {
+    setConfirm({ id, msg: 'This will remove the page record from the admin. The HTML file (if any) is not deleted.' });
+  }
+
+  function doDelete() {
+    const updated = pages.filter(p => p.id !== confirm.id);
+    setPages(updated);
+    onChange({ pages: updated });
+    setConfirm(null);
+    showToast('Page removed', 'default');
+  }
+
+  function toggleStatus(id) {
+    const updated = pages.map(p => p.id === id ? { ...p, status: p.status === 'live' ? 'draft' : 'live' } : p);
+    setPages(updated);
+    onChange({ pages: updated });
+    showToast('Page status updated', 'success');
+  }
+
+  return (
+    <div className="admin-panel">
+      {confirm && <ConfirmDialog msg={confirm.msg} onConfirm={doDelete} onCancel={() => setConfirm(null)} />}
+
+      <div className="panel-header">
+        <div className="panel-eyebrow">Structure</div>
+        <div className="panel-title">Pages</div>
+        <div className="panel-sub">Track and plan all pages on the Ashforge Studio site.</div>
+      </div>
+
+      <div style={{ marginBottom: 24 }}>
+        <button className="btn btn-primary" onClick={() => { setShowNew(true); }}>{Icon.plus} New Page</button>
+      </div>
+
+      {showNew && (
+        <div className="inline-edit" style={{ marginBottom: 20 }}>
+          <div className="inline-edit-title">✦ New Page</div>
+
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontFamily: 'var(--font-head)', fontSize: 9, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--text-faint)', marginBottom: 10 }}>Page Type</div>
+            <div className="new-page-type-row">
+              {PAGE_TEMPLATES.map(t => (
+                <div
+                  key={t.type}
+                  className={`page-type-btn ${selectedType === t.type ? 'selected' : ''}`}
+                  onClick={() => setSelectedType(t.type)}
+                >
+                  <div className="page-type-icon">{t.icon}</div>
+                  <div className="page-type-label">{t.label}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-faint)', marginTop: 4, lineHeight: 1.4 }}>{t.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="form-grid">
+            <div className="field">
+              <label>Page Name</label>
+              <input value={newPage.name} onChange={e => set('name', e.target.value)} placeholder="e.g. The Edenfall Primer" />
+            </div>
+            <div className="field">
+              <label>File / URL (auto-generated if blank)</label>
+              <input value={newPage.url} onChange={e => set('url', e.target.value)} placeholder="e.g. edenfall-primer.html" />
+            </div>
+            <div className="field field-full">
+              <label>Notes (internal only)</label>
+              <textarea value={newPage.notes} onChange={e => set('notes', e.target.value)} style={{ minHeight: 60 }} placeholder="What is this page for? Any planning notes..." />
+            </div>
+          </div>
+
+          <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 2, padding: '12px 16px', marginBottom: 16, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+            {Icon.info}
+            <span style={{ fontSize: 13, color: 'var(--text-faint)', lineHeight: 1.5 }}>
+              Adding a page here tracks it in the admin. To actually create the HTML file, you'll need to build it separately and add it to the project.
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button className="btn btn-primary btn-sm" onClick={createPage}>{Icon.save} Add Page</button>
+            <button className="btn btn-ghost btn-sm" onClick={() => setShowNew(false)}>{Icon.close} Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {pages.map(page => (
+        <div key={page.id} className="page-list-item">
+          <div className="page-list-icon">
+            {page.type === 'blog' || page.url.includes('blog') ? Icon.post :
+             page.url.includes('index') ? Icon.home : Icon.page}
+          </div>
+          <div className="page-list-meta">
+            <div className="page-list-name">{page.name}</div>
+            <div className="page-list-url">{page.url}</div>
+            {page.notes && <div style={{ fontSize: 12, color: 'var(--text-faint)', marginTop: 3, fontStyle: 'italic' }}>{page.notes}</div>}
+          </div>
+          <span className={`page-badge ${page.status === 'live' ? 'badge-live' : 'badge-draft'}`}>
+            {page.status}
+          </span>
+          <div style={{ display: 'flex', gap: 8, marginLeft: 8 }}>
+            {page.status === 'live' && (
+              <a href={page.url} target="_blank" rel="noopener" className="btn btn-ghost btn-sm" title="View page">{Icon.eye}</a>
+            )}
+            {page.editable && (
+              <>
+                <button className="btn btn-ghost btn-sm" onClick={() => toggleStatus(page.id)}>
+                  {page.status === 'live' ? 'Draft' : 'Go Live'}
+                </button>
+                <button className="btn btn-danger btn-sm" onClick={() => confirmDelete(page.id)}>{Icon.trash}</button>
+              </>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// EXPORT PANEL
+// ═══════════════════════════════════════
+
+function ExportPanel({ data, onReplace, showToast }) {
+  const [copied, setCopied] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const fileInputRef = React.useRef(null);
+
+  function downloadContentJson() {
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'content.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('content.json downloaded \u2726', 'success');
+  }
+
+  function copyJson() {
+    const json = JSON.stringify(data, null, 2);
+    navigator.clipboard.writeText(json).then(() => {
+      setCopied(true);
+      showToast('JSON copied to clipboard', 'success');
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  function pickFile() {
+    fileInputRef.current && fileInputRef.current.click();
+  }
+
+  function onFileChosen(e) {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    setImporting(true);
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        if (!parsed || typeof parsed !== 'object') throw new Error('Not an object');
+        if (!confirm('Replace all current admin data with the contents of this file? This will overwrite your local edits.')) {
+          setImporting(false);
+          return;
+        }
+        onReplace(parsed);
+        showToast('content.json imported \u2726', 'success');
+      } catch (err) {
+        showToast('Invalid JSON file', 'error');
+      } finally {
+        setImporting(false);
+      }
+    };
+    reader.onerror = () => { setImporting(false); showToast('Could not read file', 'error'); };
+    reader.readAsText(file);
+  }
+
+  async function loadLiveContent() {
+    try {
+      const res = await fetch('content.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const parsed = await res.json();
+      if (!confirm('Load the current live content.json from this folder? This will overwrite your local edits.')) return;
+      onReplace(parsed);
+      showToast('Loaded live content.json', 'success');
+    } catch (err) {
+      showToast('No content.json found next to admin.html', 'error');
+    }
+  }
+
+  return (
+    <div className="admin-panel">
+      <div className="panel-header">
+        <div className="panel-eyebrow">Publish</div>
+        <div className="panel-title">Publish to Site</div>
+        <div className="panel-sub">Download an updated <code style={{ fontFamily: 'var(--font-mono)', background: 'var(--surface3)', padding: '2px 6px', borderRadius: 2, fontSize: 12 }}>content.json</code>, replace the one in your repo, and redeploy.</div>
+      </div>
+
+      <div className="card" style={{ borderColor: 'var(--ember)', background: 'oklch(68% 0.19 42 / 0.06)' }}>
+        <div className="card-title">1. Download updated content.json</div>
+        <p style={{ fontSize: 14, color: 'var(--text-dim)', marginBottom: 16, lineHeight: 1.6 }}>
+          Bundles every edit you’ve made (site info, services, supplements, blog posts, and pages) into a single <code style={{ fontFamily: 'var(--font-mono)', background: 'var(--surface3)', padding: '1px 5px', borderRadius: 2, fontSize: 12 }}>content.json</code>. Drop the downloaded file into your site’s project root (overwriting the existing one) and push to your host.
+        </p>
+        <button className="btn btn-primary btn-sm" onClick={downloadContentJson}>
+          {Icon.save} Download content.json
+        </button>
+      </div>
+
+      <div className="card">
+        <div className="card-title">2. Import an existing content.json</div>
+        <p style={{ fontSize: 14, color: 'var(--text-dim)', marginBottom: 16, lineHeight: 1.6 }}>
+          Replace the admin’s local data with a <code style={{ fontFamily: 'var(--font-mono)', background: 'var(--surface3)', padding: '1px 5px', borderRadius: 2, fontSize: 12 }}>content.json</code> file from disk — useful when picking up edits on a new browser, syncing between machines, or rolling back to a previous version.
+        </p>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <button className="btn btn-ghost btn-sm" onClick={pickFile} disabled={importing}>
+            {Icon.upload || Icon.save} {importing ? 'Importing…' : 'Choose content.json…'}
+          </button>
+          <button className="btn btn-ghost btn-sm" onClick={loadLiveContent}>
+            {Icon.link} Load live content.json
+          </button>
+        </div>
+        <input ref={fileInputRef} type="file" accept="application/json,.json" onChange={onFileChosen} style={{ display: 'none' }} />
+      </div>
+
+      <div className="card">
+        <div className="card-title">Backup: copy JSON to clipboard</div>
+        <p style={{ fontSize: 14, color: 'var(--text-dim)', marginBottom: 16, lineHeight: 1.6 }}>
+          For ad-hoc backups or pasting into a Git commit message / scratch file.
+        </p>
+        <button className="btn btn-ghost btn-sm" onClick={copyJson}>
+          {copied ? Icon.check : Icon.save} {copied ? 'Copied!' : 'Copy JSON Data'}
+        </button>
+      </div>
+
+      <div className="card" style={{ borderColor: 'var(--ember-dim)', background: 'oklch(68% 0.19 42 / 0.04)' }}>
+        <div className="card-title">Workflow</div>
+        <ol style={{ fontSize: 14, color: 'var(--text-dim)', lineHeight: 2, paddingLeft: 20 }}>
+          <li>Run the admin locally (<code style={{ fontFamily: 'var(--font-mono)', fontSize: 12, background: 'var(--surface3)', padding: '1px 5px', borderRadius: 2 }}>admin.html</code> should NOT be deployed publicly).</li>
+          <li>Edit content here — it lives in this browser’s localStorage.</li>
+          <li>Click <strong>Download content.json</strong>, replace the file at the project root.</li>
+          <li>Commit and push. Netlify / Pages auto-rebuild and the public site picks up the new content.</li>
+          <li>To keep editing on a different machine, copy <code style={{ fontFamily: 'var(--font-mono)', fontSize: 12, background: 'var(--surface3)', padding: '1px 5px', borderRadius: 2 }}>content.json</code> over and click <strong>Choose content.json…</strong>.</li>
+        </ol>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// SECURITY (CHANGE PASSWORD)
+// ═══════════════════════════════════════
+
+function SecurityPanel({ showToast }) {
+  const [current, setCurrent] = useState('');
+  const [next, setNext] = useState('');
+  const [confirmPw, setConfirmPw] = useState('');
+  const isDefault = getAdminPassword() === DEFAULT_ADMIN_PASSWORD;
+
+  function handleChange(e) {
+    e.preventDefault();
+    if (current !== getAdminPassword()) { showToast('Current password is incorrect', 'error'); return; }
+    if (next.length < 6) { showToast('New password must be at least 6 characters', 'error'); return; }
+    if (next !== confirmPw) { showToast('New passwords do not match', 'error'); return; }
+    setAdminPassword(next);
+    setCurrent(''); setNext(''); setConfirmPw('');
+    showToast('Password updated \u2726', 'success');
+  }
+
+  return (
+    <div className="admin-panel">
+      <div className="panel-header">
+        <div className="panel-eyebrow">Account</div>
+        <div className="panel-title">Security</div>
+        <div className="panel-sub">Change the password used to access this admin panel. Stored locally in this browser.</div>
+      </div>
+
+      {isDefault && (
+        <div className="card" style={{ borderColor: 'var(--gold-dim)', background: 'oklch(76% 0.14 78 / 0.05)' }}>
+          <div className="card-title" style={{ color: 'var(--gold)' }}>Default password in use</div>
+          <p style={{ fontSize: 14, color: 'var(--text-dim)', lineHeight: 1.6 }}>
+            You're still using the default password. Set a new one below.
+          </p>
+        </div>
+      )}
+
+      <div className="card">
+        <div className="card-title">Change Password</div>
+        <form onSubmit={handleChange}>
+          <div className="form-grid">
+            <div className="field field-full">
+              <label>Current Password</label>
+              <input type="password" value={current} onChange={e => setCurrent(e.target.value)} placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" autoComplete="current-password" />
+            </div>
+            <div className="field">
+              <label>New Password</label>
+              <input type="password" value={next} onChange={e => setNext(e.target.value)} placeholder="At least 6 characters" autoComplete="new-password" />
+            </div>
+            <div className="field">
+              <label>Confirm New Password</label>
+              <input type="password" value={confirmPw} onChange={e => setConfirmPw(e.target.value)} placeholder="Repeat new password" autoComplete="new-password" />
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
+            <button type="submit" className="btn btn-primary btn-sm">{Icon.save} Update Password</button>
+          </div>
+        </form>
+      </div>
+
+      <div className="card" style={{ borderColor: 'var(--ember-dim)', background: 'oklch(68% 0.19 42 / 0.04)' }}>
+        <div className="card-title">Notes</div>
+        <ul style={{ fontSize: 14, color: 'var(--text-dim)', lineHeight: 2, paddingLeft: 20 }}>
+          <li>The password is stored in this browser's localStorage. Clearing site data will reset it to the default.</li>
+          <li>This is a client-side gate \u2014 it deters casual access but is not a substitute for server-side authentication on a hosted site.</li>
+          <li>If you forget your password, clear localStorage for this site to reset it to the default.</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// APP SHELL
+// ═══════════════════════════════════════
+
+const NAV_ITEMS = [
+  { id: 'dashboard', label: 'Dashboard', icon: Icon.home, group: 'main' },
+  { id: 'siteinfo', label: 'Site Info', icon: Icon.settings, group: 'content' },
+  { id: 'blog', label: 'Blog Posts', icon: Icon.post, group: 'content' },
+  { id: 'supplements', label: 'Supplements', icon: Icon.book, group: 'content' },
+  { id: 'pages', label: 'Pages', icon: Icon.page, group: 'content' },
+  { id: 'security', label: 'Security', icon: Icon.settings, group: 'account' },
+  { id: 'export', label: 'Publish', icon: Icon.link, group: 'publish' },
+];
+
+function AdminApp() {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem('ashforge_admin_authed') === '1');
+  const [activePanel, setActivePanel] = useState('dashboard');
+  const [data, setData] = useState(loadData);
+  const { toast, show: showToast } = useToast();
+
+  function handleLogin() {
+    sessionStorage.setItem('ashforge_admin_authed', '1');
+    setAuthed(true);
+  }
+
+  function handleLogout() {
+    sessionStorage.removeItem('ashforge_admin_authed');
+    setAuthed(false);
+  }
+
+  function handleChange(partial) {
+    setData(prev => {
+      const next = { ...prev, ...partial };
+      saveData(next);
+      return next;
+    });
+  }
+
+  function handleReplace(nextData) {
+    const merged = { ...DEFAULT_DATA, ...nextData };
+    saveData(merged);
+    setData(merged);
+  }
+
+  if (!authed) return <LoginScreen onLogin={handleLogin} />;
+
+  const panelLabel = NAV_ITEMS.find(n => n.id === activePanel)?.label || '';
+
+  return (
+    <div className="admin-shell">
+      {/* SIDEBAR */}
+      <aside className="admin-sidebar">
+        <div className="sidebar-header">
+          <div className="sidebar-logo">
+            <img src="uploads/logo.png" alt="Ashforge Studio" />
+          </div>
+          <div className="sidebar-eyebrow">Admin Panel</div>
+        </div>
+
+        <nav className="sidebar-nav">
+          <div className="sidebar-section-label">Main</div>
+          {NAV_ITEMS.filter(n => n.group === 'main').map(item => (
+            <div
+              key={item.id}
+              className={`sidebar-nav-item ${activePanel === item.id ? 'active' : ''}`}
+              onClick={() => setActivePanel(item.id)}
+            >
+              {item.icon}
+              {item.label}
+            </div>
+          ))}
+
+          <div className="sidebar-section-label" style={{ marginTop: 20 }}>Content</div>
+          {NAV_ITEMS.filter(n => n.group === 'content').map(item => (
+            <div
+              key={item.id}
+              className={`sidebar-nav-item ${activePanel === item.id ? 'active' : ''}`}
+              onClick={() => setActivePanel(item.id)}
+            >
+              {item.icon}
+              {item.label}
+            </div>
+          ))}
+
+          <div className="sidebar-section-label" style={{ marginTop: 20 }}>Account</div>
+          {NAV_ITEMS.filter(n => n.group === 'account').map(item => (
+            <div
+              key={item.id}
+              className={`sidebar-nav-item ${activePanel === item.id ? 'active' : ''}`}
+              onClick={() => setActivePanel(item.id)}
+            >
+              {item.icon}
+              {item.label}
+            </div>
+          ))}
+
+          <div className="sidebar-section-label" style={{ marginTop: 20 }}>Publish</div>
+          {NAV_ITEMS.filter(n => n.group === 'publish').map(item => (
+            <div
+              key={item.id}
+              className={`sidebar-nav-item ${activePanel === item.id ? 'active' : ''}`}
+              onClick={() => setActivePanel(item.id)}
+            >
+              {item.icon}
+              {item.label}
+            </div>
+          ))}
+        </nav>
+
+        <div className="sidebar-footer">
+          <div className="sidebar-user">
+            <div className="sidebar-user-avatar">M</div>
+            <div className="sidebar-user-info">
+              <div className="sidebar-user-name">Matthias Moore</div>
+              <div className="sidebar-user-role">Studio Admin</div>
+            </div>
+          </div>
+          <button className="btn btn-ghost btn-sm btn-full" onClick={handleLogout} style={{ gap: 8 }}>
+            {Icon.logout} Log Out
+          </button>
+        </div>
+      </aside>
+
+      {/* MAIN */}
+      <div className="admin-main">
+        <div className="admin-topbar">
+          <div className="topbar-title">{panelLabel}</div>
+          <div className="topbar-right">
+            <a href="index.html" target="_blank" rel="noopener" className="topbar-preview-link">
+              {Icon.eye} View Site
+            </a>
+            <a href="blog.html" target="_blank" rel="noopener" className="topbar-preview-link">
+              {Icon.eye} View Blog
+            </a>
+          </div>
+        </div>
+
+        {activePanel === 'dashboard' && <Dashboard data={data} />}
+        {activePanel === 'siteinfo' && <SiteInfoEditor data={data} onChange={handleChange} showToast={showToast} />}
+        {activePanel === 'blog' && <BlogManager data={data} onChange={handleChange} showToast={showToast} />}
+        {activePanel === 'portfolio' && <PortfolioManager data={data} onChange={handleChange} showToast={showToast} />}
+        {activePanel === 'supplements' && <SupplementsManager data={data} onChange={handleChange} showToast={showToast} />}
+        {activePanel === 'pages' && <PagesManager data={data} onChange={handleChange} showToast={showToast} />}
+        {activePanel === 'security' && <SecurityPanel showToast={showToast} />}
+        {activePanel === 'export' && <ExportPanel data={data} onReplace={handleReplace} showToast={showToast} />}
+      </div>
+
+      <Toast toast={toast} />
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<AdminApp />);
+</script>
+</body>
+</html>

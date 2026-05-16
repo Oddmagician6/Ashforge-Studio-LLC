@@ -21,7 +21,8 @@
     "discordUrl": "https://discord.gg/EEZyzmUpaw",
     "driveThruUrl": "https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc",
     "footerTagline": "Professional D&D 5e writing and supplements by Matthias Moore.",
-    "oglNote": "This work includes material taken from the System Reference Document 5.1 (\"SRD 5.1\") by Wizards of the Coast LLC and available at https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License."
+    "oglNote": "This work includes material taken from the System Reference Document 5.1 (\"SRD 5.1\") by Wizards of the Coast LLC and available at https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License.",
+    "upworkUrl": "https://www.upwork.com/freelancers/~01d2aec7621971c3f4?mp_source=share"
   },
   "about": {
     "authorName": "Matthias Moore",
@@ -106,38 +107,21 @@
     }
   ],
   "pages": [
-    { "id": "page-index", "name": "Home", "url": "index.html", "type": "core", "status": "live", "editable": false },
-    { "id": "page-blog", "name": "The Dispatch (Blog)", "url": "blog.html", "type": "core", "status": "live", "editable": false },
-    { "id": "page-portfolio", "name": "Writing Portfolio", "url": "portfolio.html", "type": "core", "status": "live", "editable": false }
-  ],
-  "portfolio": [
     {
-      "id": "pf-crooked-mile",
-      "title": "The Crooked Mile",
-      "client": "Ashforge Studio",
-      "category": "adventure",
-      "year": "2026",
-      "summary": "A one-shot wilderness adventure where a forest road refuses to end. First entry in the Edenfall Collection — drop-in friendly, 4–6 hours of play.",
-      "excerpt": "\"The party walks in. They walk for hours. The trees don't change. The light doesn't shift. And eventually they start to realize the road is taking them somewhere they didn't choose.\"",
-      "cover": "uploads/Edenfall Volume 1 Cover.jpg",
-      "sampleUrl": "https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc",
-      "sampleLabel": "Read on DriveThruRPG",
-      "featured": true,
-      "status": "live"
+      "id": "page-index",
+      "name": "Home",
+      "url": "index.html",
+      "type": "core",
+      "status": "live",
+      "editable": false
     },
     {
-      "id": "pf-edenfall-bible",
-      "title": "Edenfall Setting Bible",
-      "client": "Ashforge Studio",
-      "category": "lore",
-      "year": "2026",
-      "summary": "The internal world-bible for the Edenfall region — pantheon, factions, regional history, and the design rules that keep each adventure self-contained yet interconnected.",
-      "excerpt": "",
-      "cover": "",
-      "sampleUrl": "",
-      "sampleLabel": "Sample on request",
-      "featured": false,
-      "status": "live"
+      "id": "page-blog",
+      "name": "The Dispatch (Blog)",
+      "url": "blog.html",
+      "type": "core",
+      "status": "live",
+      "editable": false
     }
   ]
 }

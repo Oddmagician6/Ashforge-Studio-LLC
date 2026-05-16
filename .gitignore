@@ -1,0 +1,14 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Local screenshots / scratch
+screenshots/
+
+# NOTE:
+# admin.html is intentionally committed so you can run it locally,
+# but it is BLOCKED from being served on the live site via
+# netlify.toml redirects. If you switch hosts, replicate that rule.
