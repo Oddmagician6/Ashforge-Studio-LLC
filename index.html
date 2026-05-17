@@ -85,14 +85,16 @@
 
     .nav-logo {
       font-family: var(--font-head);
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       color: var(--ember);
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 10px;
+      white-space: nowrap;
     }
 
     .nav-logo-icon {
@@ -103,7 +105,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 36px;
+      gap: 28px;
       list-style: none;
     }
 
@@ -130,6 +132,34 @@
       transition: background 0.2s !important;
     }
     .nav-cta:hover { background: var(--ember-glow); color: var(--bg) !important; }
+
+    /* Social cluster in the nav */
+    .nav-social-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 4px;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      margin: 0 4px;
+      height: 32px;
+    }
+
+    .nav-social {
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      border-radius: 2px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-social:hover {
+      color: var(--ember);
+      background: rgba(255,255,255,0.04);
+    }
+    .nav-social svg { display: block; }
 
     .nav-patreon {
       display: inline-flex;
@@ -1460,13 +1490,496 @@
     }
     .nav-mobile-menu .mobile-cta:hover { background: var(--ember-glow); }
 
-    @media (max-width: 760px) {
+    @media (max-width: 1100px) {
       .nav-links { display: none; }
       .nav-hamburger { display: flex; }
       .nav-mobile-menu { display: flex; }
     }
 
-      100% { transform: translate3d(-100%,0,0); }
+    /* ══════════════════════════════════
+       SERVICE PRICE NOTE (inside accordion body)
+    ══════════════════════════════════ */
+    .service-price-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+    }
+    .service-price-note::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════════ */
+    #testimonials {
+      padding: 120px 0;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+    #testimonials::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 80% 20%, oklch(68% 0.19 42 / 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 80%, oklch(76% 0.14 78 / 0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    #testimonials .section-inner { position: relative; z-index: 1; }
+
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .testimonials-header .section-body {
+      margin: 0 auto;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 860px) {
+      .testimonials-grid { grid-template-columns: 1fr; gap: 20px; }
+    }
+
+    .testimonial-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 36px 32px 28px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+    .testimonial-card:hover {
+      border-color: var(--ember-dim);
+      transform: translateY(-3px);
+    }
+
+    .testimonial-quote-mark {
+      font-family: var(--font-head);
+      font-size: 64px;
+      line-height: 0.6;
+      color: var(--ember);
+      opacity: 0.6;
+      height: 24px;
+      letter-spacing: -0.05em;
+    }
+
+    .testimonial-quote {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text);
+      font-style: italic;
+      flex: 1;
+    }
+
+    .testimonial-attribution {
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .testimonial-author {
+      font-family: var(--font-head);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--ember);
+      margin-bottom: 4px;
+    }
+
+    .testimonial-role {
+      font-size: 12px;
+      color: var(--text-faint);
+      letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════
+       FAQ
+    ══════════════════════════════════ */
+    #faq {
+      padding: 120px 0;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .faq-layout { grid-template-columns: 1fr; gap: 40px; }
+      .faq-sidebar { position: static !important; }
+    }
+
+    .faq-sidebar {
+      position: sticky;
+      top: 100px;
+    }
+
+    .faq-sidebar .section-body {
+      margin-top: 20px;
+    }
+
+    .faq-contact-prompt {
+      margin-top: 32px;
+      padding: 20px 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--ember);
+      border-radius: 2px;
+    }
+    .faq-contact-prompt-label {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 8px;
+    }
+    .faq-contact-prompt p {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+    .faq-contact-prompt a {
+      color: var(--ember);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ember-dim);
+      transition: color 0.2s;
+    }
+    .faq-contact-prompt a:hover { color: var(--ember-glow); }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--surface);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .faq-item:hover { border-color: var(--border-bright); }
+    .faq-item.open { border-color: var(--ember-dim); background: var(--surface2); }
+
+    .faq-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+    }
+
+    .faq-q {
+      font-family: var(--font-head);
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      line-height: 1.4;
+      flex: 1;
+    }
+    .faq-item.open .faq-q { color: var(--ember); }
+
+    .faq-toggle {
+      width: 22px; height: 22px;
+      flex-shrink: 0;
+      position: relative;
+      color: var(--text-faint);
+      transition: color 0.2s, transform 0.25s;
+    }
+    .faq-item.open .faq-toggle { color: var(--ember); transform: rotate(45deg); }
+    .faq-toggle::before, .faq-toggle::after {
+      content: '';
+      position: absolute;
+      background: currentColor;
+      left: 50%; top: 50%;
+    }
+    .faq-toggle::before { width: 12px; height: 1.5px; transform: translate(-50%, -50%); }
+    .faq-toggle::after { width: 1.5px; height: 12px; transform: translate(-50%, -50%); }
+
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .faq-item.open .faq-body { max-height: 400px; }
+
+    .faq-body-inner {
+      padding: 0 24px 22px;
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    /* ── single featured testimonial layout ── */
+    .testimonials-grid.featured-single {
+      grid-template-columns: 1fr;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .testimonials-grid.featured-single .testimonial-card {
+      padding: 48px 56px 36px;
+      text-align: center;
+      align-items: center;
+    }
+    .testimonials-grid.featured-single .testimonial-quote-mark {
+      font-size: 80px;
+      margin: 0 auto;
+    }
+    .testimonials-grid.featured-single .testimonial-quote {
+      font-size: 20px;
+      line-height: 1.55;
+      max-width: 600px;
+    }
+    .testimonials-grid.featured-single .testimonial-attribution {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    @media (max-width: 640px) {
+      .testimonials-grid.featured-single .testimonial-card { padding: 36px 28px 28px; }
+      .testimonials-grid.featured-single .testimonial-quote { font-size: 17px; }
+    }
+
+    .testimonial-stars {
+      display: inline-flex;
+      gap: 3px;
+      color: var(--ember);
+    }
+    .testimonials-grid.featured-single .testimonial-stars {
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+
+    .testimonial-source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      text-decoration: none;
+      transition: color 0.2s, gap 0.2s;
+    }
+    .testimonial-source-link:hover { color: var(--ember); gap: 9px; }
+
+    /* ══════════════════════════════════
+       CREDITS / SELECTED WORK STRIP
+    ══════════════════════════════════ */
+    #credits {
+      padding: 88px 0 96px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .credits-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .credits-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .credit-card {
+      display: grid;
+      grid-template-columns: 124px 1fr auto;
+      gap: 28px;
+      align-items: center;
+      padding: 22px 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      text-decoration: none;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+    }
+    .credit-card:hover {
+      border-color: var(--ember-dim);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+    }
+
+    @media (max-width: 640px) {
+      .credit-card {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 20px 22px;
+      }
+      .credit-card-arrow { display: none; }
+    }
+
+    .credit-year {
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .credit-body { display: flex; flex-direction: column; gap: 4px; }
+
+    .credit-project {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text);
+    }
+
+    .credit-publisher {
+      font-size: 13px;
+      color: var(--text-faint);
+      letter-spacing: 0.04em;
+    }
+
+    .credit-role {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .credit-card-arrow {
+      color: var(--text-faint);
+      transition: color 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .credit-card:hover .credit-card-arrow {
+      color: var(--ember);
+      transform: translateX(3px);
+    }
+
+    /* ══════════════════════════════════
+       SOCIAL FOLLOW
+    ══════════════════════════════════ */
+    #follow {
+      padding: 96px 0;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+
+    .follow-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .follow-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 720px) {
+      .follow-grid { grid-template-columns: 1fr; }
+    }
+
+    .follow-card {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 22px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      text-decoration: none;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .follow-card:hover {
+      border-color: var(--ember-dim);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.4), 0 0 20px oklch(68% 0.19 42 / 0.05);
+    }
+
+    .follow-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--bg);
+      border: 1px solid var(--border-bright);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ember);
+      flex-shrink: 0;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+    }
+    .follow-card:hover .follow-icon {
+      background: var(--ember);
+      color: var(--bg);
+      border-color: var(--ember);
+    }
+
+    .follow-body { flex: 1; min-width: 0; }
+
+    .follow-platform {
+      font-family: var(--font-head);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 4px;
+    }
+
+    .follow-handle {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .follow-card-arrow {
+      color: var(--text-faint);
+      flex-shrink: 0;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .follow-card:hover .follow-card-arrow {
+      color: var(--ember);
+      transform: translateX(3px);
     }
 
     /* ══════════════════════════════════
@@ -1511,35 +2024,34 @@
 
 <!-- NAV -->
 <nav id="main-nav">
-  <a href="#hero" class="nav-logo">
-    <img src="uploads/logo.png" alt="Ashforge Studio" style="height:44px; width:auto; object-fit:contain;" />
-  </a>
+  <a href="#hero" class="nav-logo">Ashforge Studio</a>
   <ul class="nav-links">
     <li><a href="#supplements">Supplements</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#process">Process</a></li>
-    <li><a href="blog.html">Blog</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="#about">About</a></li>
     <li>
-      <a href="https://www.patreon.com/c/DungeonMasterDen" data-content-href="siteInfo.patreonUrl" target="_blank" rel="noopener" class="nav-patreon">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="14.5" cy="9.5" r="6.5"/>
-          <rect x="3" y="3" width="4" height="18" rx="1"/>
-        </svg>
-        Patreon
-      </a>
-    </li>
-    <li>
-      <a href="https://discord.gg/EEZyzmUpaw" data-content-href="siteInfo.discordUrl" target="_blank" rel="noopener" class="nav-patreon">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-        Discord
-      </a>
-    </li>
-    <li>
-      <a href="https://www.upwork.com/freelancers/~01d2aec7621971c3f4?mp_source=share" data-content-href="siteInfo.upworkUrl" target="_blank" rel="noopener" class="nav-patreon">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703 0 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c0 1.405-1.142 2.546-2.546 2.546-1.405 0-2.546-1.142-2.546-2.547V3.492H0v7.112c0 2.808 2.287 5.118 5.282 5.118 2.992 0 5.279-2.31 5.279-5.118v-1.193c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.689 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.434-5.439-5.434z"/></svg>
-        Upwork
-      </a>
+      <div class="nav-social-group">
+        <a href="https://x.com/AshforgeStudio" data-content-href="siteInfo.twitterUrl" target="_blank" rel="noopener" class="nav-social" aria-label="X / Twitter">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/share/18hji78TAD" data-content-href="siteInfo.facebookUrl" target="_blank" rel="noopener" class="nav-social" aria-label="Facebook">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073"/></svg>
+        </a>
+        <a href="https://instagram.com/ashforgestudiollc" data-content-href="siteInfo.instagramUrl" target="_blank" rel="noopener" class="nav-social" aria-label="Instagram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.patreon.com/c/DungeonMasterDen" data-content-href="siteInfo.patreonUrl" target="_blank" rel="noopener" class="nav-social" aria-label="Patreon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="14.5" cy="9.5" r="6.5"/><rect x="3" y="3" width="4" height="18" rx="1"/></svg>
+        </a>
+        <a href="https://discord.gg/EEZyzmUpaw" data-content-href="siteInfo.discordUrl" target="_blank" rel="noopener" class="nav-social" aria-label="Discord">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        </a>
+        <a href="https://www.upwork.com/freelancers/~01d2aec7621971c3f4?mp_source=share" data-content-href="siteInfo.upworkUrl" target="_blank" rel="noopener" class="nav-social" aria-label="Upwork">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703 0 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c0 1.405-1.142 2.546-2.546 2.546-1.405 0-2.546-1.142-2.546-2.547V3.492H0v7.112c0 2.808 2.287 5.118 5.282 5.118 2.992 0 5.279-2.31 5.279-5.118v-1.193c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.689 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.434-5.439-5.434z"/></svg>
+        </a>
+      </div>
     </li>
     <li><a href="#contact" class="nav-cta">Commission Work</a></li>
   </ul>
@@ -1553,8 +2065,11 @@
   <a href="#supplements" class="mobile-link">Supplements</a>
   <a href="#services" class="mobile-link">Services</a>
   <a href="#process" class="mobile-link">Process</a>
-  <a href="blog.html" class="mobile-link">Blog</a>
+  <a href="#faq" class="mobile-link">FAQ</a>
   <a href="#about" class="mobile-link">About</a>
+  <a href="https://x.com/AshforgeStudio" data-content-href="siteInfo.twitterUrl" target="_blank" rel="noopener" class="mobile-link">X / Twitter</a>
+  <a href="https://www.facebook.com/share/18hji78TAD" data-content-href="siteInfo.facebookUrl" target="_blank" rel="noopener" class="mobile-link">Facebook</a>
+  <a href="https://instagram.com/ashforgestudiollc" data-content-href="siteInfo.instagramUrl" target="_blank" rel="noopener" class="mobile-link">Instagram</a>
   <a href="https://www.patreon.com/c/DungeonMasterDen" data-content-href="siteInfo.patreonUrl" target="_blank" rel="noopener" class="mobile-link">Patreon</a>
   <a href="https://discord.gg/EEZyzmUpaw" data-content-href="siteInfo.discordUrl" target="_blank" rel="noopener" class="mobile-link">Discord</a>
   <a href="https://www.upwork.com/freelancers/~01d2aec7621971c3f4?mp_source=share" data-content-href="siteInfo.upworkUrl" target="_blank" rel="noopener" class="mobile-link">Upwork</a>
@@ -1760,6 +2275,35 @@
 </section>
 
 <!-- ══════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════ -->
+<section id="testimonials" data-screen-label="Testimonials">
+  <div class="section-inner">
+    <div class="testimonials-header fade-up">
+      <div class="rune-divider"><div class="rune-diamond"></div></div>
+      <div class="section-eyebrow">Praise from the Table</div>
+      <h2 class="section-title">What Clients Say</h2>
+      <p class="section-body">From publishers and creators who've shipped with my words, and Dungeon Masters who've run them at the table.</p>
+    </div>
+
+    <div class="testimonials-grid fade-up" id="testimonials-grid"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     CREDITS / SELECTED WORK
+══════════════════════════════════ -->
+<section id="credits" data-screen-label="Credits">
+  <div class="section-inner">
+    <div class="credits-header fade-up">
+      <div class="section-eyebrow">Selected Credits</div>
+      <h2 class="section-title" style="font-size: clamp(22px, 2.4vw, 32px);">Recent Work</h2>
+    </div>
+    <div class="credits-list fade-up" id="credits-list"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
      PROCESS
 ══════════════════════════════════ -->
 <section id="process">
@@ -1897,50 +2441,78 @@
 </section>
 
 <!-- ══════════════════════════════════
-     BLOG TEASER
+     FAQ
 ══════════════════════════════════ -->
-<section id="blog">
+<section id="faq" data-screen-label="FAQ">
   <div class="section-inner">
-    <div class="blog-header fade-up">
-      <div>
-        <div class="section-eyebrow">The Dispatch</div>
-        <h2 class="section-title">From the Forge</h2>
+    <div class="faq-layout">
+      <div class="faq-sidebar fade-up">
+        <div class="section-eyebrow">Questions</div>
+        <h2 class="section-title">Before You Commission</h2>
+        <p class="section-body">The most common things publishers, creators, and DMs ask before sending a brief. If yours isn't here, just ask.</p>
+
+        <div class="faq-contact-prompt">
+          <div class="faq-contact-prompt-label">Still curious?</div>
+          <p>Email <a href="mailto:matthias.moore.pro@gmail.com">matthias.moore.pro@gmail.com</a> or <a href="#contact">send a brief</a> - I respond within 2 business days.</p>
+        </div>
       </div>
-      <a href="blog.html" class="btn-ghost" style="font-size:11px; padding:10px 22px; white-space:nowrap;">All Posts</a>
+
+      <div class="faq-list fade-up" id="faq-list"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     FOLLOW ALONG
+══════════════════════════════════ -->
+<section id="follow" data-screen-label="Follow">
+  <div class="section-inner">
+    <div class="follow-header fade-up">
+      <div class="section-eyebrow">Follow Along</div>
+      <h2 class="section-title" style="font-size: clamp(22px, 2.4vw, 32px);">From the Workshop</h2>
+      <p class="section-body" style="margin: 16px auto 0;">Behind-the-scenes notes, drafts, art, and new release announcements - posted across the socials.</p>
     </div>
 
-    <div class="blog-grid">
+    <div class="follow-grid fade-up">
+      <a href="https://x.com/AshforgeStudio" data-content-href="siteInfo.twitterUrl" target="_blank" rel="noopener" class="follow-card">
+        <div class="follow-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        <div class="follow-body">
+          <div class="follow-platform">X / Twitter</div>
+          <div class="follow-handle">@AshforgeStudio</div>
+        </div>
+        <div class="follow-card-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
 
-      <article class="blog-card fade-up">
-        <div class="blog-card-meta">
-          <span class="blog-tag">Announcement</span>
-          <span class="blog-read-time">3 min read</span>
+      <a href="https://www.facebook.com/share/18hji78TAD" data-content-href="siteInfo.facebookUrl" target="_blank" rel="noopener" class="follow-card">
+        <div class="follow-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073"/></svg>
         </div>
-        <h3 class="blog-card-title"><a href="blog/the-crooked-mile.html">The Crooked Mile Is Here: What It Is and Why I Made It</a></h3>
-        <p class="blog-card-excerpt">The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.</p>
-        <div class="blog-card-footer">
-          <span class="blog-date">April 28, 2026</span>
-          <a href="blog/the-crooked-mile.html" class="blog-read-link">Read more
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+        <div class="follow-body">
+          <div class="follow-platform">Facebook</div>
+          <div class="follow-handle">Ashforge Studio</div>
         </div>
-      </article>
+        <div class="follow-card-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
 
-      <article class="blog-card fade-up" style="transition-delay:0.1s">
-        <div class="blog-card-meta">
-          <span class="blog-tag">Lore</span>
-          <span class="blog-read-time">5 min read</span>
+      <a href="https://instagram.com/ashforgestudiollc" data-content-href="siteInfo.instagramUrl" target="_blank" rel="noopener" class="follow-card">
+        <div class="follow-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
         </div>
-        <h3 class="blog-card-title"><a href="blog/building-edenfall.html">Building Edenfall: A World Designed for Drop-In Play</a></h3>
-        <p class="blog-card-excerpt">Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around - you run it first, then the world reveals itself.</p>
-        <div class="blog-card-footer">
-          <span class="blog-date">April 15, 2026</span>
-          <a href="blog/building-edenfall.html" class="blog-read-link">Read more
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+        <div class="follow-body">
+          <div class="follow-platform">Instagram</div>
+          <div class="follow-handle">@ashforgestudiollc</div>
         </div>
-      </article>
-
+        <div class="follow-card-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -2004,8 +2576,10 @@
         <h4>Studio</h4>
         <ul>
           <li><a href="index.html#about">About</a></li>
-          <li><a href="blog.html">Blog</a></li>
           <li><a href="https://discord.gg/EEZyzmUpaw" data-content-href="siteInfo.discordUrl" target="_blank" rel="noopener">Discord</a></li>
+          <li><a href="https://x.com/AshforgeStudio" data-content-href="siteInfo.twitterUrl" target="_blank" rel="noopener">X / Twitter</a></li>
+          <li><a href="https://www.facebook.com/share/18hji78TAD" data-content-href="siteInfo.facebookUrl" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://instagram.com/ashforgestudiollc" data-content-href="siteInfo.instagramUrl" target="_blank" rel="noopener">Instagram</a></li>
           <li><a href="index.html#contact">Contact</a></li>
         </ul>
       </div>
@@ -2084,11 +2658,176 @@ function ServicesAccordion() {
             </span>
           </div>
           <div className="service-body">
-            <div className="service-body-inner">{s.body}</div>
+            <div className="service-body-inner">
+              {s.body}
+              {s.priceNote && (
+                <div className="service-price-note">{s.priceNote}</div>
+              )}
+            </div>
           </div>
         </div>
       ))}
     </div>
+  );
+}
+
+// ── TESTIMONIALS ───────────────────────────────────────
+const TESTIMONIALS_FALLBACK = [
+  { id: "t1", quote: "Add a real client quote here via content.json - testimonials.0.", author: "Client name", role: "Role · Project" },
+];
+
+function useTestimonials() {
+  const [items, setItems] = useState(
+    (window.ASHFORGE_CONTENT && window.ASHFORGE_CONTENT.testimonials) || TESTIMONIALS_FALLBACK
+  );
+  useEffect(() => {
+    const handler = e => {
+      if (e.detail && Array.isArray(e.detail.testimonials) && e.detail.testimonials.length) {
+        setItems(e.detail.testimonials);
+      }
+    };
+    window.addEventListener("ashforge:content", handler);
+    return () => window.removeEventListener("ashforge:content", handler);
+  }, []);
+  return items;
+}
+
+function Testimonials() {
+  const items = useTestimonials();
+  const featured = items.length === 1;
+  // Apply featured-single class to grid via parent effect
+  useEffect(() => {
+    const grid = document.getElementById("testimonials-grid");
+    if (!grid) return;
+    grid.classList.toggle("featured-single", featured);
+  }, [featured]);
+
+  return (
+    <>
+      {items.map(t => (
+        <div key={t.id} className="testimonial-card">
+          <div className="testimonial-quote-mark">“</div>
+          {t.rating && (
+            <div className="testimonial-stars" aria-label={`${t.rating} out of 5 stars`}>
+              {[...Array(5)].map((_, i) => (
+                <svg key={i} width="14" height="14" viewBox="0 0 14 14" fill={i < t.rating ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.2">
+                  <path d="M7 1.5l1.7 3.45 3.8.55-2.75 2.68.65 3.78L7 10.18l-3.4 1.78.65-3.78L1.5 5.5l3.8-.55L7 1.5z" strokeLinejoin="round"/>
+                </svg>
+              ))}
+            </div>
+          )}
+          <p className="testimonial-quote">{t.quote}</p>
+          <div className="testimonial-attribution">
+            <div className="testimonial-author">{t.author}</div>
+            <div className="testimonial-role">{t.role}</div>
+            {t.url && (
+              <a href={t.url} target="_blank" rel="noopener" className="testimonial-source-link">
+                View Credit
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                  <path d="M2 5.5h6.5M5.5 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
+    </>
+  );
+}
+
+// ── CREDITS ────────────────────────────────────────────
+function useCredits() {
+  const [items, setItems] = useState(
+    (window.ASHFORGE_CONTENT && window.ASHFORGE_CONTENT.credits) || []
+  );
+  useEffect(() => {
+    const handler = e => {
+      if (e.detail && Array.isArray(e.detail.credits)) setItems(e.detail.credits);
+    };
+    window.addEventListener("ashforge:content", handler);
+    return () => window.removeEventListener("ashforge:content", handler);
+  }, []);
+  return items;
+}
+
+function Credits() {
+  const items = useCredits();
+  // Hide whole section when empty
+  useEffect(() => {
+    const sec = document.getElementById("credits");
+    if (sec) sec.style.display = items.length ? "" : "none";
+  }, [items.length]);
+
+  if (!items.length) return null;
+  return (
+    <>
+      {items.map(c => {
+        const Tag = c.url ? "a" : "div";
+        const props = c.url ? { href: c.url, target: "_blank", rel: "noopener" } : {};
+        return (
+          <Tag key={c.id} className="credit-card" {...props}>
+            {c.year && <div className="credit-year">{c.year}</div>}
+            <div className="credit-body">
+              <div className="credit-project">{c.project}</div>
+              <div className="credit-publisher">{c.publisher}</div>
+              {c.role && <div className="credit-role">{c.role}</div>}
+            </div>
+            {c.url && (
+              <div className="credit-card-arrow">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M3 9h11M10 4l5 5-5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            )}
+          </Tag>
+        );
+      })}
+    </>
+  );
+}
+
+// ── FAQ ────────────────────────────────────────────────
+const FAQ_FALLBACK = [
+  { id: "q1", q: "Question goes here", a: "Edit FAQs via content.json - faq array." },
+];
+
+function useFaq() {
+  const [items, setItems] = useState(
+    (window.ASHFORGE_CONTENT && window.ASHFORGE_CONTENT.faq) || FAQ_FALLBACK
+  );
+  useEffect(() => {
+    const handler = e => {
+      if (e.detail && Array.isArray(e.detail.faq) && e.detail.faq.length) {
+        setItems(e.detail.faq);
+      }
+    };
+    window.addEventListener("ashforge:content", handler);
+    return () => window.removeEventListener("ashforge:content", handler);
+  }, []);
+  return items;
+}
+
+function FAQ() {
+  const items = useFaq();
+  const [openId, setOpenId] = useState(items[0] && items[0].id);
+  return (
+    <>
+      {items.map(f => (
+        <div
+          key={f.id}
+          className={`faq-item ${openId === f.id ? "open" : ""}`}
+          onClick={() => setOpenId(openId === f.id ? null : f.id)}
+        >
+          <div className="faq-header">
+            <span className="faq-q">{f.q}</span>
+            <span className="faq-toggle"></span>
+          </div>
+          <div className="faq-body">
+            <div className="faq-body-inner">{f.a}</div>
+          </div>
+        </div>
+      ))}
+    </>
   );
 }
 
@@ -2128,7 +2867,7 @@ if (form) {
         "https://docs.google.com/forms/u/0/d/1sDKbJzGvHX9v-ZBhAQxHGopMKmdpdUWZnQev1PQMbTc/formResponse",
         { method: "POST", body, mode: "no-cors" }
       );
-      // no-cors always succeeds silently — treat as success
+      // no-cors always succeeds silently - treat as success
       form.reset();
       showToast();
     } catch {
@@ -2228,6 +2967,24 @@ ReactDOM.createRoot(tweaksRoot).render(<TweaksApp />);
 const servicesSlot = document.getElementById("services-list");
 if (servicesSlot) {
   ReactDOM.createRoot(servicesSlot).render(<ServicesAccordion />);
+}
+
+// Render testimonials grid
+const testimonialsSlot = document.getElementById("testimonials-grid");
+if (testimonialsSlot) {
+  ReactDOM.createRoot(testimonialsSlot).render(<Testimonials />);
+}
+
+// Render FAQ list
+const faqSlot = document.getElementById("faq-list");
+if (faqSlot) {
+  ReactDOM.createRoot(faqSlot).render(<FAQ />);
+}
+
+// Render credits strip
+const creditsSlot = document.getElementById("credits-list");
+if (creditsSlot) {
+  ReactDOM.createRoot(creditsSlot).render(<Credits />);
 }
 </script>
 

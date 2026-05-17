@@ -50,7 +50,7 @@
     .then(data => { applyAll(data); broadcast(data); })
     .catch(err => {
       console.warn('[ashforge] content.json fetch failed:', err.message,
-        '— page will render with whatever is in the HTML as fallback.');
+        '- page will render with whatever is in the HTML as fallback.');
       // Still broadcast an empty object so listeners can proceed with defaults.
       broadcast(window.ASHFORGE_CONTENT || {});
     });

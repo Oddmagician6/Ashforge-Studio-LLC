@@ -1,7 +1,7 @@
 {
   "_meta": {
     "version": 1,
-    "updated": "2026-05-12",
+    "updated": "2026-05-16",
     "note": "Single source of truth for editable site content. Edit via admin.html, publish by replacing this file on the host."
   },
   "siteInfo": {
@@ -22,11 +22,17 @@
     "driveThruUrl": "https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc",
     "footerTagline": "Professional D&D 5e writing and supplements by Matthias Moore.",
     "oglNote": "This work includes material taken from the System Reference Document 5.1 (\"SRD 5.1\") by Wizards of the Coast LLC and available at https://dnd.wizards.com/resources/systems-reference-document. The SRD 5.1 is licensed under the Creative Commons Attribution 4.0 International License.",
-    "upworkUrl": "https://www.upwork.com/freelancers/~01d2aec7621971c3f4?mp_source=share"
+    "upworkUrl": "https://www.upwork.com/freelancers/~01d2aec7621971c3f4?mp_source=share",
+    "twitterUrl": "https://x.com/AshforgeStudio",
+    "facebookUrl": "https://www.facebook.com/share/18hji78TAD",
+    "instagramUrl": "https://instagram.com/ashforgestudiollc",
+    "twitterHandle": "@AshforgeStudio",
+    "facebookHandle": "Ashforge Studio",
+    "instagramHandle": "@ashforgestudiollc"
   },
   "about": {
     "authorName": "Matthias Moore",
-    "bio": "I'm a solo TTRPG writer and the founder of Ashforge Studio LLC. I write adventures, lore, stat blocks, and supplements for 5th Edition Dungeons & Dragons — for publishers, creators, and Dungeon Masters who want more from their worlds.",
+    "bio": "I'm a solo TTRPG writer and the founder of Ashforge Studio LLC. I write adventures, lore, stat blocks, and supplements for 5th Edition Dungeons & Dragons - for publishers, creators, and Dungeon Masters who want more from their worlds.",
     "pillar1Label": "Lore First",
     "pillar1Text": "Every setting detail earns its place through play.",
     "pillar2Label": "Drop-In Ready",
@@ -40,32 +46,86 @@
     {
       "id": "adventure",
       "name": "Adventure Module Writing",
-      "body": "Full adventure modules from 1-shot encounters to multi-session campaigns. We handle premise, structure, room descriptions, stat block selection, and boxed text."
+      "body": "Full adventure modules from 1-shot encounters to multi-session campaigns. We handle premise, structure, room descriptions, stat block selection, and boxed text.",
+      "priceNote": "Contact for quote - typically scoped by word count and complexity."
     },
     {
       "id": "lore",
       "name": "World Lore & Setting Writing",
-      "body": "Pantheons, history, political factions, cultures, and regional lore. We build worlds that feel lived-in and give GMs the context they need to improvise with confidence."
+      "body": "Pantheons, history, political factions, cultures, and regional lore. We build worlds that feel lived-in and give GMs the context they need to improvise with confidence.",
+      "priceNote": "Contact for quote - flat-fee or per-document depending on scope."
     },
     {
       "id": "crunch",
       "name": "Mechanical Design & Stat Blocks",
-      "body": "Monster stat blocks, custom items, feats, spells, and subclasses. Tuned for 5e balance, playtested internally, and delivered in both prose and formatted layout."
+      "body": "Monster stat blocks, custom items, feats, spells, and subclasses. Tuned for 5e balance, playtested internally, and delivered in both prose and formatted layout.",
+      "priceNote": "Per block / per item pricing - bundle rates for packs of 5+."
     },
     {
       "id": "articles",
       "name": "Article & Blog Writing",
-      "body": "Long-form articles, blog posts, and editorial features on TTRPG craft, design theory, and play. SEO-aware, voice-matched to your publication, and delivered ready-to-publish."
+      "body": "Long-form articles, blog posts, and editorial features on TTRPG craft, design theory, and play. SEO-aware, voice-matched to your publication, and delivered ready-to-publish.",
+      "priceNote": "Per-article or per-word - recurring slate discounts available."
     },
     {
       "id": "review",
       "name": "TTRPG Mechanic Review",
-      "body": "An independent pass on your homebrew subclasses, spells, items, or monsters. I check balance against 5e baselines, flag exploit cases, and suggest tuning notes before you publish or playtest."
+      "body": "An independent pass on your homebrew subclasses, spells, items, or monsters. I check balance against 5e baselines, flag exploit cases, and suggest tuning notes before you publish or playtest.",
+      "priceNote": "Flat-fee per item or per packet - quote within 24 hours."
     },
     {
       "id": "editing",
       "name": "TTRPG Editing & Proofreading",
-      "body": "Rules-aware editing from writers who know 5e inside and out. We check for mechanical inconsistencies, tone, clarity, pacing, and formatting - not just grammar."
+      "body": "Rules-aware editing from writers who know 5e inside and out. We check for mechanical inconsistencies, tone, clarity, pacing, and formatting - not just grammar.",
+      "priceNote": "Per-word pricing - line edit and proof passes priced separately."
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "t-kazmo",
+      "quote": "Would absolutely love to have back on our next project! The teammate every creator needs. Thoughtful, deliberate, and invested. A First Draft Pick.",
+      "author": "Kazmo Studios",
+      "role": "Outside the Wire · Core Mechanics, QA & Game Flow Editor",
+      "rating": 5,
+      "project": "Outside the Wire",
+      "url": "https://www.kazmostudios.com/about-kazmo-studios"
+    }
+  ],
+  "faq": [
+    {
+      "id": "q-timeline",
+      "q": "What's your typical turnaround?",
+      "a": "Short pieces (stat blocks, single encounters, articles) usually land within 1–2 weeks. Full adventure modules and setting documents are scoped per-project, but most fall in the 3–6 week range. Rush work is possible when the calendar allows."
+    },
+    {
+      "id": "q-rights",
+      "q": "Who owns the finished work?",
+      "a": "You do. Standard commissions are work-for-hire - full rights transfer to you on final payment, and I happily sign NDAs for unannounced projects. Bylined or co-credited arrangements are also fine; we'll just write it into the agreement."
+    },
+    {
+      "id": "q-revisions",
+      "q": "How do revisions work?",
+      "a": "Every project includes two rounds of revisions against the original brief. Larger structural rewrites past that are billed hourly. I send drafts in stages so you can steer early - most projects only need one revision pass because of it."
+    },
+    {
+      "id": "q-pricing",
+      "q": "How is pricing structured?",
+      "a": "Most work is quoted per-project after a short brief - adventures and lore docs by scope, stat blocks per-item with bundle rates, editing per-word. I'll send a written quote within 24 hours of receiving your brief, and nothing starts until you've approved it."
+    },
+    {
+      "id": "q-minimum",
+      "q": "Is there a minimum project size?",
+      "a": "No formal minimum, but very small jobs (a single stat block, a one-paragraph rewrite) carry a small admin fee to make the back-and-forth worthwhile. Bundles of 3+ items waive it."
+    },
+    {
+      "id": "q-systems",
+      "q": "Do you write for systems other than 5e?",
+      "a": "5th Edition is the primary focus and where I'm sharpest on balance. I'm comfortable writing system-agnostic lore and narrative material for any TTRPG. For other rulesets (PF2e, OSR, etc.) I'll flag where I can deliver confidently versus where you'd be better off with a specialist."
+    },
+    {
+      "id": "q-ghostwriting",
+      "q": "Will you ghostwrite or co-write?",
+      "a": "Yes - both. Ghostwriting under your byline is a standard arrangement; co-writing where credit is shared works too. The only thing I won't do is write content I haven't been credited for that's then attributed to someone other than the buyer."
     }
   ],
   "supplements": [
@@ -82,30 +142,6 @@
       "status": "live"
     }
   ],
-  "posts": [
-    {
-      "id": "post-1",
-      "slug": "the-crooked-mile",
-      "title": "The Crooked Mile Is Here: What It Is and Why I Made It",
-      "tag": "Announcement",
-      "date": "April 28, 2026",
-      "readTime": "3 min read",
-      "excerpt": "The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.",
-      "body": "Every supplement I've ever run at my home table started as a single image in my head. For The Crooked Mile, it was a road through the woods that didn't end where it should. The party walks in. They walk for hours. The trees don't change. The light doesn't shift. And eventually they start to realize the road is taking them somewhere they didn't choose.\n\nWhy Edenfall?\n\nI wanted to build a setting that rewarded drop-in play. Most campaign worlds ask Dungeon Masters to do a lot of reading before they can run confidently. Edenfall is designed the other way: you run the adventure, and the setting reveals itself through play. The Crooked Mile is the first entry point.\n\nWhat's Next\n\nThe Edenfall Collection will grow one adventure at a time. Each volume is self-contained but leaves threads for a longer arc if the table wants to follow them. Volume 2 is already in development. Patreon supporters will see it first.",
-      "status": "published"
-    },
-    {
-      "id": "post-2",
-      "slug": "building-edenfall",
-      "title": "Building Edenfall: A World Designed for Drop-In Play",
-      "tag": "Lore",
-      "date": "April 15, 2026",
-      "readTime": "5 min read",
-      "excerpt": "Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around - you run it first, then the world reveals itself.",
-      "body": "The hardest thing about running a published setting isn't the rules - it's the homework. Before you can run Faerun or Eberron with confidence, you feel like you need to read the sourcebooks, understand the political factions, know the gods. Most DMs never get past that feeling.\n\nThe Drop-In Principle\n\nEdenfall is built on a simple premise: a DM should be able to read a single adventure, run it cold, and have everything they need in front of them. The setting details aren't a prerequisite — they're a reward. Every adventure plants seeds. The bigger world is something the table discovers, not studies.\n\nWhat Edenfall Actually Is\n\nAt its core, Edenfall is a region in decline. Old institutions are crumbling. New powers are filling the gaps. The roads are less safe than they used to be, and the wilderness has grown strange. It's a world where the party matters — not because they're chosen heroes, but because everyone else is too busy surviving to act.",
-      "status": "published"
-    }
-  ],
   "pages": [
     {
       "id": "page-index",
@@ -114,14 +150,17 @@
       "type": "core",
       "status": "live",
       "editable": false
-    },
+    }
+  ],
+  "credits": [
     {
-      "id": "page-blog",
-      "name": "The Dispatch (Blog)",
-      "url": "blog.html",
-      "type": "core",
-      "status": "live",
-      "editable": false
+      "id": "c-otw",
+      "project": "Outside the Wire",
+      "publisher": "Kazmo Studios",
+      "role": "Core Mechanics Editor · Quality Assurance · Game Flow",
+      "description": "Tactical sandbox TTRPG by Derek Roberson, retired U.S. Marine. Modern military operations, solo or group play, decision-driven campaigns.",
+      "url": "https://www.kazmostudios.com/about-kazmo-studios",
+      "year": "2025-2026"
     }
   ]
 }
