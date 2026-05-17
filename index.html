@@ -1449,13 +1449,17 @@
       position: fixed;
       top: 68px;
       left: 0; right: 0;
-      background: rgba(13,11,15,0.98);
+      bottom: 0;
+      background: var(--bg);
+      -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       z-index: 99;
       flex-direction: column;
-      padding: 24px 32px 32px;
+      padding: 24px 32px 40px;
       gap: 4px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       transform: translateY(-12px);
       opacity: 0;
       transition: transform 0.25s ease, opacity 0.25s ease;
@@ -3035,11 +3039,14 @@ if (creditsSlot) {
   function closeMenu() {
     btn.classList.remove("open");
     menu.classList.remove("open");
+    document.body.style.overflow = "";
   }
 
   btn.addEventListener("click", () => {
     btn.classList.toggle("open");
     menu.classList.toggle("open");
+    // Lock body scroll while menu is open
+    document.body.style.overflow = menu.classList.contains("open") ? "hidden" : "";
   });
 
   // Close on link click
