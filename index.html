@@ -1449,21 +1449,20 @@
       position: fixed;
       top: 68px;
       left: 0; right: 0;
-      bottom: 0;
-      background: var(--bg);
-      -webkit-backdrop-filter: blur(12px);
-      backdrop-filter: blur(12px);
+      background: #0d0b0f;
       border-bottom: 1px solid var(--border);
       z-index: 99;
       flex-direction: column;
-      padding: 24px 32px 40px;
+      padding: 24px 32px 32px;
       gap: 4px;
+      max-height: calc(100vh - 68px);
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       transform: translateY(-12px);
       opacity: 0;
       transition: transform 0.25s ease, opacity 0.25s ease;
       pointer-events: none;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
     }
     .nav-mobile-menu.open {
       transform: translateY(0);
