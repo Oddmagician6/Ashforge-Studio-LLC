@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Message Sent · Ashforge Studio</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0b0f;
+      --surface: #1e1824;
+      --border: #2e2638;
+      --ember: oklch(68% 0.19 42);
+      --ember-glow: oklch(72% 0.22 38);
+      --text: oklch(90% 0.01 80);
+      --text-dim: oklch(65% 0.02 80);
+      --font-head: 'Cinzel', Georgia, serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+    .card {
+      max-width: 520px;
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 56px 48px;
+      text-align: center;
+    }
+    .rune {
+      width: 14px; height: 14px;
+      background: var(--ember);
+      transform: rotate(45deg);
+      margin: 0 auto 28px;
+    }
+    .eyebrow {
+      font-family: var(--font-head);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-family: var(--font-head);
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    p {
+      font-size: 17px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin-bottom: 32px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ember);
+      color: #0d0b0f;
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--ember-glow); }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="rune"></div>
+    <div class="eyebrow">Sent to the Forge</div>
+    <h1>Your message is on the anvil.</h1>
+    <p>Thanks for reaching out. I'll get back to you within 2 business days. In the meantime, the work continues.</p>
+    <a href="/" class="btn">Back to Ashforge Studio</a>
+  </main>
+</body>
+</html>
