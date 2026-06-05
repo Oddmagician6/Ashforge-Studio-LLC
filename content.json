@@ -131,15 +131,15 @@
   "supplements": [
     {
       "id": "s1",
-      "title": "The Crooked Mile",
-      "series": "Edenfall Collection Vol. 1",
-      "description": "A dark fantasy adventure for the 5th Edition - deep woods, hidden horrors, and a road that doesn't end where it should. Designed for drop-in play or as the opening chapter of a longer arc.",
+      "title": "The Long Watch",
+      "series": "Edenfall Collection Vol. 2",
+      "description": "A lone watchtower at the forest's edge, a light still burning in its window, and the ravens that never leave. The next dark-fantasy chapter of the Edenfall Collection - coming soon to DriveThruRPG.",
       "price": "",
       "driveThruUrl": "https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc",
       "patreonUrl": "https://www.patreon.com/c/DungeonMasterDen",
-      "imagePath": "uploads/Edenfall Volume 1 Cover.jpg",
+      "imagePath": "uploads/Edenfall Vol2 Cover.jpg",
       "featured": true,
-      "status": "live"
+      "status": "upcoming"
     }
   ],
   "pages": [
