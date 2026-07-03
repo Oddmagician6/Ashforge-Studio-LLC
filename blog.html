@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Dispatch — Ashforge Studio Blog | D&D 5e Design Notes & Lore</title>
+  <meta name="description" content="The Dispatch is the Ashforge Studio blog — design notes, worldbuilding, and behind-the-scenes writing on D&D 5e adventures, the Edenfall Collection, and TTRPG craft." />
+  <meta name="author" content="Matthias Moore" />
+  <meta property="og:title" content="The Dispatch — Ashforge Studio Blog" />
+  <meta property="og:description" content="Design notes, worldbuilding, and behind-the-scenes writing on D&D 5e adventures and TTRPG craft from Ashforge Studio." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ashforgestudio.com/blog.html" />
+  <meta property="og:site_name" content="Ashforge Studio" />
+  <meta property="og:image" content="https://ashforgestudio.com/uploads/crooked-mile-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://ashforgestudio.com/uploads/crooked-mile-cover.jpg" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <link rel="canonical" href="https://ashforgestudio.com/blog.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "The Dispatch",
+    "description": "The Ashforge Studio blog — design notes, worldbuilding, and behind-the-scenes writing on D&D 5e adventures and TTRPG craft.",
+    "url": "https://ashforgestudio.com/blog.html",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Ashforge Studio",
+      "logo": { "@type": "ImageObject", "url": "https://ashforgestudio.com/uploads/logo.png" }
+    },
+    "blogPost": [
+      {
+        "@type": "BlogPosting",
+        "headline": "The Crooked Mile Is Here: What It Is and Why I Made It",
+        "url": "https://ashforgestudio.com/blog/the-crooked-mile.html",
+        "datePublished": "2026-04-28",
+        "author": { "@type": "Person", "name": "Matthias Moore" }
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Building Edenfall: A World Designed for Drop-In Play",
+        "url": "https://ashforgestudio.com/blog/building-edenfall.html",
+        "datePublished": "2026-04-15",
+        "author": { "@type": "Person", "name": "Matthias Moore" }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ashforgestudio.com/" },
+      { "@type": "ListItem", "position": 2, "name": "The Dispatch", "item": "https://ashforgestudio.com/blog.html" }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0b0f; --bg2: #110e14; --bg3: #16121b;
+      --surface: #1e1824; --surface2: #251f2e;
+      --border: #2e2638; --border-bright: #3d3450;
+      --ember: oklch(68% 0.19 42); --ember-dim: oklch(50% 0.14 42); --ember-glow: oklch(72% 0.22 38);
+      --gold: oklch(76% 0.14 78);
+      --text: oklch(90% 0.01 80); --text-dim: oklch(65% 0.02 80); --text-faint: oklch(45% 0.02 80);
+      --font-head: 'Cinzel', Georgia, serif; --font-body: 'Crimson Pro', Georgia, serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.7; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
+      background: rgba(13,11,15,0.97); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 44px; width: auto; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-family: var(--font-head); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--ember); }
+    .nav-cta { font-family: var(--font-head); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #0d0b0f !important; background: var(--ember); padding: 9px 20px; border-radius: 2px; transition: background 0.2s !important; }
+    .nav-cta:hover { background: var(--ember-glow) !important; }
+    .nav-patreon { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-head); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim) !important; border: 1px solid var(--border-bright); padding: 8px 16px; border-radius: 2px; text-decoration: none; transition: color 0.2s, border-color 0.2s; }
+    .nav-patreon:hover { color: var(--text) !important; border-color: var(--text-dim); }
+
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+    .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--text-dim); border-radius: 2px; transition: transform 0.25s, opacity 0.2s; transform-origin: center; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--ember); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--ember); }
+    .nav-mobile-menu { display: none; position: fixed; top: 68px; left: 0; right: 0; background: rgba(13,11,15,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); z-index: 99; flex-direction: column; padding: 24px 32px 32px; gap: 4px; transform: translateY(-12px); opacity: 0; transition: transform 0.25s ease, opacity 0.25s ease; pointer-events: none; }
+    .nav-mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .nav-mobile-menu a { font-family: var(--font-head); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .nav-mobile-menu a:last-child { border-bottom: none; }
+    .nav-mobile-menu a:hover { color: var(--ember); }
+    .nav-mobile-menu .mobile-cta { margin-top: 16px; text-align: center; background: var(--ember); color: #0d0b0f !important; border-radius: 2px; padding: 14px !important; border-bottom: none !important; }
+    @media (max-width: 760px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } nav { padding: 0 24px; } }
+
+    .blog-header { padding: 140px 0 56px; background: var(--bg); position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+    .blog-header-bg { position: absolute; inset: 0; background: url('uploads/blog-header-bg.jpg') center 30% / cover no-repeat; opacity: 0.06; }
+    .blog-header-inner { max-width: 1080px; margin: 0 auto; padding: 0 48px; position: relative; z-index: 2; }
+    .breadcrumb { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--text-faint); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--ember); }
+    .breadcrumb-sep { color: var(--border-bright); }
+    .blog-eyebrow { font-family: var(--font-head); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ember); margin-bottom: 16px; }
+    .blog-title { font-family: var(--font-head); font-size: clamp(34px, 6vw, 60px); font-weight: 900; line-height: 1.05; letter-spacing: 0.01em; color: var(--text); margin-bottom: 20px; }
+    .blog-sub { font-size: 19px; color: var(--text-dim); max-width: 560px; line-height: 1.7; }
+
+    .blog-main { max-width: 1080px; margin: 0 auto; padding: 64px 48px 120px; }
+    .post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
+
+    .post-card { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; text-decoration: none; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
+    .post-card:hover { border-color: var(--ember-dim); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+    .post-card-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--border); background: var(--bg3); }
+    .post-card-body { padding: 24px 26px 28px; display: flex; flex-direction: column; flex: 1; }
+    .post-card-tag { display: inline-block; align-self: flex-start; font-family: var(--font-head); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; background: oklch(50% 0.16 260); color: #fff; padding: 3px 12px; border-radius: 1px; margin-bottom: 16px; }
+    .post-card-tag.announcement { background: var(--ember-dim); }
+    .post-card-title { font-family: var(--font-head); font-size: 21px; font-weight: 700; line-height: 1.25; color: var(--text); margin-bottom: 12px; transition: color 0.2s; }
+    .post-card:hover .post-card-title { color: var(--ember); }
+    .post-card-excerpt { font-size: 15.5px; color: var(--text-dim); line-height: 1.65; margin-bottom: 20px; flex: 1; }
+    .post-card-meta { display: flex; align-items: center; gap: 14px; font-size: 12px; color: var(--text-faint); font-family: var(--font-head); letter-spacing: 0.06em; }
+    .post-card-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-bright); }
+    .post-card-more { margin-top: 18px; display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-head); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ember); }
+
+    footer { background: var(--bg); padding: 40px 0 28px; border-top: 1px solid var(--border); }
+    .footer-inner { max-width: 1080px; margin: 0 auto; padding: 0 48px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .footer-logo { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: var(--ember); letter-spacing: 0.1em; }
+    .footer-copy { font-size: 12px; color: var(--text-faint); }
+    .footer-back { font-family: var(--font-head); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-faint); text-decoration: none; transition: color 0.2s; }
+    .footer-back:hover { color: var(--ember); }
+    @media (max-width: 640px) { .blog-header-inner, .blog-main, .footer-inner { padding-left: 24px; padding-right: 24px; } .blog-header { padding-top: 110px; } .blog-main { padding-top: 44px; } }
+  </style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <img src="uploads/logo.png" alt="Ashforge Studio" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#supplements">Supplements</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#process">Process</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="https://www.patreon.com/c/DungeonMasterDen" target="_blank" rel="noopener" class="nav-patreon">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="14.5" cy="9.5" r="6.5"/><rect x="3" y="3" width="4" height="18" rx="1"/></svg>
+      Patreon
+    </a></li>
+    <li><a href="index.html#contact" class="nav-cta">Commission Work</a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<nav class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="index.html#supplements">Supplements</a>
+  <a href="index.html#services">Services</a>
+  <a href="blog.html">Blog</a>
+  <a href="index.html#about">About</a>
+  <a href="https://www.patreon.com/c/DungeonMasterDen" target="_blank" rel="noopener">Patreon</a>
+  <a href="index.html#contact" class="mobile-cta">Commission Work</a>
+</nav>
+
+<!-- HEADER -->
+<div class="blog-header">
+  <div class="blog-header-bg"></div>
+  <div class="blog-header-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>The Dispatch</span>
+    </div>
+    <div class="blog-eyebrow">The Dispatch</div>
+    <h1 class="blog-title">Notes from the Forge</h1>
+    <p class="blog-sub">Design notes, worldbuilding, and behind-the-scenes writing on D&D 5e adventures, the Edenfall Collection, and the craft of running a table.</p>
+  </div>
+</div>
+
+<!-- POSTS -->
+<main class="blog-main">
+  <div class="post-grid">
+
+    <a href="blog/the-crooked-mile.html" class="post-card">
+      <img src="uploads/crooked-mile-cover.jpg" alt="The Crooked Mile — Edenfall Collection Vol. 1" class="post-card-img" loading="lazy" />
+      <div class="post-card-body">
+        <span class="post-card-tag announcement">Announcement</span>
+        <h2 class="post-card-title">The Crooked Mile Is Here: What It Is and Why I Made It</h2>
+        <p class="post-card-excerpt">The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.</p>
+        <div class="post-card-meta">
+          <span>Matthias Moore</span>
+          <span class="post-card-meta-dot"></span>
+          <span>Apr 28, 2026</span>
+          <span class="post-card-meta-dot"></span>
+          <span>3 min read</span>
+        </div>
+        <span class="post-card-more">Read the post
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="blog/building-edenfall.html" class="post-card">
+      <img src="uploads/crooked-mile-cover.jpg" alt="Building Edenfall — a world designed for drop-in play" class="post-card-img" loading="lazy" />
+      <div class="post-card-body">
+        <span class="post-card-tag">Lore</span>
+        <h2 class="post-card-title">Building Edenfall: A World Designed for Drop-In Play</h2>
+        <p class="post-card-excerpt">Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around — you run it first, then the world reveals itself.</p>
+        <div class="post-card-meta">
+          <span>Matthias Moore</span>
+          <span class="post-card-meta-dot"></span>
+          <span>Apr 15, 2026</span>
+          <span class="post-card-meta-dot"></span>
+          <span>5 min read</span>
+        </div>
+        <span class="post-card-more">Read the post
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </a>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Ashforge Studio</div>
+    <span class="footer-copy">© 2026 Ashforge Studio LLC — Matthias Moore</span>
+    <a href="index.html" class="footer-back">← Back to Home</a>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const btn = document.getElementById("nav-hamburger");
+  const menu = document.getElementById("nav-mobile-menu");
+  if (!btn || !menu) return;
+  function closeMenu() { btn.classList.remove("open"); menu.classList.remove("open"); }
+  btn.addEventListener("click", () => { btn.classList.toggle("open"); menu.classList.toggle("open"); });
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+  document.addEventListener("click", e => { if (!btn.contains(e.target) && !menu.contains(e.target)) closeMenu(); });
+  window.addEventListener("scroll", () => { if (menu.classList.contains("open")) closeMenu(); }, { passive: true });
+})();
+</script>
+
+</body>
+</html>

@@ -1,36 +1,61 @@
 <!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+  ASHFORGE BLOG POST TEMPLATE
+  ───────────────────────────────────────────────────────────────────────────
+  To publish a new post:
+   1. Copy this file to  blog/<your-slug>.html   (lowercase, hyphens, no spaces)
+   2. Find/replace every {{TOKEN}} below with your content (see the list).
+   3. Write the article inside the "ARTICLE BODY" section using the building
+      blocks shown there (h2, p, blockquote, design-principle, divider).
+   4. Update the two "prev / next post" links near the bottom.
+   5. Wire the post into the rest of the site (3 quick edits):
+        • blog.html      → add a <a class="post-card"> block (copy an existing one)
+        • sitemap.xml    → add a <url> entry for blog/<your-slug>.html
+        • blog.html      → add a {"@type":"BlogPosting"} entry to the Blog JSON-LD
+   6. Delete this comment block from your copy.
+
+  TOKENS: {{SLUG}} {{TITLE}} {{META_DESCRIPTION}} {{OG_DESCRIPTION}}
+          {{OG_IMAGE_FILE}} {{DATE_ISO}} {{TAG}} {{DATE_HUMAN}} {{READ_TIME}}
+  Notes: {{SLUG}} = the filename without .html · {{DATE_ISO}} = 2026-07-02 form
+         {{OG_IMAGE_FILE}} = a file in /uploads (e.g. crooked-mile-cover.jpg),
+         ideally ~1200px wide. {{DATE_HUMAN}} = "July 2, 2026" form.
+  ═══════════════════════════════════════════════════════════════════════════
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Crooked Mile Is Here: What It Is and Why I Made It — Ashforge Studio</title>
-  <meta name="description" content="The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next." />
-  <meta property="og:title" content="The Crooked Mile Is Here: What It Is and Why I Made It" />
-  <meta property="og:description" content="The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing." />
+  <meta name="robots" content="noindex" /><!-- REMOVE this line in your copy so the post can be indexed -->
+  <title>{{TITLE}} — Ashforge Studio</title>
+  <meta name="description" content="{{META_DESCRIPTION}}" />
+  <meta name="author" content="Matthias Moore" />
+  <meta property="og:title" content="{{TITLE}}" />
+  <meta property="og:description" content="{{OG_DESCRIPTION}}" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://ashforgestudio.com/blog/the-crooked-mile.html" />
+  <meta property="og:url" content="https://ashforgestudio.com/blog/{{SLUG}}.html" />
   <meta property="og:site_name" content="Ashforge Studio" />
-  <meta property="og:image" content="https://ashforgestudio.com/uploads/crooked-mile-cover.jpg" />
+  <meta property="og:image" content="https://ashforgestudio.com/uploads/{{OG_IMAGE_FILE}}" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://ashforgestudio.com/uploads/crooked-mile-cover.jpg" />
+  <meta name="twitter:image" content="https://ashforgestudio.com/uploads/{{OG_IMAGE_FILE}}" />
   <link rel="icon" type="image/png" href="../favicon.png" />
-  <link rel="canonical" href="https://ashforgestudio.com/blog/the-crooked-mile.html" />
+  <link rel="canonical" href="https://ashforgestudio.com/blog/{{SLUG}}.html" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "The Crooked Mile Is Here: What It Is and Why I Made It",
-    "description": "The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.",
-    "image": "https://ashforgestudio.com/uploads/crooked-mile-cover.jpg",
-    "datePublished": "2026-04-28",
-    "dateModified": "2026-04-28",
+    "headline": "{{TITLE}}",
+    "description": "{{META_DESCRIPTION}}",
+    "image": "https://ashforgestudio.com/uploads/{{OG_IMAGE_FILE}}",
+    "datePublished": "{{DATE_ISO}}",
+    "dateModified": "{{DATE_ISO}}",
     "author": { "@type": "Person", "name": "Matthias Moore" },
     "publisher": {
       "@type": "Organization",
       "name": "Ashforge Studio",
       "logo": { "@type": "ImageObject", "url": "https://ashforgestudio.com/uploads/logo.png" }
     },
-    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ashforgestudio.com/blog/the-crooked-mile.html" }
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ashforgestudio.com/blog/{{SLUG}}.html" }
   }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -81,105 +106,49 @@
     .nav-mobile-menu .mobile-cta { margin-top: 16px; text-align: center; background: var(--ember); color: #0d0b0f !important; border-radius: 2px; padding: 14px !important; border-bottom: none !important; }
     @media (max-width: 760px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } nav { padding: 0 24px; } }
 
-    /* ── ARTICLE HEADER ── */
     .article-header {
-      padding: 140px 0 72px;
-      background: var(--bg);
-      position: relative;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border);
+      padding: 140px 0 72px; background: var(--bg); position: relative; overflow: hidden; border-bottom: 1px solid var(--border);
     }
-    .article-header-bg {
-      position: absolute; inset: 0;
-      background: url('../uploads/blog-header-bg.jpg') center 30% / cover no-repeat;
-      opacity: 0.06;
-    }
-    .article-header-inner {
-      max-width: 780px; margin: 0 auto; padding: 0 48px;
-      position: relative; z-index: 2;
-    }
-    .breadcrumb {
-      display: flex; align-items: center; gap: 10px;
-      font-family: var(--font-head); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--text-faint); margin-bottom: 24px;
-    }
+    .article-header-bg { position: absolute; inset: 0; background: url('../uploads/blog-header-bg.jpg') center 30% / cover no-repeat; opacity: 0.06; }
+    .article-header-inner { max-width: 780px; margin: 0 auto; padding: 0 48px; position: relative; z-index: 2; }
+    .breadcrumb { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 24px; }
     .breadcrumb a { color: var(--text-faint); text-decoration: none; transition: color 0.2s; }
     .breadcrumb a:hover { color: var(--ember); }
     .breadcrumb-sep { color: var(--border-bright); }
-
-    .article-tag {
-      display: inline-block;
-      font-family: var(--font-head); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-      background: var(--ember); color: #0d0b0f;
-      padding: 3px 12px; border-radius: 1px; margin-bottom: 20px;
-    }
-    .article-title {
-      font-family: var(--font-head); font-size: clamp(26px, 4vw, 46px); font-weight: 900;
-      line-height: 1.1; letter-spacing: 0.01em; color: var(--text); margin-bottom: 20px;
-    }
-    .article-meta {
-      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
-      font-size: 13px; color: var(--text-faint);
-    }
+    .article-tag { display: inline-block; font-family: var(--font-head); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; background: oklch(50% 0.16 260); color: #fff; padding: 3px 12px; border-radius: 1px; margin-bottom: 20px; }
+    .article-title { font-family: var(--font-head); font-size: clamp(26px, 4vw, 46px); font-weight: 900; line-height: 1.1; letter-spacing: 0.01em; color: var(--text); margin-bottom: 20px; }
+    .article-meta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--text-faint); }
     .article-meta-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border-bright); }
     .article-author { display: flex; align-items: center; gap: 8px; }
     .author-ember { width: 6px; height: 6px; border-radius: 50%; background: var(--ember); }
 
-    /* ── ARTICLE BODY ── */
-    .article-layout {
-      max-width: 780px; margin: 0 auto; padding: 72px 48px 120px;
-    }
-    @media (max-width: 640px) {
-      .article-layout, .article-header-inner { padding-left: 24px; padding-right: 24px; }
-      .article-header { padding-top: 110px; }
-    }
+    .article-layout { max-width: 780px; margin: 0 auto; padding: 72px 48px 120px; }
+    @media (max-width: 640px) { .article-layout, .article-header-inner { padding-left: 24px; padding-right: 24px; } .article-header { padding-top: 110px; } }
 
-    .article-body p {
-      font-size: 18px; color: var(--text-dim); line-height: 1.85; margin-bottom: 24px;
-    }
+    .article-body p { font-size: 18px; color: var(--text-dim); line-height: 1.85; margin-bottom: 24px; }
     .article-body p:last-child { margin-bottom: 0; }
-    .article-body h2 {
-      font-family: var(--font-head); font-size: 20px; font-weight: 700; letter-spacing: 0.06em;
-      color: var(--text); margin: 48px 0 18px; padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-    .article-body h3 {
-      font-family: var(--font-head); font-size: 15px; font-weight: 700; letter-spacing: 0.08em;
-      color: var(--text); margin: 36px 0 14px;
-    }
-    .article-body blockquote {
-      border-left: 2px solid var(--ember-dim);
-      padding: 4px 0 4px 24px; margin: 32px 0;
-      font-size: 19px; font-style: italic; color: var(--text-dim); line-height: 1.75;
-    }
+    .article-body h2 { font-family: var(--font-head); font-size: 20px; font-weight: 700; letter-spacing: 0.06em; color: var(--text); margin: 48px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .article-body h3 { font-family: var(--font-head); font-size: 15px; font-weight: 700; letter-spacing: 0.08em; color: var(--text); margin: 36px 0 14px; }
+    .article-body blockquote { border-left: 2px solid var(--ember-dim); padding: 4px 0 4px 24px; margin: 32px 0; font-size: 19px; font-style: italic; color: var(--text-dim); line-height: 1.75; }
     .article-body a { color: var(--ember); text-decoration: none; border-bottom: 1px solid var(--ember-dim); transition: color 0.2s, border-color 0.2s; }
     .article-body a:hover { color: var(--ember-glow); border-color: var(--ember-glow); }
 
-    .article-divider {
-      display: flex; align-items: center; gap: 16px;
-      margin: 52px 0;
-    }
+    .article-divider { display: flex; align-items: center; gap: 16px; margin: 52px 0; }
     .article-divider::before, .article-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .diamond { width: 7px; height: 7px; background: var(--ember-dim); transform: rotate(45deg); flex-shrink: 0; }
 
-    /* ── BACK + NEXT ── */
-    .article-nav {
-      display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
-      padding-top: 48px; margin-top: 48px; border-top: 1px solid var(--border);
+    .design-principle {
+      background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--ember-dim);
+      border-radius: 2px; padding: 20px 24px; margin: 32px 0;
     }
-    .article-nav-btn {
-      display: inline-flex; align-items: center; gap: 10px;
-      font-family: var(--font-head); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--text-dim); text-decoration: none; background: var(--surface); border: 1px solid var(--border);
-      padding: 12px 20px; border-radius: 2px; transition: color 0.2s, border-color 0.2s;
-    }
+    .design-principle-label { font-family: var(--font-head); font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ember); margin-bottom: 8px; }
+    .design-principle p { font-size: 16px; color: var(--text-dim); line-height: 1.7; margin-bottom: 0; }
+
+    .article-nav { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; padding-top: 48px; margin-top: 48px; border-top: 1px solid var(--border); }
+    .article-nav-btn { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; background: var(--surface); border: 1px solid var(--border); padding: 12px 20px; border-radius: 2px; transition: color 0.2s, border-color 0.2s; }
     .article-nav-btn:hover { color: var(--ember); border-color: var(--ember-dim); }
 
-    /* ── CTA CARD ── */
-    .article-cta {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
-      padding: 36px 40px; margin-top: 56px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap;
-    }
+    .article-cta { background: var(--surface); border: 1px solid var(--border); border-radius: 3px; padding: 36px 40px; margin-top: 56px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap; }
     .article-cta-body { flex: 1; min-width: 200px; }
     .article-cta-eyebrow { font-family: var(--font-head); font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ember); margin-bottom: 8px; }
     .article-cta-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: 0.03em; }
@@ -187,7 +156,6 @@
     .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--ember); color: #0d0b0f; font-family: var(--font-head); font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 13px 24px; border-radius: 2px; transition: background 0.2s, box-shadow 0.2s; box-shadow: 0 0 24px oklch(68% 0.19 42 / 0.3); white-space: nowrap; }
     .btn-primary:hover { background: var(--ember-glow); box-shadow: 0 0 40px oklch(68% 0.19 42 / 0.5); }
 
-    /* ── FOOTER ── */
     footer { background: var(--bg); padding: 40px 0 28px; border-top: 1px solid var(--border); }
     .footer-inner { max-width: 780px; margin: 0 auto; padding: 0 48px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
     .footer-logo { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: var(--ember); letter-spacing: 0.1em; }
@@ -238,19 +206,19 @@
       <span class="breadcrumb-sep">›</span>
       <a href="../blog.html">The Dispatch</a>
       <span class="breadcrumb-sep">›</span>
-      <span>The Crooked Mile</span>
+      <span>{{TITLE}}</span>
     </div>
-    <div class="article-tag">Announcement</div>
-    <h1 class="article-title">The Crooked Mile Is Here: What It Is and Why I Made It</h1>
+    <div class="article-tag">{{TAG}}</div>
+    <h1 class="article-title">{{TITLE}}</h1>
     <div class="article-meta">
       <div class="article-author">
         <div class="author-ember"></div>
         Matthias Moore
       </div>
       <div class="article-meta-dot"></div>
-      <span>April 28, 2026</span>
+      <span>{{DATE_HUMAN}}</span>
       <div class="article-meta-dot"></div>
-      <span>3 min read</span>
+      <span>{{READ_TIME}} min read</span>
     </div>
   </div>
 </div>
@@ -258,50 +226,69 @@
 <!-- ARTICLE BODY -->
 <div class="article-layout">
   <div class="article-body">
-    <p>Every supplement I've ever run at my home table started as a single image in my head. For The Crooked Mile, it was a road through the woods that didn't end where it should. The party walks in. They walk for hours. The trees don't change. The light doesn't shift. And eventually they start to realize the road is taking them somewhere they didn't choose.</p>
+    <!--
+      ▼▼▼  WRITE YOUR ARTICLE BELOW.  Available building blocks:  ▼▼▼
+        <p>…</p>                             regular paragraph
+        <h2>Section Heading</h2>            major section (has an underline rule)
+        <h3>Sub-heading</h3>                minor heading
+        <blockquote>"…"</blockquote>         pull-quote
+        <a href="…" target="_blank" rel="noopener">link text</a>   inline link
+        <div class="article-divider"><div class="diamond"></div></div>   section break
+        <div class="design-principle">      callout box
+          <div class="design-principle-label">Label</div>
+          <p>Callout text.</p>
+        </div>
+      Delete the demo content below and replace it with your own.
+    -->
 
-    <p>That image sat with me for months before I started writing. It wasn't until I had a concrete reason — a table that needed something dark, self-contained, and ready in three days — that it became a real adventure.</p>
+    <p>Open with a hook — the tension or question this post answers. One or two sentences that make a DM or publisher want to keep reading. This first paragraph doubles as your excerpt on the blog index, so make it earn its place.</p>
 
-    <h2>Why Edenfall?</h2>
+    <p>Follow with context: why this matters, what you're about to walk through.</p>
 
-    <p>I wanted to build a setting that rewarded drop-in play. Most campaign worlds ask Dungeon Masters to do a lot of reading before they can run confidently. Edenfall is designed the other way: you run the adventure, and the setting reveals itself through play. The Crooked Mile is the first entry point.</p>
+    <h2>First Section</h2>
 
-    <p>The name Edenfall came from a simple observation about fantasy settings: most of them are either in decline or on the verge of greatness. I wanted a world that felt mid-fall — past the peak, not yet at the bottom. A region where the institutions are crumbling, the roads are less safe than they used to be, and the wilderness has grown strange. That tension gives Dungeon Masters a lot to work with without requiring a full history lesson.</p>
+    <p>Body paragraph. Keep sentences concrete and tied to play. Use an inline link like <a href="https://www.patreon.com/c/DungeonMasterDen" target="_blank" rel="noopener">Patreon</a> where it's genuinely useful.</p>
 
-    <blockquote>"A DM should be able to read a single adventure, run it cold, and have everything they need in front of them."</blockquote>
+    <div class="design-principle">
+      <div class="design-principle-label">Design Principle</div>
+      <p>Use a callout to spotlight a single idea you want readers to remember.</p>
+    </div>
 
-    <h2>What's Next</h2>
+    <h2>Second Section</h2>
 
-    <p>The Edenfall Collection will grow one adventure at a time. Each volume is self-contained but leaves threads for a longer arc if the table wants to follow them. Volume 2 is already in development — it takes the party somewhere very different, but the roots of what's happening in The Crooked Mile will matter.</p>
+    <p>Another paragraph.</p>
 
-    <p>Patreon supporters will see Volume 2 first, including early playtesting drafts and behind-the-scenes design notes. If you want to follow along as the collection grows, that's the best place to do it.</p>
+    <blockquote>"Drop in a pull-quote when a single line deserves to breathe."</blockquote>
+
+    <p>Wrap up the thought.</p>
 
     <div class="article-divider"><div class="diamond"></div></div>
 
-    <p>The Crooked Mile is available now on <a href="https://www.drivethrurpg.com" target="_blank" rel="noopener">DriveThruRPG</a> as a pay-what-you-want PDF, and on <a href="https://www.patreon.com/c/DungeonMasterDen" target="_blank" rel="noopener">Patreon</a> for early access to everything that comes next.</p>
+    <p>Close with a call to action or a pointer to what's next.</p>
   </div>
 
-  <!-- CTA -->
+  <!-- CTA — optional. Edit the copy/link, or delete the whole block if the post doesn't need one. -->
   <div class="article-cta">
     <div class="article-cta-body">
-      <div class="article-cta-eyebrow">Edenfall Collection Vol. 1</div>
-      <div class="article-cta-title">Get The Crooked Mile</div>
-      <div class="article-cta-sub">Available on DriveThruRPG and Patreon. Table-tested, lore-first, drop-in ready.</div>
+      <div class="article-cta-eyebrow">{{CTA_EYEBROW}}</div>
+      <div class="article-cta-title">{{CTA_TITLE}}</div>
+      <div class="article-cta-sub">{{CTA_SUBTEXT}}</div>
     </div>
-    <a href="https://www.drivethrurpg.com" target="_blank" rel="noopener" class="btn-primary">
+    <a href="https://www.drivethrurpg.com/en/publisher/34436/ashforge-studio-llc" target="_blank" rel="noopener" class="btn-primary">
       Get on DriveThruRPG
       <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
   </div>
 
-  <!-- NAV -->
+  <!-- NAV — left link points to a related/previous post; right link stays "All Posts".
+       If there's no related post yet, delete the first <a> and keep only "All Posts". -->
   <div class="article-nav">
-    <a href="../blog.html" class="article-nav-btn">
+    <a href="{{PREV_POST_SLUG}}.html" class="article-nav-btn">
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8 2L4 6l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      All Posts
+      {{PREV_POST_TITLE}}
     </a>
-    <a href="building-edenfall.html" class="article-nav-btn">
-      Building Edenfall
+    <a href="../blog.html" class="article-nav-btn">
+      All Posts
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
   </div>
