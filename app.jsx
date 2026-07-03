@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-//  Ashforge Studio — interactive UI (services, testimonials,
+//  Ashforge Studio: interactive UI (services, testimonials,
 //  credits, FAQ, tweaks). Compiled to app.js for production.
 //  Source: app.jsx. To rebuild: run the build step in the design
 //  environment, or hand-transpile with @babel/preset-react.

@@ -3,7 +3,7 @@
 
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 // ═══════════════════════════════════════════════════════════
-//  Ashforge Studio — interactive UI (services, testimonials,
+//  Ashforge Studio: interactive UI (services, testimonials,
 //  credits, FAQ, tweaks). Compiled to app.js for production.
 //  Source: app.jsx. To rebuild: run the build step in the design
 //  environment, or hand-transpile with @babel/preset-react.
