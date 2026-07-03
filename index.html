@@ -9,6 +9,7 @@
   <meta name="keywords" content="D&D 5e, TTRPG writer, dungeons and dragons supplements, adventure writing, OGL, stat blocks, lore writing, DriveThruRPG, Ashforge Studio, Matthias Moore" />
   <meta name="theme-color" content="#0d0b0f" />
   <link rel="canonical" href="https://ashforgestudio.com/" />
+  <link rel="alternate" type="application/rss+xml" title="The Dispatch" href="/feed.xml" />
 
   <!-- Security (GitHub Pages can't set HTTP headers, so we set what we can via <meta>) -->
   <meta name="referrer" content="strict-origin-when-cross-origin" />
@@ -2317,6 +2318,16 @@
     }
     .toast.show { transform: translateY(0); opacity: 1; }
 
+    /* ── A11Y: skip link, form error, reduced motion ── */
+    .skip-link { position: absolute; left: -9999px; top: 0; z-index: 1000; background: var(--ember); color: #0d0b0f; padding: 10px 16px; border-radius: 0 0 4px 0; font-family: var(--font-head); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; }
+    .skip-link:focus { left: 0; }
+    .form-error { color: var(--crimson); font-size: 14px; margin-top: 6px; }
+    .form-error:empty { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+      #sparks-container { display: none !important; }
+      .fade-up { opacity: 1 !important; transform: none !important; }
+    }
   </style>
   <script src="content-loader.js"></script>
 
@@ -2330,6 +2341,7 @@
   </script>
 </head>
 <body>
+<a href="#hero" class="skip-link">Skip to content</a>
 
 <!-- NAV -->
 <nav id="main-nav">
@@ -2398,7 +2410,7 @@
 <!-- ══════════════════════════════════
      HERO
 ══════════════════════════════════ -->
-<section id="hero">
+<section id="hero" tabindex="-1">
   <div class="hero-bg">
     <div class="hero-grid"></div>
     <div class="forge-glow"></div>
@@ -2576,16 +2588,17 @@
         <p style="display:none;" aria-hidden="true"><label>Don't fill this out if you're human: <input name="_gotcha" tabindex="-1" autocomplete="off" /></label></p>
         <div class="form-group">
           <label class="form-label" for="f-name">Your Name</label>
-          <input class="form-input" type="text" placeholder="Aldric the Scribe" id="f-name" name="name" required />
+          <input class="form-input" type="text" placeholder="Aldric the Scribe" id="f-name" name="name" required aria-describedby="form-error" />
         </div>
         <div class="form-group">
           <label class="form-label" for="f-email">Email</label>
-          <input class="form-input" type="email" placeholder="you@example.com" id="f-email" name="email" required />
+          <input class="form-input" type="email" placeholder="you@example.com" id="f-email" name="email" required aria-describedby="form-error" />
         </div>
         <div class="form-group">
           <label class="form-label" for="f-brief">Project Brief</label>
           <textarea class="form-textarea" placeholder="Describe your project, scope, and deadline…" id="f-brief" name="brief" required></textarea>
         </div>
+        <p id="form-error" class="form-error" role="alert" aria-live="assertive"></p>
         <button class="form-submit" id="form-submit" type="submit">Send to the Forge</button>
         </form>
       </div>

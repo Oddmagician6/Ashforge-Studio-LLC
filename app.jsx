@@ -253,13 +253,23 @@ if (form) {
     const name = document.getElementById("f-name").value.trim();
     const email = document.getElementById("f-email").value.trim();
     const brief = document.getElementById("f-brief").value.trim();
+    const nameEl = document.getElementById("f-name");
+    const emailEl = document.getElementById("f-email");
+    const errEl = document.getElementById("form-error");
     if (!name || !email) {
-      document.getElementById("f-name").style.borderColor = !name ? "var(--crimson)" : "";
-      document.getElementById("f-email").style.borderColor = !email ? "var(--crimson)" : "";
+      nameEl.style.borderColor = !name ? "var(--crimson)" : "";
+      emailEl.style.borderColor = !email ? "var(--crimson)" : "";
+      nameEl.setAttribute("aria-invalid", !name ? "true" : "false");
+      emailEl.setAttribute("aria-invalid", !email ? "true" : "false");
+      if (errEl) errEl.textContent = "Please add your " + (!name && !email ? "name and email" : !name ? "name" : "email") + " so I can get back to you.";
+      (!name ? nameEl : emailEl).focus();
       return;
     }
-    document.getElementById("f-name").style.borderColor = "";
-    document.getElementById("f-email").style.borderColor = "";
+    nameEl.style.borderColor = "";
+    emailEl.style.borderColor = "";
+    nameEl.setAttribute("aria-invalid", "false");
+    emailEl.setAttribute("aria-invalid", "false");
+    if (errEl) errEl.textContent = "";
 
     const btn = document.getElementById("form-submit");
     btn.textContent = "Sending…";

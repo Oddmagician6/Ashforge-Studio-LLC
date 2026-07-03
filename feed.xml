@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>The Dispatch | Ashforge Studio</title>
+    <link>https://ashforgestudio.com/blog.html</link>
+    <atom:link href="https://ashforgestudio.com/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Notes on worldbuilding, running games, and the Edenfall Collection from Ashforge Studio.</description>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 03 Jul 2026 16:12:44 GMT</lastBuildDate>
+    <item>
+      <title>Running Horror at the Table: A Practical Guide</title>
+      <link>https://ashforgestudio.com/blog/running-horror-at-the-table.html</link>
+      <guid isPermaLink="true">https://ashforgestudio.com/blog/running-horror-at-the-table.html</guid>
+      <pubDate>Thu, 02 Jul 2026 05:00:00 GMT</pubDate>
+      <description>I've never found anything harder to run than horror. Here's what I've picked up, most of it the hard way: slow dread, fair warnings, and never quite naming the monster.</description>
+    </item>
+    <item>
+      <title>The Crooked Mile Is Here: What It Is and Why I Made It</title>
+      <link>https://ashforgestudio.com/blog/the-crooked-mile.html</link>
+      <guid isPermaLink="true">https://ashforgestudio.com/blog/the-crooked-mile.html</guid>
+      <pubDate>Tue, 28 Apr 2026 05:00:00 GMT</pubDate>
+      <description>The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.</description>
+    </item>
+    <item>
+      <title>Building Edenfall: A World Designed for Drop-In Play</title>
+      <link>https://ashforgestudio.com/blog/building-edenfall.html</link>
+      <guid isPermaLink="true">https://ashforgestudio.com/blog/building-edenfall.html</guid>
+      <pubDate>Wed, 15 Apr 2026 05:00:00 GMT</pubDate>
+      <description>Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around. You run it first, then the world reveals itself.</description>
+    </item>
+  </channel>
+</rss>
