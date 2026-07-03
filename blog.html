@@ -21,7 +21,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
 
-  <script type="application/ld+json">
+  <!-- blogPost[] is populated at runtime from blog/posts.json (see script at end of file). -->
+  <script type="application/ld+json" id="blog-jsonld">
   {
     "@context": "https://schema.org",
     "@type": "Blog",
@@ -32,23 +33,7 @@
       "@type": "Organization",
       "name": "Ashforge Studio",
       "logo": { "@type": "ImageObject", "url": "https://ashforgestudio.com/uploads/logo.png" }
-    },
-    "blogPost": [
-      {
-        "@type": "BlogPosting",
-        "headline": "The Crooked Mile Is Here: What It Is and Why I Made It",
-        "url": "https://ashforgestudio.com/blog/the-crooked-mile.html",
-        "datePublished": "2026-04-28",
-        "author": { "@type": "Person", "name": "Matthias Moore" }
-      },
-      {
-        "@type": "BlogPosting",
-        "headline": "Building Edenfall: A World Designed for Drop-In Play",
-        "url": "https://ashforgestudio.com/blog/building-edenfall.html",
-        "datePublished": "2026-04-15",
-        "author": { "@type": "Person", "name": "Matthias Moore" }
-      }
-    ]
+    }
   }
   </script>
   <script type="application/ld+json">
@@ -120,6 +105,8 @@
 
     .blog-main { max-width: 1080px; margin: 0 auto; padding: 64px 48px 120px; }
     .post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
+    .post-grid-status { grid-column: 1 / -1; text-align: center; color: var(--text-dim); padding: 48px 0; font-size: 16px; }
+    .post-grid-status a { color: var(--ember); text-decoration: none; }
 
     .post-card { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; text-decoration: none; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
     .post-card:hover { border-color: var(--ember-dim); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
@@ -190,48 +177,10 @@
   </div>
 </div>
 
-<!-- POSTS -->
+<!-- POSTS — cards render from blog/posts.json (script at end of file) -->
 <main class="blog-main">
-  <div class="post-grid">
-
-    <a href="blog/the-crooked-mile.html" class="post-card">
-      <img src="uploads/crooked-mile-cover.jpg" alt="The Crooked Mile — Edenfall Collection Vol. 1" class="post-card-img" loading="lazy" />
-      <div class="post-card-body">
-        <span class="post-card-tag announcement">Announcement</span>
-        <h2 class="post-card-title">The Crooked Mile Is Here: What It Is and Why I Made It</h2>
-        <p class="post-card-excerpt">The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.</p>
-        <div class="post-card-meta">
-          <span>Matthias Moore</span>
-          <span class="post-card-meta-dot"></span>
-          <span>Apr 28, 2026</span>
-          <span class="post-card-meta-dot"></span>
-          <span>3 min read</span>
-        </div>
-        <span class="post-card-more">Read the post
-          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
-      </div>
-    </a>
-
-    <a href="blog/building-edenfall.html" class="post-card">
-      <img src="uploads/crooked-mile-cover.jpg" alt="Building Edenfall — a world designed for drop-in play" class="post-card-img" loading="lazy" />
-      <div class="post-card-body">
-        <span class="post-card-tag">Lore</span>
-        <h2 class="post-card-title">Building Edenfall: A World Designed for Drop-In Play</h2>
-        <p class="post-card-excerpt">Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around — you run it first, then the world reveals itself.</p>
-        <div class="post-card-meta">
-          <span>Matthias Moore</span>
-          <span class="post-card-meta-dot"></span>
-          <span>Apr 15, 2026</span>
-          <span class="post-card-meta-dot"></span>
-          <span>5 min read</span>
-        </div>
-        <span class="post-card-more">Read the post
-          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
-      </div>
-    </a>
-
+  <div class="post-grid" id="post-grid">
+    <p class="post-grid-status">Loading posts…</p>
   </div>
 </main>
 
@@ -254,6 +203,94 @@
   menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
   document.addEventListener("click", e => { if (!btn.contains(e.target) && !menu.contains(e.target)) closeMenu(); });
   window.addEventListener("scroll", () => { if (menu.classList.contains("open")) closeMenu(); }, { passive: true });
+})();
+</script>
+
+<script>
+/* ─── The Dispatch: render post cards + Blog JSON-LD from blog/posts.json ───
+   Single source of truth for the blog index. To add a post: create its HTML
+   file in /blog and add an entry to blog/posts.json — newest date sorts first;
+   the card, ordering, and JSON-LD all update automatically. */
+(function () {
+  const SITE = "https://ashforgestudio.com";
+  const AUTHOR = "Matthias Moore";
+  const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const grid = document.getElementById("post-grid");
+  if (!grid) return;
+
+  function humanDate(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+    return m ? MONTHS[(+m[2]) - 1] + " " + (+m[3]) + ", " + m[1] : (iso || "");
+  }
+  function el(tag, props, kids) {
+    const n = document.createElement(tag);
+    if (props) for (const k in props) {
+      const v = props[k];
+      if (v == null) continue;
+      if (k === "class") n.className = v;
+      else if (k === "text") n.textContent = v;
+      else if (k === "html") n.innerHTML = v;
+      else n.setAttribute(k, v);
+    }
+    (Array.isArray(kids) ? kids : kids != null ? [kids] : []).forEach(c =>
+      n.appendChild(typeof c === "string" ? document.createTextNode(c) : c));
+    return n;
+  }
+  const ARROW = '<svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function card(p) {
+    return el("a", { href: "blog/" + p.slug + ".html", class: "post-card" }, [
+      el("img", { src: p.image, alt: p.imageAlt || p.title, class: "post-card-img", loading: "lazy" }),
+      el("div", { class: "post-card-body" }, [
+        el("span", { class: "post-card-tag " + String(p.tag || "").toLowerCase(), text: p.tag }),
+        el("h2", { class: "post-card-title", text: p.title }),
+        el("p", { class: "post-card-excerpt", text: p.excerpt }),
+        el("div", { class: "post-card-meta" }, [
+          el("span", { text: p.author || AUTHOR }),
+          el("span", { class: "post-card-meta-dot" }),
+          el("span", { text: humanDate(p.date) }),
+          el("span", { class: "post-card-meta-dot" }),
+          el("span", { text: p.readTime + " min read" }),
+        ]),
+        el("span", { class: "post-card-more", html: "Read the post " + ARROW }),
+      ]),
+    ]);
+  }
+
+  function injectJsonLd(posts) {
+    const node = document.getElementById("blog-jsonld");
+    if (!node) return;
+    try {
+      const data = JSON.parse(node.textContent);
+      data.blogPost = posts.map(p => ({
+        "@type": "BlogPosting",
+        headline: p.title,
+        url: SITE + "/blog/" + p.slug + ".html",
+        datePublished: p.date,
+        author: { "@type": "Person", name: p.author || AUTHOR },
+      }));
+      node.textContent = JSON.stringify(data, null, 2);
+    } catch (e) { /* keep the static Blog JSON-LD if parsing fails */ }
+  }
+
+  fetch("blog/posts.json", { cache: "no-cache" })
+    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(data => {
+      const posts = (data.posts || []).slice()
+        .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+      grid.textContent = "";
+      if (!posts.length) {
+        grid.appendChild(el("p", { class: "post-grid-status", text: "No posts yet — check back soon." }));
+        return;
+      }
+      posts.forEach(p => grid.appendChild(card(p)));
+      injectJsonLd(posts);
+    })
+    .catch(err => {
+      grid.textContent = "";
+      grid.appendChild(el("p", { class: "post-grid-status", text: "Posts couldn't load — please refresh." }));
+      console.warn("[dispatch] posts.json failed:", err.message);
+    });
 })();
 </script>
 

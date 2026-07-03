@@ -1,0 +1,28 @@
+{
+  "_meta": {
+    "note": "Single source of truth for the blog index (blog.html renders cards + JSON-LD from this). To add a post: create blog/<slug>.html from _post-template.html, then add an entry below. Newest date sorts to the top automatically. Also add a <url> line to /sitemap.xml.",
+    "fields": "slug (filename without .html) · title · tag · date (YYYY-MM-DD) · readTime (minutes) · excerpt · image (path from site root) · imageAlt · author (optional, defaults to Matthias Moore)"
+  },
+  "posts": [
+    {
+      "slug": "the-crooked-mile",
+      "title": "The Crooked Mile Is Here: What It Is and Why I Made It",
+      "tag": "Announcement",
+      "date": "2026-04-28",
+      "readTime": 3,
+      "excerpt": "The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.",
+      "image": "uploads/crooked-mile-cover.jpg",
+      "imageAlt": "The Crooked Mile — Edenfall Collection Vol. 1"
+    },
+    {
+      "slug": "building-edenfall",
+      "title": "Building Edenfall: A World Designed for Drop-In Play",
+      "tag": "Lore",
+      "date": "2026-04-15",
+      "readTime": 5,
+      "excerpt": "Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around — you run it first, then the world reveals itself.",
+      "image": "uploads/crooked-mile-cover.jpg",
+      "imageAlt": "Building Edenfall — a world designed for drop-in play"
+    }
+  ]
+}

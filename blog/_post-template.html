@@ -9,10 +9,10 @@
    3. Write the article inside the "ARTICLE BODY" section using the building
       blocks shown there (h2, p, blockquote, design-principle, divider).
    4. Update the two "prev / next post" links near the bottom.
-   5. Wire the post into the rest of the site (3 quick edits):
-        • blog.html      → add a <a class="post-card"> block (copy an existing one)
-        • sitemap.xml    → add a <url> entry for blog/<your-slug>.html
-        • blog.html      → add a {"@type":"BlogPosting"} entry to the Blog JSON-LD
+   5. Wire the post into the rest of the site (2 quick edits):
+        • blog/posts.json → add an entry (this auto-generates the index card,
+                            ordering, and the Blog JSON-LD — no need to touch blog.html)
+        • sitemap.xml     → add a <url> entry for blog/<your-slug>.html
    6. Delete this comment block from your copy.
 
   TOKENS: {{SLUG}} {{TITLE}} {{META_DESCRIPTION}} {{OG_DESCRIPTION}}
