@@ -46,9 +46,16 @@
 
   <url>
     <loc>https://ashforgestudio.com/blog.html</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://ashforgestudio.com/blog/running-horror-at-the-table.html</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
 
   <url>

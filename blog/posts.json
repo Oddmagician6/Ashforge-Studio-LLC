@@ -5,6 +5,16 @@
   },
   "posts": [
     {
+      "slug": "running-horror-at-the-table",
+      "title": "Running Horror at the Table: A Practical Guide",
+      "tag": "Craft",
+      "date": "2026-07-02",
+      "readTime": 6,
+      "excerpt": "Dread is a pace, not a jump scare. A practical guide to running horror in 5e — telegraph danger, protect the unknown, and keep the table safe.",
+      "image": "uploads/crooked-mile-cover.jpg",
+      "imageAlt": "Running Horror at the Table — a practical guide"
+    },
+    {
       "slug": "the-crooked-mile",
       "title": "The Crooked Mile Is Here: What It Is and Why I Made It",
       "tag": "Announcement",
