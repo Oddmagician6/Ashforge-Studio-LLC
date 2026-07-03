@@ -110,6 +110,24 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
     }
+    /* ── Newsletter signup ── */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .newsletter-section { max-width: 1080px; margin: 0 auto; padding: 8px 48px 104px; }
+    .newsletter { max-width: 640px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 34px 36px; text-align: center; }
+    .newsletter-eyebrow { font-family: var(--font-head); font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ember); margin-bottom: 12px; }
+    .newsletter-title { font-family: var(--font-head); font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: 0.02em; }
+    .newsletter-sub { font-size: 15px; color: var(--text-dim); margin-bottom: 22px; }
+    .newsletter-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .newsletter-input { flex: 1 1 260px; max-width: 360px; background: var(--bg); border: 1px solid var(--border-bright); border-radius: 3px; padding: 13px 16px; color: var(--text); font-family: var(--font-body); font-size: 16px; }
+    .newsletter-input:focus { outline: none; border-color: var(--ember); }
+    .newsletter-btn { background: var(--ember); color: #0d0b0f; font-family: var(--font-head); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; border: none; border-radius: 3px; padding: 13px 26px; cursor: pointer; transition: background 0.2s; }
+    .newsletter-btn:hover { background: var(--ember-glow); }
+    .newsletter-btn:disabled { opacity: 0.6; cursor: default; }
+    .newsletter-msg { flex-basis: 100%; font-size: 14px; margin-top: 14px; }
+    .newsletter-msg.error { color: var(--crimson, #d9534f); }
+    .newsletter-msg.success { color: var(--gold, #d8b45a); }
+    .newsletter-msg:empty { margin-top: 0; }
+    @media (max-width: 640px) { .newsletter-section { padding: 8px 24px 80px; } }
     .post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
     .post-grid-status { grid-column: 1 / -1; text-align: center; color: var(--text-dim); padding: 48px 0; font-size: 16px; }
     .post-grid-status a { color: var(--ember); text-decoration: none; }
@@ -190,6 +208,69 @@
     <p class="post-grid-status">Loading posts…</p>
   </div>
 </main>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="newsletter">
+    <div class="newsletter-eyebrow">The Mailing List</div>
+    <h3 class="newsletter-title">Never miss a dispatch</h3>
+    <p class="newsletter-sub">Get new posts and release announcements in your inbox. No spam, and you can unsubscribe anytime.</p>
+    <form class="newsletter-form" id="newsletter-form" novalidate>
+      <label class="sr-only" for="nl-email">Email address</label>
+      <input class="newsletter-input" type="email" id="nl-email" name="email" placeholder="you@example.com" autocomplete="email" required aria-describedby="nl-msg" />
+      <button class="newsletter-btn" type="submit" id="nl-submit">Subscribe</button>
+      <input type="text" class="sr-only" name="_hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <p class="newsletter-msg" id="nl-msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+(function () {
+  /* Newsletter signup posts to a Google Form (no-cors), same pattern as the commission form.
+     TO ACTIVATE: create a Google Form with one short-answer "Email" question, then replace the
+     two REPLACE_ values below with the form's response URL and the email field's entry id. */
+  var FORM_ACTION = "https://docs.google.com/forms/d/e/REPLACE_WITH_FORM_ID/formResponse";
+  var EMAIL_ENTRY = "entry.REPLACE_WITH_ENTRY_ID";
+
+  var form = document.getElementById("newsletter-form");
+  if (!form) return;
+  var input = document.getElementById("nl-email");
+  var msg = document.getElementById("nl-msg");
+  var btn = document.getElementById("nl-submit");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var email = input.value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      msg.className = "newsletter-msg error";
+      msg.textContent = "Please enter a valid email address.";
+      input.setAttribute("aria-invalid", "true"); input.focus();
+      return;
+    }
+    input.setAttribute("aria-invalid", "false");
+    if (form.querySelector('[name="_hp"]').value) return; // honeypot: silently drop bots
+    if (FORM_ACTION.indexOf("REPLACE") !== -1) {
+      msg.className = "newsletter-msg error";
+      msg.textContent = "The mailing list isn't connected yet. Check back soon.";
+      return;
+    }
+    btn.disabled = true; var label = btn.textContent; btn.textContent = "Joining…";
+    try {
+      var body = new FormData(); body.append(EMAIL_ENTRY, email);
+      await fetch(FORM_ACTION, { method: "POST", body: body, mode: "no-cors" });
+      form.reset();
+      msg.className = "newsletter-msg success";
+      msg.textContent = "You're on the list. Welcome to the workshop.";
+    } catch (err) {
+      msg.className = "newsletter-msg error";
+      msg.textContent = "Something went wrong. Please try again.";
+    } finally {
+      btn.disabled = false; btn.textContent = label;
+    }
+  });
+})();
+</script>
 
 <!-- FOOTER -->
 <footer>
