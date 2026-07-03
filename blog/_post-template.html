@@ -11,7 +11,7 @@
    4. Update the two "prev / next post" links near the bottom.
    5. Wire the post into the rest of the site (2 quick edits):
         • blog/posts.json → add an entry (this auto-generates the index card,
-                            ordering, and the Blog JSON-LD — no need to touch blog.html)
+                            ordering, and the Blog JSON-LD, no need to touch blog.html)
         • sitemap.xml     → add a <url> entry for blog/<your-slug>.html
    6. Delete this comment block from your copy.
 
@@ -27,7 +27,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" /><!-- REMOVE this line in your copy so the post can be indexed -->
-  <title>{{TITLE}} — Ashforge Studio</title>
+  <title>{{TITLE}} | Ashforge Studio</title>
   <meta name="description" content="{{META_DESCRIPTION}}" />
   <meta name="author" content="Matthias Moore" />
   <meta property="og:title" content="{{TITLE}}" />
@@ -241,7 +241,7 @@
       Delete the demo content below and replace it with your own.
     -->
 
-    <p>Open with a hook — the tension or question this post answers. One or two sentences that make a DM or publisher want to keep reading. This first paragraph doubles as your excerpt on the blog index, so make it earn its place.</p>
+    <p>Open with a hook: the tension or question this post answers. One or two sentences that make a DM or publisher want to keep reading. This first paragraph doubles as your excerpt on the blog index, so make it earn its place.</p>
 
     <p>Follow with context: why this matters, what you're about to walk through.</p>
 
@@ -267,7 +267,7 @@
     <p>Close with a call to action or a pointer to what's next.</p>
   </div>
 
-  <!-- CTA — optional. Edit the copy/link, or delete the whole block if the post doesn't need one. -->
+  <!-- CTA (optional). Edit the copy/link, or delete the whole block if the post doesn't need one. -->
   <div class="article-cta">
     <div class="article-cta-body">
       <div class="article-cta-eyebrow">{{CTA_EYEBROW}}</div>
@@ -280,7 +280,7 @@
     </a>
   </div>
 
-  <!-- NAV — left link points to a related/previous post; right link stays "All Posts".
+  <!-- NAV: left link points to a related/previous post; right link stays "All Posts".
        If there's no related post yet, delete the first <a> and keep only "All Posts". -->
   <div class="article-nav">
     <a href="{{PREV_POST_SLUG}}.html" class="article-nav-btn">
@@ -298,7 +298,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">Ashforge Studio</div>
-    <span class="footer-copy">© 2026 Ashforge Studio LLC — Matthias Moore</span>
+    <span class="footer-copy">© 2026 Ashforge Studio LLC, Matthias Moore</span>
     <a href="../blog.html" class="footer-back">← The Dispatch</a>
   </div>
 </footer>
