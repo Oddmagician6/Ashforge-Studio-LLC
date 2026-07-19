@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typeset Studio - Free Book Typesetting App | Ashforge Studio</title>
+  <meta name="description" content="Typeset Studio is a free desktop app that turns your manuscript into a print-ready PDF interior with embedded fonts - ready for KDP or IngramSpark. Genre styles, designed covers, EPUB export. Runs on your own computer. Free, with optional support." />
+  <meta name="author" content="Matthias Moore" />
+  <meta name="keywords" content="book typesetting software, free KDP formatting, IngramSpark interior PDF, self-publishing tool, book interior design, EPUB export, print ready PDF, Typeset Studio, Ashforge Studio" />
+  <meta name="theme-color" content="#0d0b0f" />
+  <link rel="canonical" href="https://ashforgestudio.com/typeset-studio.html" />
+
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Typeset Studio - Free Book Typesetting App" />
+  <meta property="og:description" content="Turn a manuscript into a print-ready PDF interior with embedded fonts, on your own computer. Free, with optional support." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ashforgestudio.com/typeset-studio.html" />
+  <meta property="og:site_name" content="Ashforge Studio" />
+  <meta property="og:locale" content="en_US" />
+  <!-- SCREENSHOT: 1200x630 social preview. See SCREENSHOTS-FOR-WEBSITE.md #7 -->
+  <meta property="og:image" content="https://ashforgestudio.com/uploads/typeset/og-typeset-studio.jpg" />
+  <meta property="og:image:alt" content="Typeset Studio: free book typesetting app" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@AshforgeStudio" />
+  <meta name="twitter:creator" content="@AshforgeStudio" />
+  <meta name="twitter:title" content="Typeset Studio - Free Book Typesetting App" />
+  <meta name="twitter:description" content="Print-ready book interiors on your own machine. Free, with optional support." />
+  <meta name="twitter:image" content="https://ashforgestudio.com/uploads/typeset/og-typeset-studio.jpg" />
+
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+
+  <!-- ── Structured Data (JSON-LD) ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Typeset Studio",
+    "operatingSystem": "Windows 10, Windows 11",
+    "applicationCategory": "DesignApplication",
+    "description": "A free desktop app that typesets a manuscript into a print-ready PDF book interior with embedded fonts, plus designed covers and EPUB export. Runs locally.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Matthias Moore" },
+    "publisher": { "@type": "Organization", "name": "Ashforge Studio LLC", "url": "https://ashforgestudio.com/" }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <!--
+  ═══════════════════════════════════════════════════════════════════
+    Typeset Studio landing page. Fully wired and ready to publish:
+      - Download buttons -> GitHub Release asset (typeset-studio-v1.0)
+      - PayPal + Patreon support links live
+      - All seven screenshots under uploads/typeset/ are real captures
+    To ship a new installer version, upload a new release asset and update
+    the two  href="...releases/download/..."  links below.
+  ═══════════════════════════════════════════════════════════════════
+  -->
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0b0f; --bg2: #110e14; --bg3: #16121b;
+      --surface: #1e1824; --surface2: #251f2e;
+      --border: #2e2638; --border-bright: #3d3450;
+      --ember: oklch(68% 0.19 42); --ember-dim: oklch(50% 0.14 42); --ember-glow: oklch(72% 0.22 38);
+      --gold: oklch(76% 0.14 78); --gold-dim: oklch(58% 0.10 78);
+      --text: oklch(90% 0.01 80); --text-dim: oklch(65% 0.02 80); --text-faint: oklch(45% 0.02 80);
+      --font-head: 'Cinzel', Georgia, serif; --font-body: 'Crimson Pro', Georgia, serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.7; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+    a { color: inherit; }
+
+    /* ── NAV (mirrors blog page) ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
+      background: rgba(13,11,15,0.97); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 44px; width: auto; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+    .nav-links a { font-family: var(--font-head); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--ember); }
+    .nav-cta { font-family: var(--font-head); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #0d0b0f !important; background: var(--ember); padding: 9px 20px; border-radius: 2px; transition: background 0.2s !important; }
+    .nav-cta:hover { background: var(--ember-glow) !important; }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+    .nav-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--text-dim); border-radius: 2px; transition: transform 0.25s, opacity 0.2s; transform-origin: center; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--ember); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--ember); }
+    .nav-mobile-menu { display: none; position: fixed; top: 68px; left: 0; right: 0; background: rgba(13,11,15,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); z-index: 99; flex-direction: column; padding: 24px 32px 32px; gap: 4px; transform: translateY(-12px); opacity: 0; transition: transform 0.25s ease, opacity 0.25s ease; pointer-events: none; }
+    .nav-mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .nav-mobile-menu a { font-family: var(--font-head); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .nav-mobile-menu a:last-child { border-bottom: none; }
+    .nav-mobile-menu a:hover { color: var(--ember); }
+    .nav-mobile-menu .mobile-cta { margin-top: 16px; text-align: center; background: var(--ember); color: #0d0b0f !important; border-radius: 2px; padding: 14px !important; border-bottom: none !important; }
+    @media (max-width: 860px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } nav { padding: 0 24px; } }
+
+    /* ── SHARED BITS ── */
+    .section-inner { max-width: 1140px; margin: 0 auto; padding: 0 48px; }
+    .section-eyebrow { font-family: var(--font-head); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ember); margin-bottom: 12px; }
+    .section-title { font-family: var(--font-head); font-size: clamp(28px, 3vw, 44px); font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: 20px; }
+    .section-body { font-size: 18px; color: var(--text-dim); line-height: 1.75; max-width: 620px; }
+    .rune-diamond { width: 8px; height: 8px; background: var(--ember); transform: rotate(45deg); flex-shrink: 0; }
+
+    .btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--ember); color: #0d0b0f; font-family: var(--font-head); font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; padding: 15px 30px; border-radius: 2px; border: none; cursor: pointer; transition: background 0.2s, box-shadow 0.2s, transform 0.15s; box-shadow: 0 0 30px oklch(68% 0.19 42 / 0.35); }
+    .btn-primary:hover { background: var(--ember-glow); box-shadow: 0 0 50px oklch(68% 0.19 42 / 0.55); transform: translateY(-1px); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 10px; background: transparent; color: var(--text-dim); font-family: var(--font-head); font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; padding: 14px 28px; border-radius: 2px; border: 1px solid var(--border-bright); cursor: pointer; transition: color 0.2s, border-color 0.2s; }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text-dim); }
+
+    /* Placeholder shell for screenshots (shows until images are added) */
+    .shot { position: relative; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; background:
+        repeating-linear-gradient(-45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 10px), var(--bg2); }
+    .shot::after { content: attr(data-label); position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--text-faint); }
+    .shot img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; object-fit: cover; }
+    .shot img[data-broken] { opacity: 0; }
+
+    /* ══ HERO ══ */
+    #hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; background: var(--bg); }
+    .hero-bg { position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 78% 40%, oklch(68% 0.19 42 / 0.10) 0%, transparent 55%),
+        radial-gradient(ellipse at 12% 90%, oklch(40% 0.15 120 / 0.10) 0%, transparent 55%); }
+    .hero-grid-tex { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at 20% 60%, black 20%, transparent 70%); }
+    .hero-grid-layout { display: grid; grid-template-columns: 1fr 360px; gap: 64px; align-items: center; width: 100%; position: relative; z-index: 2; padding-top: 116px; padding-bottom: 80px; }
+    @media (max-width: 900px) { .hero-grid-layout { grid-template-columns: 1fr; gap: 40px; } .hero-cover { max-width: 300px; margin: 4px auto 0; } }
+
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 2px; padding: 6px 14px; font-family: var(--font-head); font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ember); margin-bottom: 30px; }
+    .hero-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ember); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .hero-title { font-family: var(--font-head); font-size: clamp(34px, 3.6vw, 58px); font-weight: 900; line-height: 1.06; letter-spacing: -0.01em; margin-bottom: 26px; }
+    .hero-title-line1 { display: block; color: var(--text); }
+    .hero-title-line2 { display: block; font-size: clamp(20px, 2.1vw, 32px); font-weight: 700; margin-top: 10px;
+      background: linear-gradient(120deg, var(--ember) 0%, var(--gold) 50%, var(--ember-glow) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub { font-size: 19px; color: var(--text-dim); line-height: 1.7; max-width: 540px; margin-bottom: 36px; }
+    .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+    .hero-meta { font-size: 13px; color: var(--text-faint); letter-spacing: 0.03em; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .hero-meta .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border-bright); }
+
+    .hero-content-col, .hero-visual-col { min-width: 0; }
+    .hero-visual-col { display: flex; align-items: center; justify-content: center; }
+    .hero-cover { width: 100%; aspect-ratio: 3/4; border-radius: 2px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05), 0 0 60px oklch(40% 0.15 120 / 0.15);
+      transition: transform 0.4s ease, box-shadow 0.4s ease; }
+    .hero-cover:hover { transform: scale(1.02) translateY(-4px); }
+
+    /* ══ FEATURES ══ */
+    #features { padding: 116px 0; background: var(--bg2); border-top: 1px solid var(--border); }
+    #features::before { content: ''; display: block; height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); }
+    .features-header { max-width: 640px; margin-bottom: 56px; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 880px) { .features-grid { grid-template-columns: 1fr; } }
+    .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: 3px; padding: 30px 28px; display: flex; flex-direction: column; transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s; }
+    .feature-card:hover { border-color: var(--ember-dim); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 24px oklch(68% 0.19 42 / 0.08); }
+    .feature-icon { width: 46px; height: 46px; background: var(--bg); border: 1px solid var(--border-bright); border-radius: 2px; display: flex; align-items: center; justify-content: center; color: var(--ember); margin-bottom: 22px; flex-shrink: 0; }
+    .feature-title { font-family: var(--font-head); font-size: 16px; font-weight: 700; letter-spacing: 0.04em; color: var(--text); margin-bottom: 12px; }
+    .feature-desc { font-size: 15px; color: var(--text-dim); line-height: 1.65; }
+
+    /* ══ SHOWCASE ══ */
+    #showcase { padding: 116px 0; background: var(--bg); border-top: 1px solid var(--border); }
+    .showcase-header { max-width: 640px; margin-bottom: 52px; }
+    .showcase-feature { margin-bottom: 20px; }
+    .showcase-feature .shot { aspect-ratio: 16 / 10; }
+    .showcase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 760px) { .showcase-grid { grid-template-columns: 1fr; } }
+    .showcase-grid .shot { aspect-ratio: 16 / 11; }
+    .shot-caption { margin-top: 12px; display: flex; align-items: baseline; gap: 10px; }
+    .shot-caption .rune-diamond { width: 6px; height: 6px; align-self: center; }
+    .shot-caption-title { font-family: var(--font-head); font-size: 12px; letter-spacing: 0.06em; color: var(--text); }
+    .shot-caption-desc { font-size: 14px; color: var(--text-faint); }
+
+    /* ══ HOW IT WORKS ══ */
+    #how { padding: 116px 0; background: var(--bg3); border-top: 1px solid var(--border); }
+    .how-header { margin-bottom: 64px; max-width: 640px; }
+    .how-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; position: relative; }
+    @media (max-width: 900px) { .how-steps { grid-template-columns: 1fr; } }
+    .how-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 16px; position: relative; }
+    @media (max-width: 900px) { .how-step { flex-direction: row; text-align: left; align-items: flex-start; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--border); } .how-step:last-child { border-bottom: none; } }
+    .how-step-num { font-family: var(--font-head); font-size: 11px; letter-spacing: 0.2em; color: var(--ember); margin-bottom: 16px; }
+    @media (max-width: 900px) { .how-step-num { flex-shrink: 0; margin-bottom: 0; padding-top: 4px; } }
+    .how-step-icon { width: 52px; height: 52px; background: var(--surface); border: 1px solid var(--border-bright); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--ember); margin-bottom: 20px; }
+    @media (max-width: 900px) { .how-step-icon { display: none; } }
+    .how-step-title { font-family: var(--font-head); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; color: var(--text); margin-bottom: 10px; }
+    .how-step-desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+    /* ══ SUPPORT / DOWNLOAD ══ */
+    #get { padding: 116px 0; background: var(--bg); border-top: 1px solid var(--border); position: relative; }
+    #get::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, oklch(68% 0.19 42 / 0.05) 0%, transparent 55%); pointer-events: none; }
+    #get .section-inner { position: relative; z-index: 1; }
+    .get-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 56px 48px; text-align: center; }
+    .get-card .section-title { margin-bottom: 16px; }
+    .get-card .section-body { margin: 0 auto 32px; text-align: center; }
+    .get-actions { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .get-note { margin-top: 20px; font-size: 13px; color: var(--text-faint); }
+
+    .support-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+    @media (max-width: 640px) { .support-row { grid-template-columns: 1fr; } }
+    .support-card { display: flex; align-items: center; gap: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; padding: 24px 26px; text-decoration: none; transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s; }
+    .support-card:hover { border-color: var(--ember-dim); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .support-icon { width: 46px; height: 46px; background: var(--bg); border: 1px solid var(--border-bright); border-radius: 2px; display: flex; align-items: center; justify-content: center; color: var(--ember); flex-shrink: 0; }
+    .support-name { font-family: var(--font-head); font-size: 14px; letter-spacing: 0.05em; color: var(--text); margin-bottom: 3px; }
+    .support-desc { font-size: 13px; color: var(--text-faint); line-height: 1.5; }
+
+    /* ══ FOOTER ══ */
+    footer { background: var(--bg); padding: 48px 0 32px; border-top: 1px solid var(--border); }
+    .footer-inner { max-width: 1140px; margin: 0 auto; padding: 0 48px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .footer-logo { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: var(--ember); letter-spacing: 0.1em; }
+    .footer-copy { font-size: 12px; color: var(--text-faint); }
+    .footer-back { font-family: var(--font-head); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-faint); text-decoration: none; transition: color 0.2s; }
+    .footer-back:hover { color: var(--ember); }
+    @media (max-width: 560px) { .section-inner, .footer-inner { padding: 0 24px; } .get-card { padding: 40px 24px; } }
+  </style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <img src="uploads/logo.png" alt="Ashforge Studio" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#showcase">Screenshots</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="index.html">Studio Home</a></li>
+    <li><a href="#get" class="nav-cta">Download Free</a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<nav class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="#features">Features</a>
+  <a href="#showcase">Screenshots</a>
+  <a href="#how">How It Works</a>
+  <a href="index.html">Studio Home</a>
+  <a href="#get" class="mobile-cta">Download Free</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-tex"></div>
+  <div class="section-inner" style="width:100%;">
+    <div class="hero-grid-layout">
+      <div class="hero-content-col">
+        <div class="hero-badge"><span class="hero-badge-dot"></span> Free Desktop App &middot; Windows</div>
+        <h1 class="hero-title">
+          <span class="hero-title-line1">Typeset Studio</span>
+          <span class="hero-title-line2">Print-ready books, made on your own machine.</span>
+        </h1>
+        <p class="hero-sub">
+          A free app that turns a manuscript into a typeset, print-ready PDF interior, with fonts embedded and
+          ready for KDP or IngramSpark. Pick a genre style, drop in your Word or Markdown file, and compose.
+          No subscriptions, no accounts, and your manuscript never leaves your computer.
+        </p>
+        <div class="hero-actions">
+          <a href="https://github.com/Oddmagician6/Ashforge-Studio-LLC/releases/download/typeset-studio-v1.0/TypesetStudio-Setup-1.0.0.exe" class="btn-primary">
+            Download for Windows
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#showcase" class="btn-ghost">See It In Action</a>
+        </div>
+        <div class="hero-meta">
+          <span>Free &amp; open</span><span class="dot"></span>
+          <span>Python bundled, nothing to set up</span><span class="dot"></span>
+          <span>100% offline</span>
+        </div>
+      </div>
+
+      <div class="hero-visual-col">
+        <!-- SCREENSHOT #1: a single rendered designed cover, portrait 3:4. See brief. -->
+        <div class="shot hero-cover" data-label="hero-cover.jpg : a rendered book cover (portrait 3:4)">
+          <img src="uploads/typeset/hero-cover.jpg" alt="A book cover designed and rendered in Typeset Studio" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section id="features">
+  <div class="section-inner">
+    <div class="features-header">
+      <div class="section-eyebrow">What It Does</div>
+      <h2 class="section-title">A whole typesetting studio, offline</h2>
+      <p class="section-body">
+        Typeset Studio does the fiddly, expensive part of self-publishing, laying out a professional book
+        interior the way a designer would, but from a simple browser window on your own PC.
+      </p>
+    </div>
+
+    <div class="features-grid">
+
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feature-title">Real book typesetting</h3>
+        <p class="feature-desc">Drop caps, running heads, page numbers, mirrored margins, scene breaks, a proper table of contents, real hyphenation and smart quotes. The details a printed book actually needs.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M9 3v18" stroke="currentColor" stroke-width="1.3"/><circle cx="14.5" cy="8" r="1.4" fill="currentColor"/></svg>
+        </div>
+        <h3 class="feature-title">Genre styles, reusable</h3>
+        <p class="feature-desc">Nine ready-made interior styles: literary, thriller, romance, fantasy, sci-fi, mass-market and more. Build a style once, then duplicate it per book and tweak only what changes.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 15l4-4 3 3 4-4 5 5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="9" cy="8" r="1.6" stroke="currentColor" stroke-width="1.3"/></svg>
+        </div>
+        <h3 class="feature-title">Cover Studio</h3>
+        <p class="feature-desc">Pick a genre house style, fill in your title, and get a professional designed cover, with backgrounds, emblems, and a full front + spine + back print wrap sized to your page count.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 19l1.4-4.4 8-8 3 3-8 8L5 19z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M13.4 6.6l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feature-title">Write in the app</h3>
+        <p class="feature-desc">A built-in manuscript editor with live styling, a chapter outline, find &amp; replace, word count, and autosave. Or just import the .docx, .md, or .txt you already have.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 3h9l4 4v14H6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 13h6M9 16h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feature-title">PDF &amp; EPUB export</h3>
+        <p class="feature-desc">Export a print-ready PDF with subsetted, embedded fonts and an EPUB 3 e-book from the same manuscript, plus a preflight report and spine / margin calculator for KDP and IngramSpark.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="feature-title">Private by design</h3>
+        <p class="feature-desc">Everything runs locally in your browser against an app on your own PC. No cloud upload, no account, no watermark, no per-book fee. Your unpublished manuscript stays yours.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ SHOWCASE / SCREENSHOTS ══ -->
+<section id="showcase">
+  <div class="section-inner">
+    <div class="showcase-header">
+      <div class="section-eyebrow">A Look Inside</div>
+      <h2 class="section-title">See it in action</h2>
+      <p class="section-body">From a blank page to a bound-looking book. Here's the studio at work.</p>
+    </div>
+
+    <!-- SCREENSHOT #2: cover editor with live preview (wide hero shot) -->
+    <div class="showcase-feature">
+      <div class="shot" data-label="shot-cover-studio.jpg : Cover Studio editor + live cover preview (wide)">
+        <img src="uploads/typeset/shot-cover-studio.jpg" alt="The Cover Studio: editing a designed book cover with a live preview" />
+      </div>
+      <div class="shot-caption">
+        <div class="rune-diamond"></div>
+        <span class="shot-caption-title">Cover Studio</span>
+        <span class="shot-caption-desc">Fill in the text, watch the cover redraw live.</span>
+      </div>
+    </div>
+
+    <div class="showcase-grid">
+      <div>
+        <!-- SCREENSHOT #3: manuscript editor with outline sidebar -->
+        <div class="shot" data-label="shot-editor.jpg : manuscript editor + chapter outline">
+          <img src="uploads/typeset/shot-editor.jpg" alt="The in-app manuscript editor with a chapter outline sidebar" />
+        </div>
+        <div class="shot-caption">
+          <div class="rune-diamond"></div>
+          <span class="shot-caption-title">Manuscript editor</span>
+          <span class="shot-caption-desc">Write with live styling and an outline.</span>
+        </div>
+      </div>
+
+      <div>
+        <!-- SCREENSHOT #4: a rendered interior page (chapter opener, drop cap) -->
+        <div class="shot" data-label="shot-interior.jpg : rendered interior page (chapter opener)">
+          <img src="uploads/typeset/shot-interior.jpg" alt="A rendered book interior page with a chapter-opening drop cap" />
+        </div>
+        <div class="shot-caption">
+          <div class="rune-diamond"></div>
+          <span class="shot-caption-title">Typeset interior</span>
+          <span class="shot-caption-desc">Drop caps, running heads, clean margins.</span>
+        </div>
+      </div>
+
+      <div>
+        <!-- SCREENSHOT #5: styles home page (spec cards) -->
+        <div class="shot" data-label="shot-styles.jpg : Styles home page (spec cards)">
+          <img src="uploads/typeset/shot-styles.jpg" alt="The Styles home page showing reusable book-interior style cards" />
+        </div>
+        <div class="shot-caption">
+          <div class="rune-diamond"></div>
+          <span class="shot-caption-title">Reusable styles</span>
+          <span class="shot-caption-desc">One recipe per book, duplicated per customer.</span>
+        </div>
+      </div>
+
+      <div>
+        <!-- SCREENSHOT #6: result page (print spec + preflight cards) -->
+        <div class="shot" data-label="shot-result.jpg : result page (preflight + spine/margin)">
+          <img src="uploads/typeset/shot-result.jpg" alt="The result page showing a preflight report and spine and margin calculator" />
+        </div>
+        <div class="shot-caption">
+          <div class="rune-diamond"></div>
+          <span class="shot-caption-title">Print-ready checks</span>
+          <span class="shot-caption-desc">Preflight, spine width, and margin sanity.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section id="how">
+  <div class="section-inner">
+    <div class="how-header">
+      <div class="section-eyebrow">How It Works</div>
+      <h2 class="section-title">From manuscript to book in five steps</h2>
+    </div>
+
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-num">01</div>
+        <div class="how-step-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="5" y="3" width="12" height="16" rx="1.3" stroke="currentColor" stroke-width="1.3"/><path d="M9 3v16" stroke="currentColor" stroke-width="1.3"/></svg></div>
+        <div class="how-step-title">Pick a style</div>
+        <div class="how-step-desc">Choose a genre interior style, or duplicate one and make it yours.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">02</div>
+        <div class="how-step-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 4v9M7 9l4 4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17h14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+        <div class="how-step-title">Add your manuscript</div>
+        <div class="how-step-desc">Upload a .docx, .md, or .txt, or write it in the app.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">03</div>
+        <div class="how-step-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="4" y="3" width="14" height="16" rx="1.3" stroke="currentColor" stroke-width="1.3"/><path d="M4 13l4-3 3 2 3-3 4 4" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></div>
+        <div class="how-step-title">Design a cover</div>
+        <div class="how-step-desc">Optional: pick a house style and fill in the text.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">04</div>
+        <div class="how-step-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.3"/><path d="M11 6v5l3 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="how-step-title">Compose</div>
+        <div class="how-step-desc">The engine typesets your book, front matter and all.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">05</div>
+        <div class="how-step-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3v10M7 10l4 4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 18h14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+        <div class="how-step-title">Download</div>
+        <div class="how-step-desc">Grab your print-ready PDF and EPUB. That's it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GET / SUPPORT ══ -->
+<section id="get">
+  <div class="section-inner">
+    <div class="get-card">
+      <div class="section-eyebrow" style="text-align:center;">Get Typeset Studio</div>
+      <h2 class="section-title">Free to download. Free to keep.</h2>
+      <p class="section-body">
+        Typeset Studio is released free because it replaces the things authors usually pay for: typesetting,
+        formatting, and cover design. If it saves you money or time, a tip helps me keep building it.
+      </p>
+      <div class="get-actions">
+        <a href="https://github.com/Oddmagician6/Ashforge-Studio-LLC/releases/download/typeset-studio-v1.0/TypesetStudio-Setup-1.0.0.exe" class="btn-primary">
+          Download for Windows
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <p class="get-note">Windows 10 / 11 &middot; installer bundles everything &middot; no Python setup required</p>
+      <p class="get-note" style="margin-top:8px;">First run: Windows may flag the unsigned installer with an &ldquo;unknown publisher&rdquo; notice. Click <strong style="color:var(--text-dim);font-weight:600;">More info</strong>, then <strong style="color:var(--text-dim);font-weight:600;">Run anyway</strong>. This is normal for a free, independently released app.</p>
+
+      <div class="support-row">
+        <a href="https://www.paypal.com/ncp/payment/KFGXTDRA7YPKW" target="_blank" rel="noopener" class="support-card">
+          <div class="support-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 20l2-13h6.5c2.8 0 4.3 1.7 3.7 4.3-.6 2.7-2.8 4-5.7 4H9.2L8.4 20H6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="support-name">Tip via PayPal</div>
+            <div class="support-desc">A one-time thank-you, any amount.</div>
+          </div>
+        </a>
+
+        <a href="https://www.patreon.com/c/DungeonMasterDen" target="_blank" rel="noopener" class="support-card">
+          <div class="support-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="14.5" cy="9.5" r="6.5"/><rect x="3" y="3" width="4" height="18" rx="1"/></svg>
+          </div>
+          <div>
+            <div class="support-name">Support on Patreon</div>
+            <div class="support-desc">Back the studio and future updates.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Ashforge Studio</div>
+    <span class="footer-copy">© 2026 Ashforge Studio LLC &middot; Matthias Moore. Typeset Studio is free software.</span>
+    <a href="index.html" class="footer-back">← Studio Home</a>
+  </div>
+</footer>
+
+<script>
+// ── MOBILE NAV (same pattern as the blog pages) ──
+(function() {
+  const btn = document.getElementById("nav-hamburger");
+  const menu = document.getElementById("nav-mobile-menu");
+  if (!btn || !menu) return;
+  function closeMenu() { btn.classList.remove("open"); menu.classList.remove("open"); }
+  btn.addEventListener("click", () => { btn.classList.toggle("open"); menu.classList.toggle("open"); });
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+  document.addEventListener("click", e => { if (!btn.contains(e.target) && !menu.contains(e.target)) closeMenu(); });
+  window.addEventListener("scroll", () => { if (menu.classList.contains("open")) closeMenu(); }, { passive: true });
+})();
+
+// ── PLACEHOLDER SHOTS: hide any screenshot that hasn't been added yet, so the
+//    styled placeholder box shows through instead of a broken-image icon. ──
+(function() {
+  document.querySelectorAll(".shot img").forEach(img => {
+    img.addEventListener("error", () => img.setAttribute("data-broken", ""));
+    if (img.complete && img.naturalWidth === 0) img.setAttribute("data-broken", "");
+  });
+})();
+</script>
+
+</body>
+</html>
