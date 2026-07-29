@@ -22,7 +22,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
 
-  <!-- blogPost[] is populated at runtime from blog/posts.json (see script at end of file). -->
+  <!-- blogPost[] is listed statically so the markup is complete without JS; the
+       script at the end of this file overwrites it from blog/posts.json. -->
   <script type="application/ld+json" id="blog-jsonld">
   {
     "@context": "https://schema.org",
@@ -34,7 +35,30 @@
       "@type": "Organization",
       "name": "Ashforge Studio",
       "logo": { "@type": "ImageObject", "url": "https://ashforgestudio.com/uploads/logo.png" }
-    }
+    },
+    "blogPost": [
+      {
+        "@type": "BlogPosting",
+        "headline": "Running Horror at the Table: A Practical Guide",
+        "url": "https://ashforgestudio.com/blog/running-horror-at-the-table.html",
+        "datePublished": "2026-07-02",
+        "author": { "@type": "Person", "name": "Matthias Moore" }
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "The Crooked Mile Is Here: What It Is and Why I Made It",
+        "url": "https://ashforgestudio.com/blog/the-crooked-mile.html",
+        "datePublished": "2026-04-28",
+        "author": { "@type": "Person", "name": "Matthias Moore" }
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "Building Edenfall: A World Designed for Drop-In Play",
+        "url": "https://ashforgestudio.com/blog/building-edenfall.html",
+        "datePublished": "2026-04-15",
+        "author": { "@type": "Person", "name": "Matthias Moore" }
+      }
+    ]
   }
   </script>
   <script type="application/ld+json">
@@ -202,10 +226,64 @@
   </div>
 </div>
 
-<!-- POSTS: cards render from blog/posts.json (script at end of file) -->
+<!-- POSTS: the cards below are STATIC so crawlers and no-JS visitors see real
+     content and real links. The script at the end of this file re-renders them
+     from blog/posts.json (the source of truth) as soon as it loads. When you add
+     a post to posts.json, mirror it here too so the static list stays accurate. -->
 <main class="blog-main" id="main" tabindex="-1">
   <div class="post-grid" id="post-grid">
-    <p class="post-grid-status">Loading posts…</p>
+
+    <a href="blog/running-horror-at-the-table.html" class="post-card">
+      <img src="uploads/crooked-mile-cover.jpg" alt="Running Horror at the Table: a practical guide" class="post-card-img" loading="lazy" />
+      <div class="post-card-body">
+        <span class="post-card-tag craft">Craft</span>
+        <h2 class="post-card-title">Running Horror at the Table: A Practical Guide</h2>
+        <p class="post-card-excerpt">I've never found anything harder to run than horror. Here's what I've picked up, most of it the hard way: slow dread, fair warnings, and never quite naming the monster.</p>
+        <div class="post-card-meta">
+          <span>Matthias Moore</span>
+          <span class="post-card-meta-dot"></span>
+          <span>Jul 2, 2026</span>
+          <span class="post-card-meta-dot"></span>
+          <span>6 min read</span>
+        </div>
+        <span class="post-card-more">Read the post <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </div>
+    </a>
+
+    <a href="blog/the-crooked-mile.html" class="post-card">
+      <img src="uploads/crooked-mile-cover.jpg" alt="The Crooked Mile, Edenfall Collection Vol. 1" class="post-card-img" loading="lazy" />
+      <div class="post-card-body">
+        <span class="post-card-tag announcement">Announcement</span>
+        <h2 class="post-card-title">The Crooked Mile Is Here: What It Is and Why I Made It</h2>
+        <p class="post-card-excerpt">The Edenfall Collection started as a single encounter and grew into something I couldn't stop writing. Here's the origin of The Crooked Mile and what comes next.</p>
+        <div class="post-card-meta">
+          <span>Matthias Moore</span>
+          <span class="post-card-meta-dot"></span>
+          <span>Apr 28, 2026</span>
+          <span class="post-card-meta-dot"></span>
+          <span>3 min read</span>
+        </div>
+        <span class="post-card-more">Read the post <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </div>
+    </a>
+
+    <a href="blog/building-edenfall.html" class="post-card">
+      <img src="uploads/crooked-mile-cover.jpg" alt="Building Edenfall: a world designed for drop-in play" class="post-card-img" loading="lazy" />
+      <div class="post-card-body">
+        <span class="post-card-tag lore">Lore</span>
+        <h2 class="post-card-title">Building Edenfall: A World Designed for Drop-In Play</h2>
+        <p class="post-card-excerpt">Most settings ask DMs to learn a world before running it. Edenfall is designed the other way around. You run it first, then the world reveals itself.</p>
+        <div class="post-card-meta">
+          <span>Matthias Moore</span>
+          <span class="post-card-meta-dot"></span>
+          <span>Apr 15, 2026</span>
+          <span class="post-card-meta-dot"></span>
+          <span>5 min read</span>
+        </div>
+        <span class="post-card-more">Read the post <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </div>
+    </a>
+
   </div>
 </main>
 
@@ -375,8 +453,9 @@
       injectJsonLd(posts);
     })
     .catch(err => {
-      grid.textContent = "";
-      grid.appendChild(el("p", { class: "post-grid-status", text: "Posts couldn't load. Please refresh." }));
+      // Leave the static cards in the markup standing — they are a correct,
+      // if possibly stale, view of the blog. Wiping them for an error message
+      // would be strictly worse for both readers and crawlers.
       console.warn("[dispatch] posts.json failed:", err.message);
     });
 })();

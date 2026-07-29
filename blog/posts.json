@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "note": "Single source of truth for the blog index (blog.html renders cards + JSON-LD from this). To add a post: create blog/<slug>.html from _post-template.html, then add an entry below. Newest date sorts to the top automatically. Also add a <url> line to /sitemap.xml and regenerate /feed.xml (the RSS feed is a static file built from this list).",
+    "note": "Single source of truth for the blog index (blog.html renders cards + JSON-LD from this). To add a post: create blog/<slug>.html from _post-template.html, then add an entry below. Newest date sorts to the top automatically. Also add a <url> line to /sitemap.xml, regenerate /feed.xml (the RSS feed is a static file built from this list), and mirror the new card into the static #post-grid markup in blog.html (that static copy is what crawlers and no-JS visitors see before this file loads).",
     "fields": "slug (filename without .html) · title · tag · date (YYYY-MM-DD) · readTime (minutes) · excerpt · image (path from site root) · imageAlt · author (optional, defaults to Matthias Moore)"
   },
   "posts": [

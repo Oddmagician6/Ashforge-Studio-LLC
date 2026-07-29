@@ -3,7 +3,9 @@ Allow: /
 Disallow: /admin
 Disallow: /admin.html
 Disallow: /content.json
-Disallow: /blog/_post-template.html
+# _post-template.html carries its own <meta name="robots" content="noindex">.
+# It is deliberately NOT disallowed here: blocking the crawl would stop Google
+# from ever reading that noindex tag.
 
 # AI training crawlers - opt out
 User-agent: GPTBot
