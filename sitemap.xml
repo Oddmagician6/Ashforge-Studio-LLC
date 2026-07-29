@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/0.9">
+<!-- Plain sitemap, no image extension. Google deprecated image:title and
+     image:caption in 2022 and its validator rejects the whole image block,
+     so the extension is more trouble than it is worth here. Cover art is
+     discovered through normal crawling: the images carry alt text in the
+     page markup and are declared again in the og:image tags. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
     <loc>https://ashforgestudio.com/</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-07-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://ashforgestudio.com/uploads/Edenfall%20Volume%201%20Cover.jpg</image:loc>
-      <image:title>The Crooked Mile - Edenfall Collection Volume 1</image:title>
-      <image:caption>D&amp;D 5e dark fantasy adventure by Ashforge Studio</image:caption>
-    </image:image>
   </url>
 
   <url>
     <loc>https://ashforgestudio.com/typeset-studio.html</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://ashforgestudio.com/blog.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
