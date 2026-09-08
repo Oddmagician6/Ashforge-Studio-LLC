@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>SPIKE - Parchment Hero</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+
+<!--
+  ══════════════════════════════════════════════════════════════
+  SPIKE ONLY - not linked, noindex. Delete or promote after review.
+
+  Purpose: answer the texture question before committing to the
+  full redesign. Everything here is procedural - the paper grain,
+  the torn edges, the fibre flecks, the ink bleed are all SVG
+  filters and paths. Zero new image bytes. The only raster is
+  the book cover and the existing hero-banner.jpg reused as a
+  faint map underlay.
+  ══════════════════════════════════════════════════════════════
+-->
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* ── Parchment ground ── */
+    --parchment:      oklch(91% 0.034 82);
+    --parchment-2:    oklch(87% 0.042 80);
+    --parchment-deep: oklch(79% 0.050 78);
+    --parchment-edge: oklch(70% 0.055 72);
+
+    /* ── Dark band ── */
+    --forest:    oklch(21% 0.020 145);
+    --forest-2:  oklch(26% 0.026 142);
+    --forest-3:  oklch(32% 0.028 140);
+
+    /* ── Ink (text on parchment) ── */
+    --ink:       oklch(24% 0.018 60);
+    --ink-soft:  oklch(42% 0.022 60);
+    --ink-faint: oklch(56% 0.024 62);
+
+    /* ── Text on dark band ── */
+    --cream:       oklch(92% 0.022 84);
+    --cream-dim:   oklch(74% 0.026 82);
+    --cream-faint: oklch(58% 0.026 80);
+
+    /* ── Gold ── */
+    --gold:        oklch(63% 0.108 74);
+    --gold-bright: oklch(72% 0.126 76);
+    --gold-deep:   oklch(50% 0.092 70);
+
+    --font-head: 'Cinzel', Georgia, serif;
+    --font-body: 'Crimson Pro', Georgia, serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--forest);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Procedural texture layers are decorative and never interactive.
+     An <svg> is a replaced element - inset:0 alone will NOT stretch it,
+     it falls back to its 300x150 intrinsic size. Width/height required. */
+  .tex {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  /* ══════════════════════════════════
+     NAV - dark band riding over parchment
+  ══════════════════════════════════ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 68px;
+    background: linear-gradient(to bottom,
+      oklch(18% 0.018 145 / 0.97) 60%,
+      oklch(18% 0.018 145 / 0));
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: var(--font-head);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+  }
+  .nav-logo svg { width: 26px; height: 26px; flex-shrink: 0; color: var(--gold); }
+
+  .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-head);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-bright); }
+
+  @media (max-width: 860px) {
+    nav { padding: 0 22px; }
+    .nav-links { display: none; }
+  }
+
+  /* ══════════════════════════════════
+     HERO
+  ══════════════════════════════════ */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: var(--parchment);
+    isolation: isolate;
+  }
+
+  /* Warm vignette so the corners age toward the edges of the sheet.
+     Kept light - on parchment the aging should whisper, not shout. */
+  .hero-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 120% 100% at 32% 38%,
+        transparent 42%,
+        oklch(66% 0.055 68 / 0.10) 82%,
+        oklch(54% 0.058 62 / 0.22) 100%);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 132px 48px 200px;
+  }
+
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 72px;
+    align-items: center;
+  }
+
+  @media (max-width: 980px) {
+    .hero-layout { grid-template-columns: 1fr; gap: 56px; }
+    .hero-inner { padding: 118px 24px 190px; }
+  }
+
+  /* ── The torn paper sheet holding the copy ── */
+  .hero-sheet {
+    position: relative;
+    padding: 56px 56px 52px;
+    background: linear-gradient(152deg,
+      oklch(94% 0.028 86) 0%,
+      var(--parchment) 42%,
+      var(--parchment-2) 100%);
+    /* Irregular deckled edge - no image, just a clip path */
+    clip-path: polygon(
+      1.2% 0.8%,  14% 0.1%,  27% 1.4%,  41% 0.3%,  55% 1.6%,
+      69% 0.4%,  83% 1.5%,  96% 0.2%,  99.4% 3.0%,
+      98.6% 17%, 99.5% 31%, 98.4% 46%, 99.6% 60%, 98.5% 74%,
+      99.4% 88%, 98.0% 97%,
+      86% 99.4%, 72% 98.2%, 58% 99.6%, 44% 98.4%, 30% 99.5%,
+      16% 98.3%, 3.5% 99.2%, 0.6% 95%,
+      1.4% 81%, 0.3% 67%, 1.5% 52%, 0.2% 38%, 1.6% 23%, 0.4% 9%
+    );
+    filter:
+      drop-shadow(0 2px 3px oklch(35% 0.04 60 / 0.20))
+      drop-shadow(0 18px 34px oklch(35% 0.04 60 / 0.26));
+  }
+
+  @media (max-width: 560px) {
+    .hero-sheet { padding: 38px 30px 36px; }
+  }
+
+  /* Lift the content above the sheet's own grain layer - but leave the
+     grain itself absolutely positioned, or it drops into normal flow. */
+  .hero-sheet > *:not(.tex) { position: relative; z-index: 2; }
+
+  /* ── Badge ── */
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid var(--gold-deep);
+    border-radius: 1px;
+    padding: 7px 15px;
+    font-family: var(--font-head);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    background: oklch(84% 0.048 80 / 0.5);
+    margin-bottom: 34px;
+  }
+  .hero-badge-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+  /* ── Title ── */
+  .hero-title {
+    font-family: var(--font-head);
+    font-size: clamp(34px, 4.0vw, 62px);
+    font-weight: 900;
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+    margin-bottom: 26px;
+  }
+  .hero-title-line1 { display: block; color: var(--ink); }
+  .hero-title-line2 {
+    display: block;
+    color: var(--gold-deep);
+    /* Slight ink-bleed warmth rather than a glow - glows die on light ground */
+    text-shadow: 0 1px 0 oklch(96% 0.02 86 / 0.6);
+  }
+
+  .hero-sub {
+    font-size: 19px;
+    color: var(--ink-soft);
+    line-height: 1.68;
+    max-width: 540px;
+    margin-bottom: 42px;
+  }
+
+  /* ── Actions ── */
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+    color: oklch(20% 0.03 60);
+    font-family: var(--font-head);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 17px 34px;
+    border-radius: 1px;
+    border: 1px solid var(--gold-deep);
+    cursor: pointer;
+    /* On parchment, depth comes from a cast shadow, not a halo */
+    box-shadow:
+      inset 0 1px 0 oklch(96% 0.05 86 / 0.45),
+      0 2px 4px oklch(40% 0.05 60 / 0.22),
+      0 8px 18px oklch(40% 0.05 60 / 0.18);
+    transition: transform 0.15s, box-shadow 0.2s, filter 0.2s;
+  }
+  .btn-primary:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 oklch(96% 0.05 86 / 0.5),
+      0 3px 6px oklch(40% 0.05 60 / 0.26),
+      0 12px 26px oklch(40% 0.05 60 / 0.22);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: oklch(93% 0.022 84 / 0.55);
+    color: var(--ink-soft);
+    font-family: var(--font-head);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 1px;
+    border: 1px solid var(--parchment-edge);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .btn-ghost:hover {
+    color: var(--ink);
+    border-color: var(--ink-faint);
+    background: oklch(95% 0.022 84 / 0.8);
+  }
+
+  /* ── Patreon strip ── */
+  .hero-patreon { margin-top: 34px; }
+  .hero-patreon-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: oklch(86% 0.040 80 / 0.55);
+    border: 1px solid var(--parchment-edge);
+    border-radius: 1px;
+    padding: 11px 18px;
+    font-family: var(--font-head);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .hero-patreon-link svg:first-child { color: var(--gold-deep); flex-shrink: 0; }
+  .hero-patreon-link svg:last-child  { color: var(--ink-faint); flex-shrink: 0; transition: transform 0.2s, color 0.2s; }
+  .hero-patreon-link:hover {
+    border-color: var(--gold-deep);
+    color: var(--ink);
+    background: oklch(90% 0.040 80 / 0.75);
+  }
+  .hero-patreon-link:hover svg:last-child { transform: translateX(3px); color: var(--gold-deep); }
+
+  /* ══════════════════════════════════
+     HERO VISUAL - book on a paper collage
+  ══════════════════════════════════ */
+  .hero-visual { position: relative; display: flex; align-items: center; justify-content: center; }
+
+  @media (max-width: 980px) {
+    .hero-visual { display: none; }
+  }
+
+  /* Two torn scraps layered behind the book, slightly rotated */
+  .scrap {
+    position: absolute;
+    background: linear-gradient(140deg, oklch(88% 0.040 80), oklch(80% 0.052 74));
+    box-shadow: 0 8px 24px oklch(35% 0.04 60 / 0.28);
+  }
+  .scrap-a {
+    inset: -6% -12% 4% -8%;
+    transform: rotate(-4.5deg);
+    clip-path: polygon(
+      2% 3%, 20% 0.5%, 38% 2.5%, 57% 0.8%, 76% 2.8%, 95% 1%, 99% 6%,
+      97.5% 24%, 99% 43%, 97% 62%, 99% 80%, 96% 96%,
+      78% 99%, 59% 97%, 40% 99.4%, 21% 97.4%, 4% 99%, 0.8% 92%,
+      2.4% 74%, 0.6% 56%, 2.6% 37%, 0.8% 19%
+    );
+    opacity: 0.9;
+  }
+  .scrap-b {
+    inset: 2% -4% -6% 6%;
+    transform: rotate(3deg);
+    background: linear-gradient(140deg, oklch(84% 0.046 78), oklch(74% 0.056 70));
+    clip-path: polygon(
+      1% 4%, 22% 1%, 44% 3%, 66% 0.6%, 88% 2.6%, 99% 7%,
+      97% 27%, 99% 47%, 97.4% 67%, 99% 86%, 94% 97%,
+      72% 99.2%, 50% 97%, 28% 99.4%, 6% 97.6%, 1% 90%,
+      2.8% 70%, 0.7% 50%, 2.6% 30%, 0.9% 14%
+    );
+    opacity: 0.75;
+  }
+
+  .hero-book-cover {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: block;
+    border-radius: 2px;
+    transform: rotate(-1.5deg);
+    /* Physical, grounded shadow - the book sits ON the paper */
+    box-shadow:
+      0 1px 2px oklch(30% 0.04 60 / 0.35),
+      0 10px 22px oklch(30% 0.04 60 / 0.32),
+      0 30px 60px oklch(30% 0.04 60 / 0.30);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .hero-book-cover:hover {
+    transform: rotate(-1.5deg) scale(1.025) translateY(-5px);
+    box-shadow:
+      0 2px 3px oklch(30% 0.04 60 / 0.38),
+      0 16px 32px oklch(30% 0.04 60 / 0.36),
+      0 44px 84px oklch(30% 0.04 60 / 0.34);
+  }
+
+  /* ══════════════════════════════════
+     TORN DIVIDER + DARK STAT BAND
+  ══════════════════════════════════ */
+  .band {
+    position: relative;
+    background: var(--forest);
+    margin-top: -1px;
+  }
+
+  /* The torn edge itself - an SVG path, stretched across the width */
+  .band-tear {
+    position: absolute;
+    bottom: 100%;
+    left: 0; right: 0;
+    width: 100%;
+    height: 46px;
+    display: block;
+    fill: var(--forest);
+    /* nudge to kill sub-pixel seams */
+    margin-bottom: -1px;
+  }
+
+  .band-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 30px 48px 54px;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+  }
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    padding: 0 20px;
+    border-left: 1px solid var(--forest-3);
+  }
+  .hero-stat:first-child { border-left: none; }
+  .hero-stat svg { width: 38px; height: 38px; color: var(--gold); }
+
+  .hero-stat-num {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-family: var(--font-head);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-faint);
+  }
+
+  @media (max-width: 700px) {
+    .band-inner { padding: 24px 20px 40px; }
+    .hero-stats { grid-template-columns: 1fr; gap: 30px; }
+    .hero-stat { border-left: none; padding: 0; }
+    .band-tear { height: 28px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ── Spike-only note ── */
+  .spike-note {
+    background: var(--forest-2);
+    color: var(--cream-dim);
+    font-size: 14px;
+    padding: 26px 48px 40px;
+    border-top: 1px solid var(--forest-3);
+  }
+  .spike-note b { color: var(--gold-bright); font-family: var(--font-head); letter-spacing: 0.1em; }
+  .spike-note ul { margin: 12px 0 0 20px; }
+  .spike-note li { margin-bottom: 5px; }
+</style>
+</head>
+
+<!-- ══════════════════════════════════════════════════════════
+     Procedural texture definitions. One <svg>, no image files.
+     ══════════════════════════════════════════════════════════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- Fine paper grain -->
+    <filter id="paper-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" seed="7" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+    </filter>
+
+    <!-- Coarser blotching - uneven aging across the sheet -->
+    <filter id="paper-mottle" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="3" seed="19" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+    </filter>
+  </defs>
+</svg>
+
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 8h13l3 3-3 3H3z"/>
+      <path d="M8 14v6M5 20h6"/>
+    </svg>
+    Ashforge Studio
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Supplements</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Business</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <!-- substrate layers: mottled aging, then fine grain, then vignette -->
+  <svg class="tex" style="opacity:0.16; mix-blend-mode:multiply;" aria-hidden="true" preserveAspectRatio="none">
+    <rect width="100%" height="100%" filter="url(#paper-mottle)"/>
+  </svg>
+  <svg class="tex" style="opacity:0.07; mix-blend-mode:multiply;" aria-hidden="true" preserveAspectRatio="none">
+    <rect width="100%" height="100%" filter="url(#paper-grain)"/>
+  </svg>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-inner">
+    <div class="hero-layout">
+
+      <!-- ── Copy sheet ── -->
+      <div class="hero-sheet">
+        <!-- grain on the sheet itself, clipped along with it -->
+        <svg class="tex" style="opacity:0.10; mix-blend-mode:multiply; z-index:1;" aria-hidden="true" preserveAspectRatio="none">
+          <rect width="100%" height="100%" filter="url(#paper-grain)"/>
+        </svg>
+
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          TTRPG Supplements &amp; Worldbuilding
+        </div>
+
+        <h1 class="hero-title">
+          <span class="hero-title-line1">Your World,</span>
+          <span class="hero-title-line1">Professionally</span>
+          <span class="hero-title-line2">Written.</span>
+        </h1>
+
+        <p class="hero-sub">
+          Ashforge Studio is a solo TTRPG content studio. I write adventures, lore,
+          stat blocks, and supplements for publishers, creators, and Dungeon Masters
+          who demand more from their worlds.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#" class="btn-primary">
+            Commission Work
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#" class="btn-ghost">Browse Supplements</a>
+        </div>
+
+        <div class="hero-patreon">
+          <a href="#" class="hero-patreon-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <circle cx="14.5" cy="9.5" r="6.5"/>
+              <rect x="3" y="3" width="4" height="18" rx="1"/>
+            </svg>
+            Support us on Patreon - exclusive early access
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Book on collage ── -->
+      <div class="hero-visual">
+        <div class="scrap scrap-a"></div>
+        <div class="scrap scrap-b"></div>
+        <img
+          src="uploads/Edenfall Volume 1 Cover.jpg"
+          alt="The Crooked Mile - Edenfall Collection Volume 1 by Ashforge Studio"
+          class="hero-book-cover"
+          width="400" height="600"
+        />
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Torn divider + dark stat band ── -->
+<div class="band">
+  <svg class="band-tear" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,46 L0,22 L18,26 L37,15 L58,24 L79,12 L101,21 L124,9 L146,19 L169,8
+             L192,18 L214,6 L237,17 L260,7 L283,20 L306,10 L329,22 L352,11 L375,23
+             L398,13 L421,25 L444,14 L467,26 L490,15 L513,27 L536,16 L559,28 L582,17
+             L605,29 L628,18 L651,27 L674,14 L697,24 L720,12 L743,22 L766,10 L789,21
+             L812,9 L835,19 L858,7 L881,18 L904,6 L927,17 L950,8 L973,20 L996,11
+             L1019,23 L1042,13 L1065,25 L1088,15 L1111,26 L1134,17 L1157,27 L1180,19
+             L1200,24 L1200,46 Z"/>
+  </svg>
+
+  <div class="band-inner">
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 3 L35 12 L35 28 L20 37 L5 28 L5 12 Z"/>
+          <path d="M20 3 L27 14 L35 12 M20 3 L13 14 L5 12 M13 14 L20 37 M27 14 L20 37 M13 14 L27 14"/>
+        </svg>
+        <div class="hero-stat-num">5e</div>
+        <div class="hero-stat-label">Compatible</div>
+      </div>
+
+      <div class="hero-stat">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="20" cy="20" r="15"/>
+          <circle cx="20" cy="20" r="4"/>
+          <path d="M20 5 L20 1 M20 39 L20 35 M5 20 L1 20 M39 20 L35 20"/>
+          <path d="M20 8 L24 20 L20 32 L16 20 Z"/>
+          <path d="M8 20 L20 16 L32 20 L20 24 Z"/>
+        </svg>
+        <div class="hero-stat-num">OGL</div>
+        <div class="hero-stat-label">Licensed</div>
+      </div>
+
+      <div class="hero-stat">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
+          <path d="M2 31 L13 15 L20 25 L27 9 L38 31 Z"/>
+          <path d="M9.5 23 L13 20 L16 23"/>
+          <path d="M23.5 17 L27 14 L30.5 17"/>
+        </svg>
+        <div class="hero-stat-num">&#8734;</div>
+        <div class="hero-stat-label">Adventures Await</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="spike-note">
+  <b>SPIKE NOTES</b>
+  <ul>
+    <li>Every texture here is procedural: SVG <code>feTurbulence</code> for grain and mottling, <code>clip-path</code> polygons for the deckled sheet and scraps, one stretched SVG path for the torn band edge.</li>
+    <li><b>New image bytes added: 0.</b> The only raster on this page is the book cover, which production already loads. The old <code>hero-banner.jpg</code> underlay was dropped - it is the logo banner, not a map, and ghosted the wordmark across the section.</li>
+    <li>Glows became cast shadows and inset highlights - the ember halo does not survive a light ground.</li>
+    <li>Typography is unchanged from production: Cinzel + Crimson Pro already match the comp.</li>
+  </ul>
+</div>
+
+</body>
+</html>
