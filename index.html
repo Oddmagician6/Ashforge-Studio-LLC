@@ -38,7 +38,19 @@
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="favicon.png" />
 
-  <!-- ── Structured Data (JSON-LD) ── -->
+  <!-- ── Structured Data (JSON-LD) ──
+       The Product offer deliberately omits shippingDetails and
+       hasMerchantReturnPolicy. Search Console lists both under
+       "Improve item appearance", but they describe a merchant who
+       ships their own goods and administers their own returns. The
+       Crooked Mile is a PDF sold through DriveThruRPG and Patreon:
+       nothing ships, and their terms govern refunds, not ours.
+       Adding the fields would silence the warnings by asserting
+       something untrue, so leave them out. The item stays valid.
+
+       brand must carry its own @type - Google does not resolve a
+       bare @id reference here, which is what "Invalid object type
+       for field brand" meant. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -89,7 +101,7 @@
         "name": "The Crooked Mile - Edenfall Collection Vol. 1",
         "image": "https://ashforgestudio.com/uploads/Edenfall%20Volume%201%20Cover.jpg",
         "description": "A dark fantasy adventure for D&D 5th Edition - deep woods, hidden horrors, and a road that doesn't end where it should. Designed for drop-in play or as the opening chapter of a longer arc.",
-        "brand": { "@id": "https://ashforgestudio.com/#organization" },
+        "brand": { "@type": "Brand", "name": "Ashforge Studio LLC" },
         "category": "Tabletop Roleplaying Game Supplement",
         "offers": {
           "@type": "Offer",
