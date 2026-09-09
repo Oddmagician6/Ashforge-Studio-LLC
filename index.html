@@ -7,7 +7,7 @@
   <meta name="description" content="Ashforge Studio is a solo TTRPG content studio by Matthias Moore. Professional D&D 5e adventure writing, lore, stat blocks, and supplement design for publishers and creators." />
   <meta name="author" content="Matthias Moore" />
   <meta name="keywords" content="D&D 5e, TTRPG writer, dungeons and dragons supplements, adventure writing, OGL, stat blocks, lore writing, DriveThruRPG, Ashforge Studio, Matthias Moore" />
-  <meta name="theme-color" content="#0d0b0f" />
+  <meta name="theme-color" content="#171a15" />
   <link rel="canonical" href="https://ashforgestudio.com/" />
   <link rel="alternate" type="application/rss+xml" title="The Dispatch" href="/feed.xml" />
 
@@ -38,7 +38,19 @@
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="favicon.png" />
 
-  <!-- ── Structured Data (JSON-LD) ── -->
+  <!-- ── Structured Data (JSON-LD) ──
+       The Product offer deliberately omits shippingDetails and
+       hasMerchantReturnPolicy. Search Console lists both under
+       "Improve item appearance", but they describe a merchant who
+       ships their own goods and administers their own returns. The
+       Crooked Mile is a PDF sold through DriveThruRPG and Patreon:
+       nothing ships, and their terms govern refunds, not ours.
+       Adding the fields would silence the warnings by asserting
+       something untrue, so leave them out. The item stays valid.
+
+       brand must carry its own @type - Google does not resolve a
+       bare @id reference here, which is what "Invalid object type
+       for field brand" meant. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -89,7 +101,7 @@
         "name": "The Crooked Mile - Edenfall Collection Vol. 1",
         "image": "https://ashforgestudio.com/uploads/Edenfall%20Volume%201%20Cover.jpg",
         "description": "A dark fantasy adventure for D&D 5th Edition - deep woods, hidden horrors, and a road that doesn't end where it should. Designed for drop-in play or as the opening chapter of a longer arc.",
-        "brand": { "@id": "https://ashforgestudio.com/#organization" },
+        "brand": { "@type": "Brand", "name": "Ashforge Studio LLC" },
         "category": "Tabletop Roleplaying Game Supplement",
         "offers": {
           "@type": "Offer",
@@ -199,28 +211,93 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ══════════════════════════════════════════════════════════
+       PARCHMENT PALETTE
+
+       The page alternates grounds, so these tokens carry the DARK
+       ground's values and `.ground-paper` re-points the same names
+       at ink-on-paper below. Every component reads the tokens, so
+       it re-skins by inheritance rather than by being rewritten.
+
+       Legacy names (--bg, --ember, --surface) are kept deliberately:
+       ~290 references across this sheet, app.js and the blog pages
+       depend on them. Renaming buys nothing and risks a miss.
+       ══════════════════════════════════════════════════════════ */
     :root {
-      --bg: #0d0b0f;
-      --bg2: #110e14;
-      --bg3: #16121b;
-      --surface: #1e1824;
-      --surface2: #251f2e;
-      --border: #2e2638;
-      --border-bright: #3d3450;
+      /* Raw parchment palette - the source values */
+      --paper:       #dbbd94;
+      --paper-mid:   #cdab80;
+      --paper-deep:  #c6a173;
+      --dark:        #22261f;
+      --dark-deep:   #171a15;
+      --ink:         #2a2018;
+      --ink-soft:    #4c3c2b;
+      --ink-faint:   #584734;
+      --cream:       #eadfc6;
+      --cream-dim:   #c3b291;
+      --cream-faint: #b5a085;
+      --gold-warm:   #c08b3c;
+      --gold-bright: #ddab55;
+      --gold-deep:   #8a5f24;
 
-      --ember: oklch(68% 0.19 42);
-      --ember-dim: oklch(50% 0.14 42);
-      --ember-glow: oklch(72% 0.22 38);
-      --crimson: oklch(50% 0.20 15);
-      --gold: oklch(76% 0.14 78);
-      --gold-dim: oklch(58% 0.10 78);
+      /* Semantic tokens - dark ground (the default) */
+      --bg: var(--dark-deep);
+      --bg2: #1b1f19;
+      --bg3: var(--dark);
+      --surface: #2a2e26;
+      --surface2: #333829;
+      --border: rgba(190,160,100,0.18);
+      --border-bright: rgba(190,160,100,0.34);
 
-      --text: oklch(90% 0.01 80);
-      --text-dim: oklch(65% 0.02 80);
-      --text-faint: oklch(45% 0.02 80);
+      /* The ember family becomes the gold family. Same roles,
+         same relative brightness, warmer hue. */
+      --ember: var(--gold-warm);
+      --ember-dim: var(--gold-deep);
+      --ember-glow: var(--gold-bright);
+      --crimson: #7a3b1e;
+      --gold: var(--gold-bright);
+      --gold-dim: var(--gold-warm);
+
+      --text: var(--cream);
+      --text-dim: var(--cream-dim);
+      --text-faint: var(--cream-faint);
+
+      /* Label colour for text sitting on a gold fill */
+      --on-gold: #2a1d0a;
 
       --font-head: 'Cinzel', Georgia, serif;
       --font-body: 'Crimson Pro', Georgia, serif;
+    }
+
+    /* Paper ground re-points the same semantic names at ink. Anything
+       nested inside a paper section inherits legible colours for free.
+       The hero sheet is paper too, so it takes the same overrides. */
+    .ground-paper,
+    .hero-sheet {
+      --bg: var(--paper);
+      --bg2: var(--paper-mid);
+      --bg3: var(--paper-deep);
+      --surface: rgba(255,248,232,0.34);
+      --surface2: rgba(255,248,232,0.52);
+      --border: rgba(120,92,52,0.34);
+      --border-bright: rgba(90,66,32,0.55);
+
+      /* Deeper than the dark ground's gold. --ember does double duty
+         as small accent text AND as button fill, and on paper the
+         mid-gold failed both: 3.7:1 as text, 3.9:1 under a dark
+         label. Dropping to burnt umber takes accent text to ~5:1,
+         and flipping --on-gold to cream takes button labels to ~7:1
+         instead of pushing the ink darker against a lighter fill. */
+      --ember: #684314;
+      --ember-dim: #4f3210;
+      --ember-glow: var(--gold-deep);
+      --gold: #684314;
+      --gold-dim: #4f3210;
+      --on-gold: var(--cream);
+
+      --text: var(--ink);
+      --text-dim: var(--ink-soft);
+      --text-faint: var(--ink-faint);
     }
 
     html { scroll-behavior: smooth; }
@@ -232,6 +309,159 @@
       font-size: 18px;
       line-height: 1.7;
       overflow-x: hidden;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       THE RHYTHM SYSTEM   (ported from spike-hero.html)
+
+       .torn  - masks a section's bottom edge into a rip. Four knobs
+                (--tear-h/-w/-x/-src) make one 6 KB contour read as
+                several different rips.
+       .tuck  - pulls the next section up under that rip and paints
+                it behind, so the gap reveals it. --tuck must match
+                the --tear-h of the section above.
+
+       Boundaries alternate torn / clean so the tear stays
+       punctuation rather than wallpaper.
+       ══════════════════════════════════════════════════════════ */
+    .sec { position: relative; }
+
+    .torn {
+      --tear-h: 56px;
+      --tear-w: 100%;
+      --tear-x: 0px;
+      --tear-src: url('uploads/texture/tear-mask.png');
+      position: relative;
+      z-index: 1;
+      -webkit-mask-image: linear-gradient(#000, #000), var(--tear-src);
+              mask-image: linear-gradient(#000, #000), var(--tear-src);
+      -webkit-mask-size: 100% calc(100% - var(--tear-h) + 1px), var(--tear-w) var(--tear-h);
+              mask-size: 100% calc(100% - var(--tear-h) + 1px), var(--tear-w) var(--tear-h);
+      -webkit-mask-position: left top, var(--tear-x) bottom;
+              mask-position: left top, var(--tear-x) bottom;
+      -webkit-mask-repeat: no-repeat, no-repeat;
+              mask-repeat: no-repeat, no-repeat;
+    }
+
+    .tuck {
+      --tuck: 56px;
+      position: relative;
+      z-index: 0;
+      margin-top: calc(var(--tuck) * -1);
+      padding-top: calc(var(--tuck) + 26px);
+    }
+
+    /* ── Grounds ──────────────────────────────────────────────
+       Tiles carry grain only, centred on mid-grey, so they are
+       blended over a flat colour rather than supplying it. An
+       overlay of exactly mid-grey is a no-op, so only texture lands. */
+    .ground-paper {
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(158deg, rgba(244,230,201,0.5), rgba(219,189,148,0.16) 58%, rgba(186,150,104,0.34)),
+        url('uploads/texture/paper-tile.webp');
+      background-size: auto, 520px;
+      background-repeat: no-repeat, repeat;
+      background-blend-mode: normal, overlay;
+      color: var(--ink);
+    }
+    .ground-dark {
+      background-color: var(--dark);
+      background-image:
+        linear-gradient(rgba(24,28,22,0.35), rgba(16,20,15,0.55)),
+        url('uploads/texture/dark-panel.webp');
+      background-size: auto, 760px;
+      background-repeat: no-repeat, repeat;
+      background-blend-mode: normal, overlay;
+      color: var(--cream);
+    }
+    .ground-map {
+      background: var(--dark-deep);
+      color: var(--cream);
+      isolation: isolate;
+      /* .map-layer bleeds 2% past every edge so the cover-scaled map
+         never shows a seam; without this the bleed widens the document
+         and the page scrolls sideways on narrow viewports. */
+      overflow: hidden;
+    }
+    /* Grounds must be self-contained: a dark or map ground can sit
+       inside a paper one (a map header on a paper article page), and
+       without this reset it would inherit ink-on-paper tokens and
+       render dark type on a dark ground. Each ground re-points the
+       full set, so nesting works in any order. */
+    .ground-dark, .ground-map, #main-nav, .nav-mobile-menu {
+      --bg: var(--dark-deep); --bg2: #1b1f19; --bg3: var(--dark);
+      --surface: #2a2e26; --surface2: #333829;
+      --border: rgba(190,160,100,0.18); --border-bright: rgba(190,160,100,0.34);
+      --ember: var(--gold-warm); --ember-dim: var(--gold-deep); --ember-glow: var(--gold-bright);
+      --gold: var(--gold-bright); --gold-dim: var(--gold-warm);
+      --on-gold: #2a1d0a;
+      --text: var(--cream); --text-dim: var(--cream-dim); --text-faint: var(--cream-faint);
+    }
+
+    .ground-map .map-layer {
+      position: absolute; inset: -2%;
+      background: url('uploads/texture/map.webp') center 72% / cover no-repeat;
+      pointer-events: none;
+    }
+    .ground-map .map-shade {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        linear-gradient(to right, rgba(28,22,15,0.62), rgba(28,22,15,0.32) 50%, rgba(28,22,15,0.5)),
+        radial-gradient(ellipse 130% 110% at 40% 45%, transparent 34%, rgba(20,16,10,0.42) 78%, rgba(14,11,7,0.72) 100%);
+    }
+    /* Where copy sits straight on the map with no sheet under it, the
+       ground carries far more shade or the type dissolves into the
+       cartography. */
+    .ground-map.dense .map-shade {
+      background:
+        linear-gradient(rgba(18,21,14,0.80), rgba(13,16,11,0.86)),
+        radial-gradient(ellipse 120% 100% at 45% 40%, rgba(20,16,10,0.3), rgba(12,14,9,0.7) 100%);
+    }
+    /* Section content must clear the map layers. */
+    .ground-map > .section-inner { position: relative; z-index: 3; }
+
+    /* ── The torn parchment sheet ─────────────────────────────
+       A real sheet laid on the map: clipped deckle edges left and
+       right, raster torn edges top and bottom, and a drop-shadow
+       filter so the shadow follows the irregular contour instead of
+       a rectangle. */
+    .hero-sheet {
+      position: relative;
+      padding: 20px 54px 16px;
+      filter: drop-shadow(0 3px 4px rgba(30,22,12,0.34)) drop-shadow(0 22px 44px rgba(30,22,12,0.42));
+      color: var(--ink);
+    }
+    .sheet-body {
+      position: absolute; inset: 0;
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(158deg, rgba(248,236,210,0.6), rgba(219,189,148,0.2) 58%, rgba(190,154,108,0.38)),
+        url('uploads/texture/paper-tile.webp');
+      background-size: auto, 520px;
+      background-repeat: no-repeat, repeat;
+      background-blend-mode: normal, overlay;
+      clip-path: polygon(
+        1.0% 0%, 99.1% 0%,
+        98.4% 7%, 99.6% 14%, 98.6% 21%, 99.8% 28%, 98.7% 35%, 99.5% 42%,
+        98.5% 49%, 99.7% 56%, 98.8% 63%, 99.9% 70%, 98.6% 77%, 99.4% 84%,
+        98.9% 92%, 99.2% 100%, 0.8% 100%,
+        1.3% 92%, 0.3% 84%, 1.5% 77%, 0.4% 70%, 1.2% 63%, 0.2% 56%,
+        1.6% 49%, 0.5% 42%, 1.4% 35%, 0.3% 28%, 1.5% 21%, 0.4% 14%, 1.1% 7%
+      );
+    }
+    .sheet-tear {
+      position: absolute; left: 0; right: 0; height: 54px;
+      background-image: url('uploads/texture/torn-edge.webp');
+      background-size: 100% 275px; background-repeat: no-repeat;
+      pointer-events: none;
+    }
+    .sheet-tear-top    { bottom: 100%; background-position: left top;    margin-bottom: -1px; }
+    .sheet-tear-bottom { top: 100%;    background-position: left bottom; margin-top: -1px; }
+    .sheet-content { position: relative; z-index: 3; }
+    @media (max-width: 560px) {
+      .hero-sheet { padding: 16px 26px 14px; }
+      .sheet-tear { height: 34px; }
     }
 
     /* ── SCROLLBAR ── */
@@ -249,7 +479,7 @@
       justify-content: space-between;
       padding: 0 48px;
       height: 68px;
-      background: linear-gradient(to bottom, rgba(13,11,15,0.97) 60%, rgba(13,11,15,0));
+      background: linear-gradient(to bottom, rgba(23,26,21,0.97) 60%, rgba(23,26,21,0));
       backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(46,38,56,0.5);
       transition: border-color 0.3s;
@@ -423,7 +653,6 @@
       display: flex;
       align-items: center;
       overflow: hidden;
-      background: var(--bg);
     }
 
     .hero-grid-layout {
@@ -445,35 +674,6 @@
       .hero-grid-layout .hero-visual-col { display: none; }
     }
 
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: url('uploads/hero-banner.jpg') center center / cover no-repeat;
-    }
-
-    .hero-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to right, rgba(13,11,15,0.92) 45%, rgba(13,11,15,0.4) 75%, rgba(13,11,15,0.15) 100%),
-        linear-gradient(to bottom, rgba(13,11,15,0.3) 0%, rgba(13,11,15,0.0) 40%, rgba(13,11,15,0.7) 100%);
-    }
-
-    /* Forge glow - now subtle over banner */
-    .forge-glow {
-      position: absolute;
-      bottom: -10%;
-      left: 30%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 400px;
-      background: radial-gradient(ellipse at center bottom, oklch(45% 0.18 140 / 0.12) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 1;
-    }
-
     /* Particle-like sparks (CSS only) */
     .spark {
       position: absolute;
@@ -489,18 +689,6 @@
       10%  { opacity: 1; }
       80%  { opacity: 0.6; }
       100% { transform: translateY(-320px) translateX(var(--dx)) scale(0.2); opacity: 0; }
-    }
-
-    /* Grid texture */
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse at 20% 60%, black 20%, transparent 70%);
-      z-index: 1;
     }
 
 
@@ -561,7 +749,7 @@
       align-items: center;
       gap: 10px;
       background: var(--ember);
-      color: #0d0b0f;
+      color: var(--on-gold);
       font-family: var(--font-head);
       font-size: 12px;
       font-weight: 600;
@@ -573,11 +761,11 @@
       border: none;
       cursor: pointer;
       transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-      box-shadow: 0 0 30px oklch(68% 0.19 42 / 0.35);
+      box-shadow: 0 0 30px rgba(192,139,60,0.35);
     }
     .btn-primary:hover {
       background: var(--ember-glow);
-      box-shadow: 0 0 50px oklch(68% 0.19 42 / 0.55);
+      box-shadow: 0 0 50px rgba(192,139,60,0.55);
       transform: translateY(-1px);
     }
 
@@ -670,7 +858,7 @@
       box-shadow:
         0 32px 80px rgba(0,0,0,0.7),
         0 0 0 1px rgba(255,255,255,0.05),
-        0 0 60px oklch(40% 0.15 120 / 0.15);
+        0 0 60px rgba(192,139,60,0.16);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
     .hero-book-cover:hover {
@@ -678,7 +866,7 @@
       box-shadow:
         0 48px 100px rgba(0,0,0,0.8),
         0 0 0 1px rgba(255,255,255,0.07),
-        0 0 80px oklch(40% 0.15 120 / 0.2);
+        0 0 80px rgba(192,139,60,0.22);
     }
 
     /* ══════════════════════════════════
@@ -730,7 +918,7 @@
     .product-card:hover {
       border-color: var(--ember-dim);
       transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 24px oklch(68% 0.19 42 / 0.08);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 24px rgba(192,139,60,0.08);
     }
 
     .product-card-img {
@@ -768,7 +956,7 @@
       top: 12px;
       left: 12px;
       background: var(--ember);
-      color: #0d0b0f;
+      color: var(--on-gold);
       font-family: var(--font-head);
       font-size: 8px;
       letter-spacing: 0.2em;
@@ -828,14 +1016,13 @@
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
     }
-    .product-btn:hover { background: var(--ember); color: #0d0b0f; }
+    .product-btn:hover { background: var(--ember); color: var(--on-gold); }
 
     /* ══════════════════════════════════
        SERVICES
     ══════════════════════════════════ */
     #services {
       padding: 120px 0;
-      background: var(--bg);
       position: relative;
     }
 
@@ -977,7 +1164,7 @@
       width: 100%;
       padding: 14px;
       background: var(--ember);
-      color: #0d0b0f;
+      color: var(--on-gold);
       font-family: var(--font-head);
       font-size: 11px;
       letter-spacing: 0.2em;
@@ -988,14 +1175,13 @@
       cursor: pointer;
       transition: background 0.2s, box-shadow 0.2s;
     }
-    .form-submit:hover { background: var(--ember-glow); box-shadow: 0 0 24px oklch(68% 0.19 42 / 0.4); }
+    .form-submit:hover { background: var(--ember-glow); box-shadow: 0 0 24px rgba(192,139,60,0.4); }
 
     /* ══════════════════════════════════
        BUSINESS / GENERAL WRITING
     ══════════════════════════════════ */
     #business {
       padding: 120px 0;
-      background: var(--bg3);
       border-top: 1px solid var(--border);
       position: relative;
     }
@@ -1003,7 +1189,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, oklch(68% 0.19 42 / 0.045) 0%, transparent 55%);
+      background: radial-gradient(ellipse at 50% 0%, rgba(192,139,60,0.045) 0%, transparent 55%);
       pointer-events: none;
     }
     #business .section-inner { position: relative; z-index: 1; }
@@ -1037,7 +1223,7 @@
     .business-card:hover {
       border-color: var(--ember-dim);
       transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 24px oklch(68% 0.19 42 / 0.08);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 24px rgba(192,139,60,0.08);
     }
 
     .business-card-icon {
@@ -1126,7 +1312,6 @@
     ══════════════════════════════════ */
     #process {
       padding: 120px 0;
-      background: var(--bg3);
       border-top: 1px solid var(--border);
     }
 
@@ -1230,8 +1415,6 @@
     ══════════════════════════════════ */
     #about {
       padding: 120px 0;
-      background: var(--bg3);
-      border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
 
@@ -1451,7 +1634,6 @@
     ══════════════════════════════════ */
     #supplements {
       padding: 120px 0;
-      background: var(--bg2);
     }
     #supplements::before {
       content: '';
@@ -1485,7 +1667,7 @@
     .store-card:hover {
       border-color: var(--ember-dim);
       transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px oklch(68% 0.19 42 / 0.07);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px rgba(192,139,60,0.07);
     }
 
     .store-card-icon {
@@ -1600,7 +1782,7 @@
       font-size: 9px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #0d0b0f;
+      color: var(--on-gold);
       background: var(--ember);
       padding: 3px 10px;
       border-radius: 1px;
@@ -1666,7 +1848,6 @@
     ══════════════════════════════════ */
     #patreon-banner {
       padding: 72px 0;
-      background: var(--bg2);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
@@ -1758,7 +1939,7 @@
       width: 100%;
       height: 100vh;
       height: 100dvh;
-      background-color: #0d0b0f !important;
+      background-color: var(--dark-deep) !important;
       z-index: 200;
       padding: 92px 32px 40px;
       overflow-y: auto;
@@ -1790,7 +1971,7 @@
       margin-top: 16px;
       text-align: center;
       background: var(--ember);
-      color: #0d0b0f !important;
+      color: var(--on-gold) !important;
       border-radius: 2px;
       padding: 14px !important;
       border-bottom: none !important;
@@ -1834,8 +2015,6 @@
     ══════════════════════════════════ */
     #testimonials {
       padding: 120px 0;
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
       position: relative;
     }
     #testimonials::after {
@@ -1843,8 +2022,8 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse at 80% 20%, oklch(68% 0.19 42 / 0.05) 0%, transparent 50%),
-        radial-gradient(ellipse at 20% 80%, oklch(76% 0.14 78 / 0.04) 0%, transparent 50%);
+        radial-gradient(ellipse at 80% 20%, rgba(192,139,60,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 80%, rgba(221,171,85,0.04) 0%, transparent 50%);
       pointer-events: none;
     }
     #testimonials .section-inner { position: relative; z-index: 1; }
@@ -1926,7 +2105,6 @@
     ══════════════════════════════════ */
     #faq {
       padding: 120px 0;
-      background: var(--bg2);
       border-top: 1px solid var(--border);
     }
 
@@ -2106,7 +2284,6 @@
     ══════════════════════════════════ */
     #credits {
       padding: 88px 0 96px;
-      background: var(--bg);
       border-top: 1px solid var(--border);
     }
 
@@ -2197,7 +2374,6 @@
     ══════════════════════════════════ */
     #follow {
       padding: 96px 0;
-      background: var(--bg);
       border-top: 1px solid var(--border);
       position: relative;
     }
@@ -2235,7 +2411,7 @@
     .follow-card:hover {
       border-color: var(--ember-dim);
       transform: translateY(-3px);
-      box-shadow: 0 12px 36px rgba(0,0,0,0.4), 0 0 20px oklch(68% 0.19 42 / 0.05);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.4), 0 0 20px rgba(192,139,60,0.05);
     }
 
     .follow-icon {
@@ -2325,7 +2501,7 @@
     .toast.show { transform: translateY(0); opacity: 1; }
 
     /* ── A11Y: skip link, form error, reduced motion ── */
-    .skip-link { position: absolute; left: -9999px; top: 0; z-index: 1000; background: var(--ember); color: #0d0b0f; padding: 10px 16px; border-radius: 0 0 4px 0; font-family: var(--font-head); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; }
+    .skip-link { position: absolute; left: -9999px; top: 0; z-index: 1000; background: var(--ember); color: var(--on-gold); padding: 10px 16px; border-radius: 0 0 4px 0; font-family: var(--font-head); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; }
     .skip-link:focus { left: 0; }
     .form-error { color: var(--crimson); font-size: 14px; margin-top: 6px; }
     .form-error:empty { display: none; }
@@ -2343,7 +2519,7 @@
     .newsletter-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
     .newsletter-input { flex: 1 1 260px; max-width: 360px; background: var(--bg); border: 1px solid var(--border-bright); border-radius: 3px; padding: 13px 16px; color: var(--text); font-family: var(--font-body); font-size: 16px; }
     .newsletter-input:focus { outline: none; border-color: var(--ember); }
-    .newsletter-btn { background: var(--ember); color: #0d0b0f; font-family: var(--font-head); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; border: none; border-radius: 3px; padding: 13px 26px; cursor: pointer; transition: background 0.2s; }
+    .newsletter-btn { background: var(--ember); color: var(--on-gold); font-family: var(--font-head); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; border: none; border-radius: 3px; padding: 13px 26px; cursor: pointer; transition: background 0.2s; }
     .newsletter-btn:hover { background: var(--ember-glow); }
     .newsletter-btn:disabled { opacity: 0.6; cursor: default; }
     .newsletter-msg { flex-basis: 100%; font-size: 14px; margin-top: 14px; }
@@ -2434,15 +2610,18 @@
 <!-- ══════════════════════════════════
      HERO
 ══════════════════════════════════ -->
-<section id="hero" tabindex="-1">
-  <div class="hero-bg">
-    <div class="hero-grid"></div>
-    <div class="forge-glow"></div>
-  </div>
+<section id="hero" class="sec ground-map torn" tabindex="-1" style="--tear-h:56px;">
+  <div class="map-layer"></div>
+  <div class="map-shade"></div>
 
   <div class="section-inner" style="width:100%;">
     <div class="hero-grid-layout">
     <div class="hero-content-col">
+     <div class="hero-sheet">
+      <div class="sheet-body"></div>
+      <div class="sheet-tear sheet-tear-top"></div>
+      <div class="sheet-tear sheet-tear-bottom"></div>
+      <div class="sheet-content">
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
         D&amp;D 5e Supplements &amp; Content Writing
@@ -2492,6 +2671,8 @@
           <div class="hero-stat-label" data-content="siteInfo.stat3Label">Adventures Await</div>
         </div>
       </div>
+      </div>
+     </div>
     </div>
 
     <div class="hero-visual-col">
@@ -2510,7 +2691,7 @@
 <!-- ══════════════════════════════════
      SUPPLEMENTS
 ══════════════════════════════════ -->
-<section id="supplements">
+<section id="supplements" class="sec ground-paper tuck torn" style="--tuck:56px; --tear-h:40px; --tear-w:132%; --tear-x:-14%; --tear-src:url('uploads/texture/tear-mask-flip.png');">
   <div class="section-inner">
     <div class="products-header fade-up">
       <div class="section-eyebrow">The Vault</div>
@@ -2587,7 +2768,7 @@
 <!-- ══════════════════════════════════
      SERVICES
 ══════════════════════════════════ -->
-<section id="services">
+<section id="services" class="sec ground-dark tuck" style="--tuck:40px;">
   <div class="section-inner">
     <div class="services-layout">
       <div>
@@ -2633,7 +2814,7 @@
 <!-- ══════════════════════════════════
      BUSINESS / GENERAL WRITING
 ══════════════════════════════════ -->
-<section id="business" data-screen-label="Business Writing">
+<section id="business" class="sec ground-paper torn" data-screen-label="Business Writing" style="--tear-h:72px; --tear-w:168%; --tear-x:-42%;">
   <div class="section-inner">
     <div class="business-header fade-up">
       <div class="section-eyebrow">Beyond the Table</div>
@@ -2720,7 +2901,7 @@
 <!-- ══════════════════════════════════
      TESTIMONIALS
 ══════════════════════════════════ -->
-<section id="testimonials" data-screen-label="Testimonials">
+<section id="testimonials" class="sec ground-dark tuck" data-screen-label="Testimonials" style="--tuck:72px;">
   <div class="section-inner">
     <div class="testimonials-header fade-up">
       <div class="rune-divider"><div class="rune-diamond"></div></div>
@@ -2736,7 +2917,7 @@
 <!-- ══════════════════════════════════
      CREDITS / SELECTED WORK
 ══════════════════════════════════ -->
-<section id="credits" data-screen-label="Credits">
+<section id="credits" class="sec ground-dark" data-screen-label="Credits">
   <div class="section-inner">
     <div class="credits-header fade-up">
       <div class="section-eyebrow">Selected Credits</div>
@@ -2749,7 +2930,7 @@
 <!-- ══════════════════════════════════
      PROCESS
 ══════════════════════════════════ -->
-<section id="process">
+<section id="process" class="sec ground-paper torn" style="--tear-h:48px; --tear-w:120%; --tear-x:-8%; --tear-src:url('uploads/texture/tear-mask-top.png');">
   <div class="section-inner">
     <div class="process-header fade-up">
       <div class="section-eyebrow">How It Works</div>
@@ -2847,7 +3028,7 @@
 <!-- ══════════════════════════════════
      ABOUT
 ══════════════════════════════════ -->
-<section id="about">
+<section id="about" class="sec ground-dark tuck" style="--tuck:48px;">
   <div class="section-inner">
     <div class="about-layout">
       <div class="about-visual fade-up">
@@ -2886,7 +3067,7 @@
 <!-- ══════════════════════════════════
      FAQ
 ══════════════════════════════════ -->
-<section id="faq" data-screen-label="FAQ">
+<section id="faq" class="sec ground-paper" data-screen-label="FAQ">
   <div class="section-inner">
     <div class="faq-layout">
       <div class="faq-sidebar fade-up">
@@ -2909,7 +3090,9 @@
 <!-- ══════════════════════════════════
      FOLLOW ALONG
 ══════════════════════════════════ -->
-<section id="follow" data-screen-label="Follow">
+<section id="follow" class="sec ground-map dense" data-screen-label="Follow">
+  <div class="map-layer" style="background-position:center 28%;"></div>
+  <div class="map-shade"></div>
   <div class="section-inner">
     <div class="follow-header fade-up">
       <div class="section-eyebrow">Follow Along</div>
@@ -3022,7 +3205,7 @@
 
 
 <!-- PATREON BANNER -->
-<section id="patreon-banner">
+<section id="patreon-banner" class="sec ground-dark">
   <div class="section-inner">
     <div class="patreon-banner-inner">
       <div class="patreon-banner-left">
@@ -3049,7 +3232,7 @@
 </section>
 
 <!-- FOOTER -->
-<footer>
+<footer class="sec ground-dark">
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">

@@ -64,14 +64,105 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Parchment palette - identical to index.html so every page in the
+       site resolves the same token names to the same values. */
     :root {
-      --bg: #0d0b0f; --bg2: #110e14; --bg3: #16121b;
-      --surface: #1e1824; --surface2: #251f2e;
-      --border: #2e2638; --border-bright: #3d3450;
-      --ember: oklch(68% 0.19 42); --ember-dim: oklch(50% 0.14 42); --ember-glow: oklch(72% 0.22 38);
-      --gold: oklch(76% 0.14 78);
-      --text: oklch(90% 0.01 80); --text-dim: oklch(65% 0.02 80); --text-faint: oklch(45% 0.02 80);
+      --paper: #dbbd94; --paper-mid: #cdab80; --paper-deep: #c6a173;
+      --dark: #22261f; --dark-deep: #171a15;
+      --ink: #2a2018; --ink-soft: #4c3c2b; --ink-faint: #584734;
+      --cream: #eadfc6; --cream-dim: #c3b291; --cream-faint: #b5a085;
+      --gold-warm: #c08b3c; --gold-bright: #ddab55; --gold-deep: #8a5f24;
+      --on-gold: #2a1d0a;
+
+      --bg: var(--dark-deep); --bg2: #1b1f19; --bg3: var(--dark);
+      --surface: #2a2e26; --surface2: #333829;
+      --border: rgba(190,160,100,0.18); --border-bright: rgba(190,160,100,0.34);
+      --ember: var(--gold-warm); --ember-dim: var(--gold-deep); --ember-glow: var(--gold-bright);
+      --crimson: #7a3b1e;
+      --gold: var(--gold-bright); --gold-dim: var(--gold-warm);
+      --text: var(--cream); --text-dim: var(--cream-dim); --text-faint: var(--cream-faint);
       --font-head: 'Cinzel', Georgia, serif; --font-body: 'Crimson Pro', Georgia, serif;
+    }
+    .ground-paper {
+      --bg: var(--paper); --bg2: var(--paper-mid); --bg3: var(--paper-deep);
+      --surface: rgba(255,248,232,0.34); --surface2: rgba(255,248,232,0.52);
+      --border: rgba(120,92,52,0.34); --border-bright: rgba(90,66,32,0.55);
+      /* burnt umber: --ember is both accent text and button fill, and
+         mid-gold cleared AA for neither on paper. See index.html */
+      --ember: #684314; --ember-dim: #4f3210; --ember-glow: var(--gold-deep);
+      --gold: #684314; --gold-dim: #4f3210; --on-gold: var(--cream);
+      --text: var(--ink); --text-dim: var(--ink-soft); --text-faint: var(--ink-faint);
+    }
+
+    /* -- Rhythm system (see index.html) -- */
+    .sec { position: relative; }
+    .torn {
+      --tear-h: 56px; --tear-w: 100%; --tear-x: 0px;
+      --tear-src: url('../uploads/texture/tear-mask.png');
+      position: relative; z-index: 1;
+      -webkit-mask-image: linear-gradient(#000, #000), var(--tear-src);
+              mask-image: linear-gradient(#000, #000), var(--tear-src);
+      -webkit-mask-size: 100% calc(100% - var(--tear-h) + 1px), var(--tear-w) var(--tear-h);
+              mask-size: 100% calc(100% - var(--tear-h) + 1px), var(--tear-w) var(--tear-h);
+      -webkit-mask-position: left top, var(--tear-x) bottom;
+              mask-position: left top, var(--tear-x) bottom;
+      -webkit-mask-repeat: no-repeat, no-repeat;
+              mask-repeat: no-repeat, no-repeat;
+    }
+    .tuck {
+      --tuck: 56px; position: relative; z-index: 0;
+      margin-top: calc(var(--tuck) * -1); padding-top: calc(var(--tuck) + 26px);
+    }
+    .ground-paper {
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(158deg, rgba(244,230,201,0.5), rgba(219,189,148,0.16) 58%, rgba(186,150,104,0.34)),
+        url('../uploads/texture/paper-tile.webp');
+      background-size: auto, 520px; background-repeat: no-repeat, repeat;
+      background-blend-mode: normal, overlay; color: var(--ink);
+    }
+    .ground-dark {
+      background-color: var(--dark);
+      background-image:
+        linear-gradient(rgba(24,28,22,0.35), rgba(16,20,15,0.55)),
+        url('../uploads/texture/dark-panel.webp');
+      background-size: auto, 760px; background-repeat: no-repeat, repeat;
+      background-blend-mode: normal, overlay; color: var(--cream);
+    }
+    /* overflow clips .map-layer's 2% bleed - see index.html */
+    .ground-map { background: var(--dark-deep); color: var(--cream); isolation: isolate; overflow: hidden; }
+    /* Grounds must be self-contained: a dark or map ground can sit
+       inside a paper one (a map header on a paper article page), and
+       without this reset it would inherit ink-on-paper tokens and
+       render dark type on a dark ground. Each ground re-points the
+       full set, so nesting works in any order. */
+    .ground-dark, .ground-map, #main-nav, .nav-mobile-menu {
+      --bg: var(--dark-deep); --bg2: #1b1f19; --bg3: var(--dark);
+      --surface: #2a2e26; --surface2: #333829;
+      --border: rgba(190,160,100,0.18); --border-bright: rgba(190,160,100,0.34);
+      --ember: var(--gold-warm); --ember-dim: var(--gold-deep); --ember-glow: var(--gold-bright);
+      --gold: var(--gold-bright); --gold-dim: var(--gold-warm);
+      --on-gold: #2a1d0a;
+      --text: var(--cream); --text-dim: var(--cream-dim); --text-faint: var(--cream-faint);
+    }
+
+    .ground-map .map-layer {
+      position: absolute; inset: -2%;
+      background: url('../uploads/texture/map.webp') center 72% / cover no-repeat;
+      pointer-events: none;
+    }
+    .ground-map .map-shade {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        linear-gradient(to right, rgba(28,22,15,0.62), rgba(28,22,15,0.32) 50%, rgba(28,22,15,0.5)),
+        radial-gradient(ellipse 130% 110% at 40% 45%, transparent 34%, rgba(20,16,10,0.42) 78%, rgba(14,11,7,0.72) 100%);
+    }
+    /* Copy sitting straight on the map needs far more shade or the
+       type dissolves into the cartography. */
+    .ground-map.dense .map-shade {
+      background:
+        linear-gradient(rgba(18,21,14,0.80), rgba(13,16,11,0.86)),
+        radial-gradient(ellipse 120% 100% at 45% 40%, rgba(20,16,10,0.3), rgba(12,14,9,0.7) 100%);
     }
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.7; overflow-x: hidden; }
@@ -81,7 +172,7 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 48px; height: 68px;
-      background: rgba(13,11,15,0.97); backdrop-filter: blur(8px);
+      background: rgba(23,26,21,0.97); backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border);
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
@@ -89,7 +180,7 @@
     .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
     .nav-links a { font-family: var(--font-head); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--ember); }
-    .nav-cta { font-family: var(--font-head); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #0d0b0f !important; background: var(--ember); padding: 9px 20px; border-radius: 2px; transition: background 0.2s !important; }
+    .nav-cta { font-family: var(--font-head); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--on-gold) !important; background: var(--ember); padding: 9px 20px; border-radius: 2px; transition: background 0.2s !important; }
     .nav-cta:hover { background: var(--ember-glow) !important; }
     .nav-patreon { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-head); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim) !important; border: 1px solid var(--border-bright); padding: 8px 16px; border-radius: 2px; text-decoration: none; transition: color 0.2s, border-color 0.2s; }
     .nav-patreon:hover { color: var(--text) !important; border-color: var(--text-dim); }
@@ -99,12 +190,12 @@
     .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--ember); }
     .nav-hamburger.open span:nth-child(2) { opacity: 0; }
     .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--ember); }
-    .nav-mobile-menu { display: none; position: fixed; top: 68px; left: 0; right: 0; background: rgba(13,11,15,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); z-index: 99; flex-direction: column; padding: 24px 32px 32px; gap: 4px; transform: translateY(-12px); opacity: 0; transition: transform 0.25s ease, opacity 0.25s ease; pointer-events: none; }
+    .nav-mobile-menu { display: none; position: fixed; top: 68px; left: 0; right: 0; background: rgba(23,26,21,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); z-index: 99; flex-direction: column; padding: 24px 32px 32px; gap: 4px; transform: translateY(-12px); opacity: 0; transition: transform 0.25s ease, opacity 0.25s ease; pointer-events: none; }
     .nav-mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: all; }
     .nav-mobile-menu a { font-family: var(--font-head); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--border); transition: color 0.2s; }
     .nav-mobile-menu a:last-child { border-bottom: none; }
     .nav-mobile-menu a:hover { color: var(--ember); }
-    .nav-mobile-menu .mobile-cta { margin-top: 16px; text-align: center; background: var(--ember); color: #0d0b0f !important; border-radius: 2px; padding: 14px !important; border-bottom: none !important; }
+    .nav-mobile-menu .mobile-cta { margin-top: 16px; text-align: center; background: var(--ember); color: var(--on-gold) !important; border-radius: 2px; padding: 14px !important; border-bottom: none !important; }
     @media (max-width: 760px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-mobile-menu { display: flex; } nav { padding: 0 24px; } }
 
     .article-header {
@@ -116,7 +207,7 @@
     .breadcrumb a { color: var(--text-faint); text-decoration: none; transition: color 0.2s; }
     .breadcrumb a:hover { color: var(--ember); }
     .breadcrumb-sep { color: var(--border-bright); }
-    .article-tag { display: inline-block; font-family: var(--font-head); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; background: oklch(50% 0.16 260); color: #fff; padding: 3px 12px; border-radius: 1px; margin-bottom: 20px; }
+    .article-tag { display: inline-block; font-family: var(--font-head); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; background: #3d4a33; color: var(--cream); padding: 3px 12px; border-radius: 1px; margin-bottom: 20px; }
     .article-title { font-family: var(--font-head); font-size: clamp(26px, 4vw, 46px); font-weight: 900; line-height: 1.1; letter-spacing: 0.01em; color: var(--text); margin-bottom: 20px; }
     .article-meta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--text-faint); }
     .article-meta-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border-bright); }
@@ -154,8 +245,8 @@
     .article-cta-eyebrow { font-family: var(--font-head); font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ember); margin-bottom: 8px; }
     .article-cta-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: 0.03em; }
     .article-cta-sub { font-size: 15px; color: var(--text-dim); line-height: 1.6; }
-    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--ember); color: #0d0b0f; font-family: var(--font-head); font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 13px 24px; border-radius: 2px; transition: background 0.2s, box-shadow 0.2s; box-shadow: 0 0 24px oklch(68% 0.19 42 / 0.3); white-space: nowrap; }
-    .btn-primary:hover { background: var(--ember-glow); box-shadow: 0 0 40px oklch(68% 0.19 42 / 0.5); }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--ember); color: var(--on-gold); font-family: var(--font-head); font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; padding: 13px 24px; border-radius: 2px; transition: background 0.2s, box-shadow 0.2s; box-shadow: 0 0 24px rgba(192,139,60,0.3); white-space: nowrap; }
+    .btn-primary:hover { background: var(--ember-glow); box-shadow: 0 0 40px rgba(192,139,60,0.5); }
 
     footer { background: var(--bg); padding: 40px 0 28px; border-top: 1px solid var(--border); }
     .footer-inner { max-width: 780px; margin: 0 auto; padding: 0 48px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
@@ -166,7 +257,7 @@
     @media (max-width: 560px) { .footer-inner { padding: 0 24px; } }
   </style>
 </head>
-<body>
+<body class="ground-paper">
 
 <nav id="main-nav">
   <a href="../index.html" class="nav-logo">
@@ -199,8 +290,9 @@
 </nav>
 
 <!-- ARTICLE HEADER -->
-<div class="article-header">
-  <div class="article-header-bg"></div>
+<div class="article-header sec ground-map dense torn" style="--tear-h:48px;">
+  <div class="map-layer"></div>
+  <div class="map-shade"></div>
   <div class="article-header-inner">
     <div class="breadcrumb">
       <a href="../index.html">Home</a>
@@ -225,7 +317,7 @@
 </div>
 
 <!-- ARTICLE BODY -->
-<div class="article-layout">
+<div class="article-layout tuck" style="--tuck:48px;">
   <div class="article-body">
     <!--
       ▼▼▼  WRITE YOUR ARTICLE BELOW.  Available building blocks:  ▼▼▼
@@ -296,7 +388,7 @@
 </div>
 
 <!-- FOOTER -->
-<footer>
+<footer class="sec ground-dark">
   <div class="footer-inner">
     <div class="footer-logo">Ashforge Studio</div>
     <span class="footer-copy">© 2026 Ashforge Studio LLC, Matthias Moore</span>
