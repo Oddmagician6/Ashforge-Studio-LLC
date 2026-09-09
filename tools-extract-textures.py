@@ -149,8 +149,14 @@ tear_rows = t_full[150:, :, 3]
 mask = np.zeros((tear_rows.shape[0], tear_rows.shape[1], 4), dtype=np.uint8)
 mask[..., :3] = 255
 mask[..., 3] = tear_rows
-Image.fromarray(mask, mode="RGBA").save(OUT / "tear-mask.png")
-saved.append(("tear-mask", (mask.shape[1], mask.shape[0]), (OUT / "tear-mask.png").stat().st_size))
+tear_img = Image.fromarray(mask, mode="RGBA")
+tear_img.save(OUT / "tear-mask.png")
+# Mirrored, so a second boundary using the same source reads as a
+# different rip. Flipped vertically for sections torn along their top.
+tear_img.transpose(Image.FLIP_LEFT_RIGHT).save(OUT / "tear-mask-flip.png")
+tear_img.transpose(Image.FLIP_TOP_BOTTOM).save(OUT / "tear-mask-top.png")
+for nm in ("tear-mask", "tear-mask-flip", "tear-mask-top"):
+    saved.append((nm, (mask.shape[1], mask.shape[0]), (OUT / f"{nm}.png").stat().st_size))
 
 # Pull a clean paper tile out of the strip's opaque middle. Stretching
 # the whole strip to fill the sheet smears its fibres into vertical
@@ -174,12 +180,32 @@ patch = Image.fromarray(t[y0:y1, xs0:xs1, :3], mode="RGB")
 pw, ph = patch.size
 side = min(pw, ph)
 patch = patch.crop(((pw - side) // 2, 0, (pw - side) // 2 + side, ph))
-pw, ph = patch.size
-paper = Image.new("RGB", (pw * 2, ph * 2))
-paper.paste(patch, (0, 0))
-paper.paste(patch.transpose(Image.FLIP_LEFT_RIGHT), (pw, 0))
-paper.paste(patch.transpose(Image.FLIP_TOP_BOTTOM), (0, ph))
-paper.paste(patch.transpose(Image.ROTATE_180), (pw, ph))
+
+
+def high_pass(img, sigma):
+    """Keep fine grain, drop large-scale blotches.
+
+    Tiling the raw patch grids its big stains across the page, and
+    mirroring turns each one into an obvious symmetric rosette. Removing
+    the low frequencies leaves texture that repeats invisibly; the flat
+    colour underneath supplies the tone.
+    """
+    a = np.asarray(img).astype(np.float32)
+    blur = np.dstack([ndimage.gaussian_filter(a[..., c], sigma) for c in range(a.shape[2])])
+    return Image.fromarray(np.clip(a - blur + 128, 0, 255).astype(np.uint8), mode="RGB")
+
+
+def mirror_tile(img):
+    w_, h_ = img.size
+    out = Image.new("RGB", (w_ * 2, h_ * 2))
+    out.paste(img, (0, 0))
+    out.paste(img.transpose(Image.FLIP_LEFT_RIGHT), (w_, 0))
+    out.paste(img.transpose(Image.FLIP_TOP_BOTTOM), (0, h_))
+    out.paste(img.transpose(Image.ROTATE_180), (w_, h_))
+    return out
+
+
+paper = mirror_tile(high_pass(patch, 18))
 paper.save(OUT / "paper-tile.webp", quality=84, method=6)
 saved.append(("paper-tile", paper.size, (OUT / "paper-tile.webp").stat().st_size))
 print(f"paper tile from rows {y0}-{y1}")
@@ -190,12 +216,9 @@ print(f"paper tile from rows {y0}-{y1}")
 d = crops["dark-panel"].convert("RGB")
 dw, dh = d.size
 core = d.crop((int(dw * 0.14), int(dh * 0.14), int(dw * 0.86), int(dh * 0.86)))
-cw, ch = core.size
-tile = Image.new("RGB", (cw * 2, ch * 2))
-tile.paste(core, (0, 0))
-tile.paste(core.transpose(Image.FLIP_LEFT_RIGHT), (cw, 0))
-tile.paste(core.transpose(Image.FLIP_TOP_BOTTOM), (0, ch))
-tile.paste(core.transpose(Image.ROTATE_180), (cw, ch))
+# Same treatment, gentler - the dark ground hides repetition better, so
+# keep more of its mottling.
+tile = mirror_tile(high_pass(core, 46))
 tile.save(OUT / "dark-panel.webp", quality=82, method=6)
 saved = [s for s in saved if s[0] != "dark-panel"]
 saved.append(("dark-panel", tile.size, (OUT / "dark-panel.webp").stat().st_size))
