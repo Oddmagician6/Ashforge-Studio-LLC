@@ -140,6 +140,21 @@
     }
     /* overflow clips .map-layer's 2% bleed - see index.html */
     .ground-map { background: var(--dark-deep); color: var(--cream); isolation: isolate; overflow: hidden; }
+    /* Grounds must be self-contained: a dark or map ground can sit
+       inside a paper one (a map header on a paper article page), and
+       without this reset it would inherit ink-on-paper tokens and
+       render dark type on a dark ground. Each ground re-points the
+       full set, so nesting works in any order. */
+    .ground-dark, .ground-map, #main-nav, .nav-mobile-menu {
+      --bg: var(--dark-deep); --bg2: #1b1f19; --bg3: var(--dark);
+      --surface: #2a2e26; --surface2: #333829;
+      --border: rgba(190,160,100,0.18); --border-bright: rgba(190,160,100,0.34);
+      --ember: var(--gold-warm); --ember-dim: var(--gold-deep); --ember-glow: var(--gold-bright);
+      --gold: var(--gold-bright); --gold-dim: var(--gold-warm);
+      --on-gold: #2a1d0a;
+      --text: var(--cream); --text-dim: var(--cream-dim); --text-faint: var(--cream-faint);
+    }
+
     .ground-map .map-layer {
       position: absolute; inset: -2%;
       background: url('uploads/texture/map.webp') center 72% / cover no-repeat;
