@@ -220,10 +220,10 @@
       --dark-deep:   #171a15;
       --ink:         #2a2018;
       --ink-soft:    #4c3c2b;
-      --ink-faint:   #6d5a44;
+      --ink-faint:   #584734;
       --cream:       #eadfc6;
       --cream-dim:   #c3b291;
-      --cream-faint: #93826a;
+      --cream-faint: #b5a085;
       --gold-warm:   #c08b3c;
       --gold-bright: #ddab55;
       --gold-deep:   #8a5f24;
@@ -270,11 +270,18 @@
       --border: rgba(120,92,52,0.34);
       --border-bright: rgba(90,66,32,0.55);
 
-      --ember: var(--gold-deep);
-      --ember-dim: #6f4c1c;
-      --ember-glow: var(--gold-warm);
-      --gold: var(--gold-deep);
-      --gold-dim: #6f4c1c;
+      /* Deeper than the dark ground's gold. --ember does double duty
+         as small accent text AND as button fill, and on paper the
+         mid-gold failed both: 3.7:1 as text, 3.9:1 under a dark
+         label. Dropping to burnt umber takes accent text to ~5:1,
+         and flipping --on-gold to cream takes button labels to ~7:1
+         instead of pushing the ink darker against a lighter fill. */
+      --ember: #684314;
+      --ember-dim: #4f3210;
+      --ember-glow: var(--gold-deep);
+      --gold: #684314;
+      --gold-dim: #4f3210;
+      --on-gold: var(--cream);
 
       --text: var(--ink);
       --text-dim: var(--ink-soft);
@@ -360,6 +367,10 @@
       background: var(--dark-deep);
       color: var(--cream);
       isolation: isolate;
+      /* .map-layer bleeds 2% past every edge so the cover-scaled map
+         never shows a seam; without this the bleed widens the document
+         and the page scrolls sideways on narrow viewports. */
+      overflow: hidden;
     }
     .ground-map .map-layer {
       position: absolute; inset: -2%;

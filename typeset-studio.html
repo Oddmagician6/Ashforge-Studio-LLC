@@ -74,8 +74,8 @@
     :root {
       --paper: #dbbd94; --paper-mid: #cdab80; --paper-deep: #c6a173;
       --dark: #22261f; --dark-deep: #171a15;
-      --ink: #2a2018; --ink-soft: #4c3c2b; --ink-faint: #6d5a44;
-      --cream: #eadfc6; --cream-dim: #c3b291; --cream-faint: #93826a;
+      --ink: #2a2018; --ink-soft: #4c3c2b; --ink-faint: #584734;
+      --cream: #eadfc6; --cream-dim: #c3b291; --cream-faint: #b5a085;
       --gold-warm: #c08b3c; --gold-bright: #ddab55; --gold-deep: #8a5f24;
       --on-gold: #2a1d0a;
 
@@ -91,8 +91,10 @@
       --bg: var(--paper); --bg2: var(--paper-mid); --bg3: var(--paper-deep);
       --surface: rgba(255,248,232,0.34); --surface2: rgba(255,248,232,0.52);
       --border: rgba(120,92,52,0.34); --border-bright: rgba(90,66,32,0.55);
-      --ember: var(--gold-deep); --ember-dim: #6f4c1c; --ember-glow: var(--gold-warm);
-      --gold: var(--gold-deep); --gold-dim: #6f4c1c;
+      /* burnt umber: --ember is both accent text and button fill,
+         and mid-gold cleared AA for neither on paper. See index.html */
+      --ember: #684314; --ember-dim: #4f3210; --ember-glow: var(--gold-deep);
+      --gold: #684314; --gold-dim: #4f3210; --on-gold: var(--cream);
       --text: var(--ink); --text-dim: var(--ink-soft); --text-faint: var(--ink-faint);
     }
 
@@ -136,7 +138,8 @@
       background-blend-mode: normal, overlay;
       color: var(--cream);
     }
-    .ground-map { background: var(--dark-deep); color: var(--cream); isolation: isolate; }
+    /* overflow clips .map-layer's 2% bleed - see index.html */
+    .ground-map { background: var(--dark-deep); color: var(--cream); isolation: isolate; overflow: hidden; }
     .ground-map .map-layer {
       position: absolute; inset: -2%;
       background: url('uploads/texture/map.webp') center 72% / cover no-repeat;
@@ -147,6 +150,14 @@
       background:
         linear-gradient(to right, rgba(28,22,15,0.62), rgba(28,22,15,0.32) 50%, rgba(28,22,15,0.5)),
         radial-gradient(ellipse 130% 110% at 40% 45%, transparent 34%, rgba(20,16,10,0.42) 78%, rgba(14,11,7,0.72) 100%);
+    }
+    /* Copy sits straight on the map here with no sheet under it, so
+       the ground has to carry far more shade or the type dissolves
+       into the cartography. */
+    .ground-map.dense .map-shade {
+      background:
+        linear-gradient(rgba(18,21,14,0.80), rgba(13,16,11,0.86)),
+        radial-gradient(ellipse 120% 100% at 45% 40%, rgba(20,16,10,0.3), rgba(12,14,9,0.7) 100%);
     }
     .ground-map > .section-inner { position: relative; z-index: 3; }
     html { scroll-behavior: smooth; }
@@ -325,7 +336,7 @@
 </nav>
 
 <!-- ══ HERO ══ -->
-<section id="hero" class="sec ground-map torn" style="--tear-h:56px;">
+<section id="hero" class="sec ground-map dense torn" style="--tear-h:56px;">
   <div class="map-layer"></div>
   <div class="map-shade"></div>
   <div class="hero-bg"></div>
