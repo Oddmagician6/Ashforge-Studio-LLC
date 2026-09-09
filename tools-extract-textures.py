@@ -140,6 +140,18 @@ for name, box in zip(NAMES, regions):
     crop.save(OUT / f"{name}.webp", quality=88, method=6)
     saved.append((name, crop.size, (OUT / f"{name}.webp").stat().st_size))
 
+# A mask whose top is solid and whose bottom carries the torn contour.
+# Used to tear the hero section itself away over the dark band, instead
+# of laying a separate paper strip across the artwork - a strip cuts
+# straight through whatever it covers (the map's compass, for one).
+t_full = np.array(crops["torn-edge"])
+tear_rows = t_full[150:, :, 3]
+mask = np.zeros((tear_rows.shape[0], tear_rows.shape[1], 4), dtype=np.uint8)
+mask[..., :3] = 255
+mask[..., 3] = tear_rows
+Image.fromarray(mask, mode="RGBA").save(OUT / "tear-mask.png")
+saved.append(("tear-mask", (mask.shape[1], mask.shape[0]), (OUT / "tear-mask.png").stat().st_size))
+
 # Pull a clean paper tile out of the strip's opaque middle. Stretching
 # the whole strip to fill the sheet smears its fibres into vertical
 # streaks that read as wood; a mirror-tiled patch keeps the grain honest.
